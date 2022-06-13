@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rar_sans_periodes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nif</th>
+                <th>Taxcentrecode</th>
+                <th>Rs</th>
+                <th>Taxperiodno</th>
+                <th>Annee</th>
+                <th>Mois</th>
+                <th>Nature</th>
+                <th>Type</th>
+                <th>Montant</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rAR_SANS_PERIODE in rAR_SANS_PERIODEs %}
+            <tr>
+                <td><a href="{{ path('rar_sans_periode_show', { 'id': rAR_SANS_PERIODE.id }) }}">{{ rAR_SANS_PERIODE.id }}</a></td>
+                <td>{{ rAR_SANS_PERIODE.nIF }}</td>
+                <td>{{ rAR_SANS_PERIODE.tAXCENTRECODE }}</td>
+                <td>{{ rAR_SANS_PERIODE.rS }}</td>
+                <td>{{ rAR_SANS_PERIODE.tAXPERIODNO }}</td>
+                <td>{{ rAR_SANS_PERIODE.aNNEE }}</td>
+                <td>{{ rAR_SANS_PERIODE.mOIS }}</td>
+                <td>{{ rAR_SANS_PERIODE.nATURE }}</td>
+                <td>{{ rAR_SANS_PERIODE.tYPE }}</td>
+                <td>{{ rAR_SANS_PERIODE.mONTANT }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('rar_sans_periode_show', { 'id': rAR_SANS_PERIODE.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

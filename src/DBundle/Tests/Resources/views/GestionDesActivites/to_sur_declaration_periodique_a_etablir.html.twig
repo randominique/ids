@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+{% block title %}Taxation d'office - à établir{% endblock %}
+
+{% block page_title %}
+    <h1 class="mytitle"  style="text-align:center;background-color:#0085a6;color:white;font-size:20px;padding:5px;">Taxation d'office à établir</h1>
+{% endblock %}
+{# {% block page_subtitle %}A établir{% endblock %} #}
+
+{% block page_content %}
+    {{ parent() }}
+    <div class="box box-primary">
+      <a href="{{path('_t_o_sur_declaration_periodique_a_etablirpdf')}}" class="btn btn-primary pull-right" role="button" style="width:120px;margin-left:4px;">Imprimer</a>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>NIF</th>
+                    <th>Raison sociale</th>
+                    <th>Type d'impôt</th>
+                    <th>Année</th>
+                    <th>Mois</th></th>
+                    <th>Date d'entrée</th>
+                    <th style="text-align:right;width:150;margin-left:4">Montant</th>
+                    {#<th>Echeance</th>#}
+                </tr>
+            </thead>
+            <tbody>
+            {% for to in pagination %}
+                <tr>
+                    <td>{{ to.nif }}</td>
+                    <td>{{ to.rs }}</td>
+                    {#<td>{{ to.regimeFiscalDesc}}</td>#}
+                    <td>{{ to.taxTypeDescF }}</td>
+                    <td>{{ to.tperYear }}</td>
+                    <td>{{ to.tperMonth }}</td>
+                    <td>{{ to.entryDate | date('d/m/Y')}}</td> 
+                    <td style="text-align:right;width:150;margin-left:4">{{ to.taxe | number_format(0,',','.') }}</td>
+                    {#<td>echeance</td>#}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+            
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+
+{% endblock %}

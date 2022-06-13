@@ -1,0 +1,21 @@
+{% extends "::base.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block title %}Relance{% endblock %}
+
+{% block page_title %}Ajouter{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+
+{% block page_content %}
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Relance</h3>
+    </div>
+    {{ form_start(form) }}
+        {# {{ form_row(form.nif) }}
+        {{ form_row(form.objet, { 'label': 'Objet' }) }}
+        {{ form_row(form.observation) }} #}
+    {{ form_end(form) }}
+</div>
+{% endblock %}

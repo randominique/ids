@@ -1,0 +1,173 @@
+{% extends "base.html.twig" %}
+{% block title %}Courrier sortants{% endblock %}
+
+{% block page_title %}
+<h1 class="mytitle"  style="text-align:center;background-color:#0085a6;color:white;font-size:20px;padding:5px;">Liste des courriers sortants</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+
+<script type="text/javascript">
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(
+    m, key, value
+  ) {
+    vars[key] = value;
+  });
+  return vars;
+}
+var mytest = getUrlVars()["test"];
+if (!mytest) {
+  setTimeout(function() {
+    window.location = window.location + "?&test=stop";
+  }, 1000);
+}
+</script>
+	<div class="box box-primary" style="overflow-x:auto;min-height:1000px;">
+          
+
+		<div id="search">
+
+			<form class="form-inline pull-left" method="GET">
+				<div class="form-group">
+					<input name="nif" type="text" class="form-control" id="nifFilter" {% if nifFilter %}value="{{ nifFilter }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:4px;">
+				</div>
+				<div class="form-group">
+					<input name="rs" type="text" class="form-control" id="rsFilter" {% if rsFilter %}value="{{ rsFilter }}"{% endif %} placeholder="Raison sociale">
+				</div>
+				<div class="form-group">
+					<input name="date_du" type="text" class="form-control" id="date_timepicker_start" {% if date_du %}value="{{ date_du }}"{% endif %} placeholder="Date du" style="width:100px;margin-left:4px;">
+				</div>
+				<div class="form-group">
+					<input name="date_au" type="text" class="form-control" id="date_timepicker_end" {% if date_au %}value="{{ date_au }}"{% endif %} placeholder="Date au"  style="width:110px;margin-left:4px;">
+				</div>
+				<a href="{{path('_list_sortantpdf',{'page':courriers.getCurrentPageNumber})}}" class="btn btn-primary pull-right" 
+							role="button" style="width:120px;margin-left:4px;">Imprimer</a>
+				<a href="{{ path('_list_sortant') }}" class="button btn btn-primary pull-right" style="width:120px;margin-left:4px;">Réinitialiser</a>
+				<button type="submit" class="btn btn-primary pull-right" style="width:120px;margin-left:4px;">Rechercher</button>
+	{#}
+				<div class="form-group">
+					<select name="status" class="form-control">
+						<option value="" disabled selected>Etat</option>
+						<option>Nouveau</option>
+						<option>Transmis</option>
+						<option>Dispatché</option>
+						<option>Assigné</option>
+						<option>Traité</option>
+						<option>Fermé</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<select name="sectorAct" class="form-control">
+						<option selected>Secteur d'activité</option>
+						{% for sectorAct in sectorActs %}
+							<option> {{sectorAct.sectorActDesc}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group">
+					<select name="gestionnaire" class="form-control" id="Gestionnaire"> 
+						<option value="" disabled selected>Gestionnaire</option>
+						{% for user in usersService %}
+						<option value = {{ user.id }}>
+							<i>{{ user.corps }} -</i> 
+							<h6>{{ user.nom }}{{ user.prenom }}</h6>
+						</option>
+						{% endfor %}
+					</select>
+				</div>
+				#}
+				{# <button type="submit" class="btn btn-primary" style="
+     width:120px;margin:0px;">Rechercher</button>
+				<a href="{{ path('_list_sortant') }}" class="button btn btn-primary" style="
+     width:120px;margin:0px;">Afficher tout</a> #}
+			</form>
+			
+		</div>
+			{#
+			<div class="col-xs-3">
+				<h5>Catégorie</h5>
+	            <div class="btn-group">
+					<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'category': 'contribuable' }))) }}" class="btn btn-default btn-sm{% if app.request.query.get('category') == 'contribuable' %}active{% endif %}">Courriers Contribuables</a>
+	                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'category': 'dgi' }))) }}" class="btn btn-danger btn-sm{% if app.request.query.get('category') %}{% if app.request.query.get('category') == 'dgi'%}active{% endif %}{% endif %}">Courrier DGI</a>
+	                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'category': 'interne' }))) }}" class="btn btn-warning  btn-sm{% if app.request.query.get('category') %}{% if app.request.query.get('category') == 'interne'%}active{% endif %}{% endif %}">Note interne</a>
+	                {#<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'category': 'BASSE' }))) }}" class="btn btn-primary  btn-sm{% if app.request.query.get('category') %}{% if app.request.query.get('category') == 'BASSE'%}active{% endif %}{% endif %}">BASSE</a>
+	            </div>
+			</div>
+			
+			
+	    </div>
+	</div>
+	#}
+     	<table class="table table-striped table-hover">
+	        <thead>
+	            <tr>
+	                <th>Réf.</th>	
+					<th>NIF</th>
+					<th>Raison sociale</th>
+					<th>Titre</th>
+					<th>Objet</th>
+					<th>Date de reception</th>
+					{#<th>Action</th>#}
+	            </tr>
+	        </thead>
+	        <tbody>
+			{% for courrier in courriers %}
+						<tr>
+							<td>{{ courrier.numeroCourrier }}</td>
+							<td>{{ courrier.nif }}</td>
+							<td>{{ courrier.raisonSocial }}</td>
+							<td>{{ courrier.titre }}</td>
+							<td>{{ courrier.objetCourrier }}</td>
+							<td>{{ courrier.createdAt | date('d/m/Y')}}</td>
+							{#}
+							<td>
+								<a href="{{ path('show_sortant', { 'courrier': courrier.docNo }) }}"><i class="fas fa-eye"></i> Détails</a>
+							</td>
+							#}
+						</tr>
+	        	{%  endfor %}
+	    	</tbody>
+	    </table>
+
+	    {% if courriers.getTotalItemCount == 0 %}
+	    	<p class="padding">Vide</p>
+	    {% endif %}
+		<div class="navigation">
+			{{ knp_pagination_render(courriers) }}
+		</div>
+	</div>
+
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    
+    </script>
+
+{% endblock %}

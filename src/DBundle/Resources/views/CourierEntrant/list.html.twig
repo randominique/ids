@@ -1,0 +1,174 @@
+{% extends "base.html.twig" %}
+{% block title %}Courriers entrants{% endblock %}
+
+{% block page_title %}
+<h1 class="mytitle">Liste des courriers entrants</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+	<div class="box box-primary" style="overflow-x:auto;min-height:1000px;">
+		<div id="search">
+			<form class="form-inline pull-left" method="GET">
+				<div class="form-group">
+					<input name="date_du" type="text" class="form-control" id="date_timepicker_start" {% if date_du %}value="{{ date_du }}"{% endif %} placeholder="Date du" style="width:120px;text-align:center">
+				</div>
+				<div class="form-group">
+					<input name="date_au" type="text" class="form-control" id="date_timepicker_end" {% if date_au %}value="{{ date_au }}"{% endif %} placeholder="Date au" style="width:120px;text-align:center">
+				</div>
+				<div class="form-group">
+					<select name="status" class="form-control">
+						<option value="" disabled selected>Etat</option>
+						<option>Nouveau</option>
+						<option>Transmis</option>
+						<option>Dispatché</option>
+						<option>Assigné</option>
+						<option>Traité</option>
+						<option>Fermé</option>
+					</select>
+				</div>
+				{#}
+				<div class="form-group">
+					<select name="sectorAct" class="form-control">
+						<option selected>Secteur d'activité</option>
+						{% for sectorAct in sectorActs %}
+							<option> {{sectorAct.sectorActDesc}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group">
+					<select name="gestionnaire" class="form-control" id="Gestionnaire"> 
+						<option value="" disabled selected>Gestionnaire</option>
+						{% for user in usersService %}
+						<option value = {{ user.id }}>
+							<i>{{ user.corps }} -</i> 
+							<h6>{{ user.nom }}{{ user.prenom }}</h6>
+						</option>
+						{% endfor %}
+					</select>
+				</div> #}
+				<a href="{{ path('_new_entrant') }}" class="btn btn-primary" style="width:120px;margin:0px;">Nouveau</a>
+				<button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
+				<a href="{{ path('_list_entrant') }}" class="btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a>
+			</form>
+		</div>
+{#
+	    <div class="box-header with-border">
+			<div class="row">
+				<div class="col-xs-3 ">
+					<h5>Etat</h5>
+					<div class="btn-group">
+						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'status': 'Tout' }))) }}" class="btn btn-default btn-sm{% if app.request.query.get('status') %}{% if app.request.query.get('status') == 'Tout'%}active{% endif %}{% endif %}">TOUT</a>
+						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'status': 'Transmis' }))) }}" class="btn btn-primary btn-sm{% if app.request.query.get('status') %}{% if app.request.query.get('status') == 'Transmis'%}active{% endif %}{% endif %}">Transmis</a>
+						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'status': 'en_cours' }))) }}" class="btn btn-warning btn-sm{% if app.request.query.get('status') %}{% if app.request.query.get('status') == 'en_cours'%}active{% endif %}{% endif %}">Assigné</a>
+						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'status': 'traite' }))) }}" class="btn btn-success btn-sm{% if app.request.query.get('status') %}{% if app.request.query.get('status') == 'traite'%}active{% endif %}{% endif %}">TRAITE</a>
+						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'status': 'Fermé' }))) }}" class="btn btn-danger btn-sm{% if app.request.query.get('status') %}{% if app.request.query.get('status') == 'Fermé'%}active{% endif %}{% endif %}">FERMÉ</a>
+					</div>
+				</div>
+				{#			
+				
+	        {% if isChefDeService or isChefSAI %}
+		        <div class="col-xs-3 ">
+					<h5>Type</h5>
+		            <div class="btn-group">
+							<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'type': 'Tout' }))) }}" class="btn btn-default btn-sm {% if app.request.query.get('type') %}{% if app.request.query.get('type') == 'Tout'%}active{% endif %}{% endif %} {% if app.request.query.get('type') == null %}active{% endif %}">TOUT</a>
+	        			{% if isChefSAI %}
+		                	<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'type': 'a_dispatcher' }))) }}" class="btn btn-default btn-sm {% if app.request.query.get('type') %}{% if app.request.query.get('type') == 'a_dispatcher'%}active{% endif %}{% endif %}">A DISPATCHER</a> 
+		    			{% endif %}
+
+		                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'type': 'a_traiter' }))) }}" class="btn btn-default btn-sm{% if app.request.query.get('type') %}{% if app.request.query.get('type') == 'a_traiter'%}active{% endif %}{% endif %}">A TRAITER</a>
+		                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'type': 'pour_info' }))) }}" class="btn btn-default btn-sm{% if app.request.query.get('type') %}{% if app.request.query.get('type') == 'pour_info'%}active{% endif %}{% endif %}">POUR INFO</a>
+		            </div>
+				</div>
+				
+				{% endif %}
+				
+				<div class="col-xs-3">
+					<h5>Priorité</h5>
+	            <div class="btn-group">
+	                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'priority': 'Tout' }))) }}" class="btn btn-default btn-sm{% if app.request.query.get('priority') == 'Tout' %}active{% endif %}">TOUT</a>
+	                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'priority': 'NORMAL' }))) }}" class="btn btn-primary  btn-sm{% if app.request.query.get('priority') %}{% if app.request.query.get('priority') == 'NORMAL'%}active{% endif %}{% endif %}">NORMAL</a>
+	                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'priority': 'TRES URGENT' }))) }}" class="btn btn-danger btn-sm{% if app.request.query.get('priority') %}{% if app.request.query.get('priority') == 'TRES URGENT'%}active{% endif %}{% endif %}">TRES URGENT</a>
+	                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'priority': 'URGENT' }))) }}" class="btn btn-warning  btn-sm{% if app.request.query.get('priority') %}{% if app.request.query.get('priority') == 'URGENT'%}active{% endif %}{% endif %}">URGENT</a>
+	            </div>
+			</div>
+			{#
+			<div class="col-xs-3">
+				<h5>Catégorie</h5>
+	            <div class="btn-group">
+					<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'category': 'contribuable' }))) }}" class="btn btn-default btn-sm{% if app.request.query.get('category') == 'contribuable' %}active{% endif %}">Courriers Contribuables</a>
+	                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'category': 'dgi' }))) }}" class="btn btn-danger btn-sm{% if app.request.query.get('category') %}{% if app.request.query.get('category') == 'dgi'%}active{% endif %}{% endif %}">Courrier DGI</a>
+	                <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'category': 'interne' }))) }}" class="btn btn-warning  btn-sm{% if app.request.query.get('category') %}{% if app.request.query.get('category') == 'interne'%}active{% endif %}{% endif %}">Note interne</a>
+	                {#<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'category': 'BASSE' }))) }}" class="btn btn-primary  btn-sm{% if app.request.query.get('category') %}{% if app.request.query.get('category') == 'BASSE'%}active{% endif %}{% endif %}">BASSE</a>
+	            </div>
+			</div>
+			
+			
+	    </div>
+	</div>
+	#}
+     	<table class="table table-striped table-hover">
+		 <a href="{{path('_list_entrantpdf')}}" class="btn btn-primary pull-left" role="button" style="
+     width:120px;margin:0px;">Imprimer</a>
+	        <thead>
+	            <tr>
+	                <th>Référence</th>
+	                <th>N°Identification Fiscale</th>
+					<th>Raison sociale</th>
+					<th>Titre</th>
+					<th>Objet</th>
+					<th>Date de reception</th>
+					<th>Action</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+			{% for courrier in courriers %}
+						<tr>
+							<td style="text-align:center">{{ courrier.id }}</td>
+							<td>{{ courrier.nif }}</td>
+							<td>{{ courrier.rs }}</td>
+							<td>{{ courrier.titre }}</td>
+							<td>{{ courrier.objet }}</td>
+							<td>{{ courrier.createdAt | date('d/m/Y')}}</td>
+							<td>
+								<a href="{{ path('_show_entrant', { 'courrier': courrier.id }) }}"><i class="fas fa-eye"></i> Détails</a>
+							</td>
+						</form>
+						</tr>
+	        	{%  endfor %}
+	    	</tbody>
+	    </table>
+
+	    {% if courriers.getTotalItemCount == 0 %}
+	    	<p class="padding">Vide</p>
+	    {% endif %}
+		<div class="navigation">
+			{{ knp_pagination_render(courriers) }}
+		</div>
+	</div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,24 @@
+dge_index:
+    path:     /
+    defaults: { _controller: "DBundle:Dge:index" }
+    methods:  GET
+
+dge_show:
+    path:     /{id}/show
+    defaults: { _controller: "DBundle:Dge:show" }
+    methods:  GET
+
+dge_new:
+    path:     /new
+    defaults: { _controller: "DBundle:Dge:new" }
+    methods:  [GET, POST]
+
+dge_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "DBundle:Dge:edit" }
+    methods:  [GET, POST]
+
+dge_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "DBundle:Dge:delete" }
+    methods:  DELETE

@@ -1,0 +1,72 @@
+{% extends "base.html.twig" %}
+{% block title %}Déclarations - dépôt{% endblock %}
+
+{% block page_title %}<h3 class="mytitle">Déclarations - Dépôt</h3>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+{{ parent() }}
+<div class="box box-primary">
+    <div id="search">
+        <form class="form-inline pull-left" method="GET">
+            <div class="form-group">
+                <input name="nif" type="text" class="form-control" id="" {% if nif %}value="{{ nif }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+            </div>
+            {# <div class="form-group">
+                <select class="form-control" style="width:300px">
+                    <option selected>Secteur d'activité</option>
+                    {% for sectorAct in sectorActs %}
+                        <option> {{sectorAct.sectorActDesc}}</option>
+                    {% endfor %}
+                </select>
+			</div> #}
+            <div class="form-group">
+				<select name="gestionnaire" class="form-control" id="Gestionnaire" style="width:400px;margin:0px;"> 
+					<option value="" disabled selected>Gestionnaire</option>
+					{% for user in usersService %}
+						<option value = {{ user.id }}>
+			        		<i>{{ user.corps }} -</i> 
+							<h6>{{ user.nom }}{{ user.prenom }}</h6>
+						</option>
+					{% endfor %}
+				</select>
+			</div>
+            <button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
+            <a href="{{ path('_declarations_depot') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a>
+            <a href="{{path('declarations_depotpdf')}}" class="btn btn-primary right" role="button" style="width:120px;margin:0px;">Imprimer</a>  
+        </form>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>NIF</th>
+                <th>Raison Sociale</th>
+                <th>Impôts</th>
+                <th>Echeances</th>
+                <th>Date de Paiement</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for document in documents %}
+            <tr>
+                <td>{{ document.nif }}</td>
+                <td>{{ document.rs }}</td>
+                <td>{{ document.taxTypeDesc }}</td>
+                <td>{{ document.docTpDueDate | date('d/m/Y') }}</td>
+                <td>{{ document.receivedDate | date('d/m/Y') }}</td>
+                <td></td>
+                {#<th>{{ document.docTpPayementDate | date('d/m/Y') }}</th>#}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="navigation">
+        {{ knp_pagination_render(documents) }}
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Historique de relance{% endblock %}
+
+{% block page_title %}Historique de relance{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+<div class="box box-primary padding">
+    <div id="infos-contribuable">
+        <p><span>Numéro d'Identification Fiscal (NIF):</span> {{ contribuable.nif }}</p>
+        <p><span>Raison sociale:</span> {{ contribuable.rs }}</p>
+        <p><span>Adresse:</span> {{ contribuable.adresse }}</p>
+        <p><span>E-mail:</span> {{ contribuable.sigtasMail }}</p>
+        <p><span>Contact Phone</span> {{ contribuable.sigtasPhone }}</p>
+        <p>
+            <span>Secteur d'activite</span>
+            {% if contribuable.secteurActivite %}
+                {{ contribuable.secteurActivite }}
+            {% else %}
+                NA
+            {% endif %}
+        </p>
+    </div>
+
+    <div>
+        <a href="{{ path('dfu_show', {'contribuable_nif': contribuable.nif}) }}" class="btn btn-primary">Historique carte fiscale</a>
+        <a href="{{ path('dfu_taxation_office', {'contribuable_nif': contribuable.nif}) }}" class="btn btn-primary">Historique taxation d'office</a>
+        <a href="{{ path('dfu_relance', {'contribuable_nif': contribuable.nif}) }}" class="btn btn-primary">Historique relances</a>
+        <a href="{{ path('dfu_correspondance', {'contribuable_nif': contribuable.nif}) }}" class="btn btn-primary">Courriers entrant</a>
+        <a href="{{ path('dfu_correspondance_sortant', {'contribuable_nif': contribuable.nif}) }}" class="btn btn-primary">Courriers sortant</a>
+        <a href="{{ path('dfu_dialogue', {'contribuable_nif': contribuable.nif}) }}" class="btn btn-primary">Historique de dialogue</a>
+        <a href="{{ path('dfu_historique_paiement', {'contribuable_nif': contribuable.nif}) }}" class="btn btn-primary">Historique de paiement</a>
+    </div>
+</div>
+
+<div class="box box-primary">
+
+    {% for message in app.flashes('error') %}
+        <p class="alert alert-danger">
+            {{ message }}
+        </p>
+    {% endfor %}
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>NIF</th>
+                <th>Observation</th>
+                <th>Date relance</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for relance in relances %}
+            <tr>
+                <td>{{ relance.nif }}</td>
+                <td>{{ relance.observation }}</td>
+                <td>{{ relance.date | date('d/m/Y') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</table>
+{% if relances.getTotalItemCount == 0 %}<p style="text-align: center; padding: 50px;">Vide</p>{% endif %}
+<div class="navigation">
+    {{ knp_pagination_render(relances) }}
+</div>
+</div>
+{% endblock %}

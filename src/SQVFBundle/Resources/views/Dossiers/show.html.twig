@@ -1,0 +1,162 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ dossier.rs }}{% endblock %}
+
+{% block page_title %}<h1 class="mytitle">NIF : {{ dossier.nif|number_format(0,',',' ') }}    -    Raison sociale : {{ dossier.rs }}</h1>{% endblock %}
+
+{% block page_content %}
+    <div id="infos-contribuable">
+        <div class="row">
+            <div class="col-md-4">  <p><span>Numéro d'Identification Fiscale:</span> {{ dossier.nif|number_format(0,',',' ') }}</p></div>
+            {% if is_granted('ROLE_SYSTEM') %}
+                <div class="col-md-4">  <p><span>Référence du dossier:</span> {{ dossier.uniqid }}</p></div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-4">  <p><span>Raison sociale:</span> {{ dossier.rs }}</p></div>
+            {% if is_granted('ROLE_SYSTEM') %}
+                <div class="col-md-4">  <p><span>Numéro du dossier:</span> {{ dossier.id|number_format(0,',',' ') }}</p></div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-4">  <p><span>Adresse:</span> {{ dossier.adresse }}</p></div>
+        </div>
+    </div>
+
+    <div class="box box-primary">
+        <div class="box-header no-border" style="padding-top:0px">
+            <h1 class="subtitle" style="text-align:center;color:white;font-size:30px;padding:8px;">EXERCICES DEJA VERIFIES</h1>
+        </div>
+        <table  id="tablefiscal" class="table table-striped table-hover" style="padding:0px">
+            <thead>
+                <tr>
+                    <th>N° dossier</th>
+                    <th>année</th>
+                    <th>Type de contrôle</th>
+                    <th>N° notification définitive</th>
+                    <th>Date notification définitive</th>
+                    <th>Type impôt</th>
+                    <th>Etape</th>
+                    <th style="text-align:right">Montant principal</th>
+                    <th style="text-align:right">Montant amende</th>
+                    <th style="text-align:right">Montant total</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for exercicesVerifie in exercicesVerifies %}
+                <tr>
+                    <td>{{ exercicesVerifie.uniqid }}</td>
+                    <td>{{ exercicesVerifie.anneeControle }}</td>
+                    <td>{{ exercicesVerifie.typeControle }}</td>
+                    <td>{{ exercicesVerifie.numeroNotificationDefinitive }}</td>
+                    <td>{{ exercicesVerifie.dateNotificationDefinitive|date('d/m/Y') }}</td>
+                    <td>{{ exercicesVerifie.typeImpot }}</td>
+                    <td>{{ exercicesVerifie.etapeCourante }}</td>
+                    <td style="text-align:right">{{ exercicesVerifie.montantPrincipal|number_format(1,',','.') }}</td>
+                    <td style="text-align:right">{{ exercicesVerifie.montantAmende|number_format(1,',','.') }}</td>
+                    <td style="text-align:right">{{ exercicesVerifie.montantTotal|number_format(1,',','.') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="box-header no-border" style="padding-top:0px">
+            <h1 class="subtitle" style="text-align:center;color:white;font-size:30px;padding:8px;">VERIFICATIONS FISCALES EN COURS</h1>
+        </div>
+            <table id="tableto" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>N° avis de vérification</th>
+                        <th>Date avis de vérification</th>
+                        <th>Vérificateur</th>
+                        <th>Type de contrôle</th>
+                        <th>N° Notification primitive</th>
+                        <th>Date Notification primitive</th>
+                        <th>Type impôt</th>
+                        <th style="text-align:right">Montant principal</th>
+                        <th style="text-align:right">Montant amende</th>
+                        <th style="text-align:right">Montant total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for verificationsEnCour in verificationsEnCours %}
+                    <tr>
+                        <td>{{ verificationsEnCour.numeroAvisDeVerification }}</td>
+                        <td>{{ verificationsEnCour.dateAvisDeVerification|date('d/m/Y') }}</td>
+                        <td>{{ verificationsEnCour.verificateur }}</td>
+                        <td>{{ verificationsEnCour.typeControle }}</td>
+                        <td>{{ verificationsEnCour.numeroNotificationPrimitive }}</td>
+                        <td>{{ verificationsEnCour.dateNotificationPrimitive|date('d/m/Y') }}</td>
+                        <td>{{ verificationsEnCour.typeImpot }}</td>
+                        <td style="text-align:right">{{ verificationsEnCour.montantPrincipal|number_format(0,',','.') }}</td>
+                        <td style="text-align:right">{{ verificationsEnCour.montantAmende|number_format(0,',','.') }}</td>
+                        <td style="text-align:right">{{ verificationsEnCour.montantTotal|number_format(0,',','.') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+        $(document).ready(function()
+        {
+            $('#tableto').DataTable(
+            {
+                "oLanguage": 
+                {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+                },
+                "lengthChange": false,
+                "pageLength": 6,
+                "bInfo" : false,
+            } );
+        } );
+        $(document).ready(function() {
+            $('#tablepaiement').DataTable( {
+                "oLanguage": {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+            },
+            "order": [[ 1, "desc" ]],
+                "lengthChange": false,
+            "pageLength": 6,
+                "bInfo" : false,
+            } );
+        } );
+        $(document).ready(function() {
+            $('#tablefiscal').DataTable( {
+                "oLanguage": {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+            },
+            "order": [[ 0, "desc" ]],
+            "lengthChange": false,
+            "pageLength": 6,
+                "bInfo" : false,
+            } );
+        } );
+        $(document).ready(function() {
+            $('#tableRAR').DataTable( {
+                "oLanguage": {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+            },
+            "order": [[ 0, "desc" ]],
+            "lengthChange": false,
+            "pageLength": 6,
+                "bInfo" : false,
+            } );
+        } );
+    </script>
+{% endblock %}

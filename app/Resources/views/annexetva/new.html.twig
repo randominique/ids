@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% block title %}Annexe TVA{% endblock %}
+
+{% block page_title %}Annexe TVA{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+    {{ parent() }}
+    <div class="box box-primary">
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="VALIDER" class="btn btn-primary pull-right" />
+            <a href="{{ path('annexe-tva_index') }}" class="btn btn-default"><i class="fas fa-arrow-left"></i> Rétour à la liste</a>
+            <span class="clearfix"></span>
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}

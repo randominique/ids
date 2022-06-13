@@ -1,0 +1,110 @@
+{% extends "base.html.twig" %}
+{% block title %}Courrier #{{ courrier.numeroCourrier }} - {{ courrier.objetCourrier }}{% endblock %}
+
+{% block page_title %}<h1 class="mytitle" style="text-align:center;background-color:#0085a6;color:white;font-size:20px;padding:5px;">Courrier sortant N° : {{ courrier.numeroCourrier }} - {{ courrier.objetCourrier}} - {{ courrier.raisonSocial }} - </strong> {{ courrier.nif }}</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+	<div class="container" id="sortant-detail-one">
+		<div class="row" style="margin: 0px;">
+			<div class="col-lg-3">
+				<p>
+					<a href="{{ path('list_entrant') }}" class="button btn btn-primary">Retour à la liste</a>
+				</p>
+			</div>
+			<div class="col-lg-9 border-2">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-4">
+								<span>Numero</span>
+							</div>
+							<div class="col-lg-8 val-item">								
+								<span>{{ courrier.numeroCourrier }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-4">
+								<span>Objet</span>
+							</div>
+							<div class="col-lg-8 val-item">								
+								<span>{{ courrier.objetCourrier }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-4">
+								<span>Raison Sociale</span>
+							</div>
+							<div class="col-lg-8 val-item">								
+								<span>{{ courrier.raisonSocial }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-4">
+								<span>NIF</span>
+							</div>
+							<div class="col-lg-8 val-item">								
+								<span>{{ courrier.nif }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-4">
+								<span>Service</span>
+							</div>
+							<div class="col-lg-8 val-item">								
+								<span>{{ courrier.service }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-4">
+								<span>Gestionnaire</span>
+							</div>
+							<div class="col-lg-8 val-item">								
+								<span>{{ courrier.gestionnaire }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-4">
+								<span>Titre</span>
+							</div>
+							<div class="col-lg-8 val-item">								
+								<span>{{ courrier.titre }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-lg-4">
+								<span>Date de création</span>
+							</div>
+							<div class="col-lg-8 val-item">								
+								<span>{{ courrier.createdAt| date('d/m/Y') }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	<div>
+	
+</div>
+{% endblock %}

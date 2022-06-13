@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rar_periode</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ rAR_PERIODE.id }}</td>
+            </tr>
+            <tr>
+                <th>Fiscalno</th>
+                <td>{{ rAR_PERIODE.fISCALNO }}</td>
+            </tr>
+            <tr>
+                <th>Taxcentrecode</th>
+                <td>{{ rAR_PERIODE.tAXCENTRECODE }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ rAR_PERIODE.nOM }}</td>
+            </tr>
+            <tr>
+                <th>Taxperiodno</th>
+                <td>{{ rAR_PERIODE.tAXPERIODNO }}</td>
+            </tr>
+            <tr>
+                <th>Tperyear</th>
+                <td>{{ rAR_PERIODE.tPERYEAR }}</td>
+            </tr>
+            <tr>
+                <th>Tpermonth</th>
+                <td>{{ rAR_PERIODE.tPERMONTH }}</td>
+            </tr>
+            <tr>
+                <th>Nature</th>
+                <td>{{ rAR_PERIODE.nATURE }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ rAR_PERIODE.tYPE }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ rAR_PERIODE.mONTANT }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('rar_periode_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

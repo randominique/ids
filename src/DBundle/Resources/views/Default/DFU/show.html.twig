@@ -1,0 +1,271 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ contribuable.sigtasRs }}{% endblock %}
+
+{% block page_title %}<h1 class="mytitle" >{{ contribuable.sigtasRs }}</h1>{% endblock %}
+
+{% block page_content %}
+    <div id="infos-contribuable">
+        <div class="row">
+            <div class="col-md-5">  <p><span>Numéro d'Identification Fiscale:</span> {{ contribuable.nif|number_format(0,',',' ') }}</p></div>
+            <div class="col-md-4">  <p><span>Contact:</span>{{ contribuable.nomDirigeant }}</p></div>
+            <div class="col-md-3">  <p>
+                <span>Secteur d'activite</span>
+                    {% if contribuable.sectorActivite %}
+                        {{ contribuable.sectorActivite }}
+                    {% else %}
+                        NA
+                    {% endif %}
+                    </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">  <p><span>Raison sociale:</span> {{ contribuable.sigtasRs }}</p></div>
+            <div class="col-md-4">  <p><span>Date de création:</span> {{ contribuable.startDate | date('d/m/Y')}}</p></div>
+            <div class="col-md-3">  
+                <p><span>Exercice fiscal début:</span>
+                    {% if contribuable.fiscYrStart == "101" %}01/01{% endif %}
+                    {% if contribuable.fiscYrStart == "107" %}01/07{% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">  <p><span>Adresse:</span> {{ contribuable.adresse }}</p></div>
+            <div class="col-md-4">  <p><span>Date d'arrivée DGE:</span> {{ contribuable.entryDate | date('d/m/Y')}}</p></div>
+            <div class="col-md-3">
+                <p><span>Exercice fiscal fin:</span>
+                    {% if contribuable.fiscYrEnd == "3112" %}31/12{% endif %}
+                    {% if contribuable.fiscYrEnd == "3006" %}30/06{% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="box box-primary">
+        <div class="box-header no-border" style="padding-top:0px">
+            <h1 class="subtitle" style="text-align:center;color:white;font-size:30px;padding:8px;">Historique carte fiscale</h1>
+        </div>
+        <table  id="tablefiscal" class="table table-striped table-hover" style="padding:0px">
+            <thead>
+                <tr>
+                    <th>Exercice</th>
+                    <th>Date de delivrance</th>
+                    <th>N° Carte</th>
+                    <th>Type Carte</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for cartefiscale in carteFiscales %}
+                <tr>
+                    <td>{{ cartefiscale.annee }}</td>
+                    <td>{{ cartefiscale.carteDate | date('d/m/Y') }}</td>
+                    <td>{{ cartefiscale.carteNum }}</td>
+                    <td>{{ cartefiscale.carteTypeNo }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="box-header no-border" style="padding-top:0px">
+            <h1 class="subtitle" style="text-align:center;color:white;font-size:30px;padding:8px;">Taxation d'office</h1>
+        </div>
+            <table id="tableto" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nature impot</th>
+                        <th style="text-align:center">Année</th>
+                        <th style="text-align:center">Mois</th>
+                        <th style="text-align:right">Montant Principal</th>
+                        <th style="text-align:right">Pénalité</th>
+                        <th style="text-align:center">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for taxation_office in tos %}
+                    <tr>
+                        <td>{{ taxation_office.taxTypeDescF }}</td>
+                        <td style="text-align:center">{{ taxation_office.tperYear }}</td>
+                        <td style="text-align:center">{{ taxation_office.tperMonth }}</td>
+                        <td style="text-align:right">{{ taxation_office.taxe|number_format(0,',','.') }}</td>
+                        <td style="text-align:right">{{ taxation_office.pen|number_format(0,',','.') }}</td>
+                        <td style="text-align:center">{{ taxation_office.createdDate | date('d/m/Y') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        <div class="box-header no-border" style="padding-top:0px">
+            <h1 class="subtitle" style="text-align:center;color:white;font-size:30px;padding:8px;">Situation RAR</h1>
+        </div>
+            <table id="tableRAR" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nature impot</th>
+                        <th style="text-align:center">Année</th>
+                        <th style="text-align:center">Mois</th>
+                        <th style="text-align:right">Principal</th>
+                        <th style="text-align:right">Pénalité</th>
+                        <th style="text-align:right">Intérêt</th>
+                        <th style="text-align:center">Total général</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for RAR in RARs %}
+                    <tr>
+                        <td>{{ RAR.taxTypeDescF }}</td>
+                        <td style="text-align:center">{{ RAR.annee }}</td>
+                        <td style="text-align:center">{{ RAR.mois }}</td>
+                        <td style="text-align:right">{{ RAR.ppChrg|number_format(0,',','.') }}</td>
+                        <td style="text-align:right">{{ RAR.penChrg|number_format(0,',','.') }}</td>
+                        <td style="text-align:right">{{ RAR.intChrg|number_format(0,',','.') }}</td>
+                        <td style="text-align:center">{{ RAR.rar|number_format(0,',','.') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        <div class="box-header with-border" style="padding-top:0px">
+            <h1 class="subtitle" style="text-align:center;color:white;font-size:30px;padding:8px;">Historique des paiements</h1>
+        </div>
+        <table id="tablepaiement" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align:left">Date paiement</th>
+                    <th style="text-align:left">Nature impôts</th>
+                    <th style="text-align:left">Année</th>
+                    <th style="text-align:left">Période</th>
+                    <th style="text-align:right">Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for paiement in paiements %}
+                <tr>
+                    <td style="text-align:left">{{ paiement.dateDePaiement | date('d/m/Y') }}</td>
+                    <td style="text-align:left">{{ paiement.impotTaxe }}</td>
+                    <td style="text-align:left">{{ paiement.annee }}</td>
+                    <td style="text-align:left">{{ paiement.mois }}</td>
+                    <td style="text-align:right">{{ paiement.montant|number_format(0,',','.') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>    
+        </table>
+
+        {# <div class="box-header with-border" style="padding-top:0px">
+            <h1 class="subtitle" style="text-align:center;color:white;font-size:30px;padding:8px;">Historique des vérifications</h1>
+        </div>
+        <table id="tableverification" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Montant</th>
+                    <th>Date paiement</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for paiement in paiements %}
+                <tr>
+                    <td>{{ paiement.montant }}Ar</td>
+                    <td>{{ paiement.dateDePaiement | date('d/m/Y') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>    
+        </table> #}
+
+        <h3 class="mytitle" style="text-align:center;background-color:#009ba6;color:white;font-size:15px;padding:5px;">Courriers entrants : {{entrants }}</h3>
+        {# <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Observation</th>
+                    <th>Date relance</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entrant in entrants %}
+                <tr>
+                    <td>{{ entrant.observation }}</td>
+                    <td>{{ entrant.date | date('d/m/Y') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table> #}
+        <h3 class="mytitle" style="text-align:center;background-color:#009ba6;color:white;font-size:15px;padding:5px;">Courrier Sortants {{sortants}}</h3>
+        {# <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Observation</th>
+                    <th>Date relance</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for sortant in sortants %}
+                <tr>
+                    <td>{{ sortant.observation }}</td>
+                    <td>{{ sortant.date | date('d/m/Y') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table> #}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+        $(document).ready(function()
+        {
+            $('#tableto').DataTable(
+            {
+                "oLanguage": 
+                {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+                },
+                "lengthChange": false,
+                "pageLength": 5,
+                "bInfo" : false,
+            } );
+        } );
+        $(document).ready(function() {
+            $('#tablepaiement').DataTable( {
+                "oLanguage": {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+            },
+            "order": [[ 1, "desc" ]],
+                "lengthChange": false,
+            "pageLength": 5,
+                "bInfo" : false,
+            } );
+        } );
+        $(document).ready(function() {
+            $('#tablefiscal').DataTable( {
+                "oLanguage": {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+            },
+            "order": [[ 0, "desc" ]],
+            "lengthChange": false,
+            "pageLength": 5,
+                "bInfo" : false,
+            } );
+        } );
+        $(document).ready(function() {
+            $('#tableRAR').DataTable( {
+                "oLanguage": {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+            },
+            "order": [[ 0, "desc" ]],
+            "lengthChange": false,
+            "pageLength": 5,
+                "bInfo" : false,
+            } );
+        } );
+    </script>
+{% endblock %}

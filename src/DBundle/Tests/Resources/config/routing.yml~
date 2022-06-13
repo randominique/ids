@@ -1,0 +1,436 @@
+courrier_entrant:
+    resource: "@DBundle/Resources/config/routing/entrant.yaml"
+    prefix:   /courrier/
+
+tache:
+    resource: "@DBundle/Resources/config/routing/tache.yaml"
+    prefix:   /tache/
+
+# Parametres
+d_parametres_service:
+    path:     /parametres/services
+    defaults: { _controller: DBundle:Parametres:index }
+
+d_parametres_service_new:
+    path:     /parametres/services/ajouter
+    defaults: { _controller: DBundle:Parametres:new }
+
+d_parametres_service_update:
+    path:     /parametres/services/modifier/{service}
+    defaults: { _controller: DBundle:Parametres:update }
+    requirements:
+        service: \d+
+
+d_parametres_attribution:
+    path:     /parametres/attributions
+    defaults: { _controller: DBundle:Parametres:AttributionIndex }
+
+d_parametres_attribution_new:
+    path:     /parametres/attributions/ajouter
+    defaults: { _controller: DBundle:Parametres:AttributionNew }
+
+d_parametres_attribution_update:
+    path:     /parametres/attributions/modifier/{attribution}
+    defaults: { _controller: DBundle:Parametres:AttributionUpdate }
+    requirements:
+        attribution: \d+
+
+relance_setting:
+    path:     /parametres/relance
+    defaults: { _controller: DBundle:Parametres:parametreRelance }
+
+sai_setting:
+    path:     /parametres/sai
+    defaults: { _controller: DBundle:Parametres:SaiSetting }
+
+assujettissement_setting:
+    path:     /parametres/taxe
+    defaults: { _controller: DBundle:Parametres:AssujettissementSetting }
+
+show_assujettissement_setting:
+    path:     /parametres/taxe/{taxe}
+    defaults: { _controller: DBundle:Parametres:ShowAssujettissementSetting }
+    requirements:
+        taxe: \d+
+
+new_member_assujettissement_setting:
+    path:     /parametres/taxe/{taxe}/new
+    defaults: { _controller: DBundle:Parametres:NewMembreAssujettissement }
+    requirements:
+        taxe: \d+
+
+new_assujettissement_setting:
+    path:     /parametres/taxe/new
+    defaults: { _controller: DBundle:Parametres:newAssujettissement }
+
+dge_setting:
+    path:     /parametres/dge
+    defaults: { _controller: DBundle:Parametres:parametreDge }
+
+# Home page / Tableau de bord
+d_homepage:
+    path:     /
+    defaults: { _controller: DBundle:Default:index }
+
+# Courier entrant
+
+# categorie
+_new_categorie_entrant:
+    path:     /couriers/entrant/nouveau/categorie
+    defaults: { _controller: DBundle:CourierEntrant:NewCategorie }
+
+_list_categorie_entrant:
+    path:     /couriers/entrant/categorie
+    defaults: { _controller: DBundle:CourierEntrant:ListCategorie }
+
+# Courier
+_new_entrant:
+    path:     /couriers/entrant/nouveau
+    defaults: { _controller: DBundle:CourierEntrant:New }
+
+_list_entrant:
+    path:     /couriers/entrant/liste
+    defaults: { _controller: DBundle:CourierEntrant:List }
+
+_courrier_dispatching_to_service:
+    path:     /couriers/entrant/dispatching/courrier/{courrier}/to/service/{service}
+    defaults: { _controller: DBundle:CourierEntrant:dispatchToService }
+
+_courrier_informatice_to_service:
+    path:     /couriers/entrant/informative/courrier/{courrier}/to/service/{service}
+    defaults: { _controller: DBundle:CourierEntrant:forInfoToService }
+
+_courrier_dispatching_to_gestionnaire:
+    path:     /couriers/entrant/dispatching/courrier/{courrier}/to/gestionnaire/{gestionnaire}
+    defaults: { _controller: DBundle:CourierEntrant:dispatchToGestionnaire }
+
+_courrier_get:
+    path:     /couriers/entrant/courrier/get/{courrier}
+    defaults: { _controller: DBundle:CourierEntrant:getCourrier }
+
+_courrier_close:
+    path:     /couriers/entrant/close/{courrier}
+    defaults: { _controller: DBundle:CourierEntrant:cloturerTicket }
+
+_courrier_marquer_comme_traiter:
+    path:     /couriers/entrant/marquer/comme/traiter/{courrier}
+    defaults: { _controller: DBundle:CourierEntrant:marquerCommeTraiter }
+
+# Autocomplete section
+_autocomplete_nif:
+    path:     /autocomplete/nif
+    defaults: { _controller: DBundle:Default:autoCompleteNif }
+
+_autocomplete_rs:
+    path:     /autocomplete/rs
+    defaults: { _controller: DBundle:Default:autoCompleteRs }
+
+_get_contribuable:
+    path:     /contribuable
+    defaults: { _controller: DBundle:Default:getContribuable }
+
+
+# Courier sortant
+
+# categorie
+_new_categorie_sortant:
+    path:     couriers/sortant/nouveau/categorie
+    defaults: { _controller: DBundle:CourierSortant:NewCategorie }
+
+_list_categorie_sortant:
+    path:     couriers/sortant/categorie
+    defaults: { _controller: DBundle:CourierSortant:ListCategorie }
+
+# courier
+_new_sortant:
+    path:     couriers/sortant/nouveau
+    defaults: { _controller: DBundle:CourierSortant:New }
+
+_list_sortant:
+    path:     couriers/sortant/liste
+    defaults: { _controller: DBundle:CourierSortant:List }
+
+users_index:
+    path:     /users
+    defaults: { _controller: DBundle:User:index }
+
+users_add_role:
+    path:     /users/promote/{id}/{role}
+    defaults: { _controller: DBundle:User:addRole }
+    requirements:
+        id: \d+
+        role: \d+
+
+users_remove_role:
+    path:     /users/demote/{id}/{role}
+    defaults: { _controller: DBundle:User:removeRole }
+    requirements:
+        id: \d+
+        role: \d+
+
+users_profile:
+    path:     /profile
+    defaults: { _controller: DBundle:User:profile }
+
+users_password:
+    path:     /change-password
+    defaults: { _controller: DBundle:User:ChangePassword }
+
+dfu_liste:
+    path:     /contribuables
+    defaults: { _controller: DBundle:Default:contribuables }
+
+dfu_show:
+    path:     /contribuables/show/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:showContribuable }
+
+# newAssujettissement:
+
+dfu_correspondance:
+    path:     /contribuables/correspondance/entrant/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:correspondance }
+
+dfu_relance:
+    path:     /contribuables/relance/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:relances }
+
+dfu_correspondance_sortant:
+    path:     /contribuables/correspondance/sortant/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:correspondanceSortant }
+
+dfu_dialogue:
+    path:     /contribuables/historique/de/dialogue/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:historiqueDeDialogue }
+
+dfu_taxation_office:
+    path:     /contribuables/historique/taxation/office/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:historiqueTaxationOffice }
+
+dfu_carte_fiscale:
+    path:     /contribuables/carte/fiscale/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:carteFiscale }
+
+dfu_historique_paiement:
+    path:     /contribuables/historique/paiement/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:historiquePaiement }
+
+newAssujettissement:
+    path:     /assujettissement/ajouter
+    defaults: { _controller: DBundle:Default:newAssujettissement }
+
+listeTypeAssujettissement:
+    path:     /assujettissement/liste
+    defaults: { _controller: DBundle:Default:listeTypeAssujettissement }
+
+
+_t_o_sur_declaration_periodque:
+    path:     taxation_d_office_sur_declaration_periodique
+    defaults: { _controller: DBundle:GestionDesActivites:TOSurDeclarationPeriodque }
+
+_t_o_sur_declaration_periodique_a_etablir:
+    path:     /taxation-d-office-a-etablir
+    defaults: { _controller: DBundle:GestionDesActivites:TOSurDeclarationPeriodiqueAEtablir }
+
+_t_o_sur_declaration_realisees:
+    path:     taxation-d-office-realisees
+    defaults: { _controller: DBundle:GestionDesActivites:TOSurDeclarationRealisees }
+
+_defaillants_chronique:
+    path:     defaillants_chronique
+    defaults: { _controller: DBundle:GestionDesActivites:DefaillantsChronique }
+
+contribuables_avec_anomalies_t_v_a:
+    path:     contribuables_avec_anomalies_tva
+    defaults: { _controller: DBundle:GestionDesActivites:contribuablesAvecAnomaliesTVA }
+
+contribuables:
+    path:     contribuables
+    defaults: { _controller: DBundle:GestionDesActivites:contribuables }
+
+_mouvement_dossiers_au_d_f_u:
+    path:     mouvement_dossier_dfu
+    defaults: { _controller: DBundle:GestionDesActivites:MouvementDossiersAuDFU }
+
+_situation_dossiers_au_d_f_u:
+    path:     situation_dossier_dfu
+    defaults: { _controller: DBundle:GestionDesActivites:SituationDossiersAuDFU }
+
+_assujettissement:
+    path:     assujettissement
+    defaults: { _controller: DBundle:GestionDesActivites:Assujettissement }
+
+_declarations_depot:
+    path:     declarations_depot
+    defaults: { _controller: DBundle:GestionDesActivites:DeclarationsDepot }
+
+_declarations_non_depot:
+    path:     declarations_non_depot
+    defaults: { _controller: DBundle:GestionDesActivites:DeclarationsNonDepot }
+
+_declarations_depot_par_contribuables:
+    path:     declarations_depot_par_contribuables
+    defaults: { _controller: DBundle:GestionDesActivites:DeclarationsDepotParContribuables }
+
+_declarations_depot_par_gestionnaire:
+    path:     declaration_depot_par_gestionnaire
+    defaults: { _controller: DBundle:GestionDesActivites:DeclarationsDepotParGestionnaire }
+
+_declarations_non_depot_par_echeance:
+    path:     declarations_non_depot_par_echeance
+    defaults: { _controller: DBundle:GestionDesActivites:DeclarationsNonDepotParEcheance }
+
+_declarations_non_depot_par_contribuables:
+    path:     declarations_non_depot_par_contribuables
+    defaults: { _controller: DBundle:GestionDesActivites:DeclarationsNonDepotParContribuables }
+
+_declarations_non_depot_par_gestionnaire:
+    path:     declaration_non_depot_par_gestionnaire
+    defaults: { _controller: DBundle:GestionDesActivites:DeclarationsNonDepotParGestionnaire }
+
+_rectification_declaration:
+    path:     rectification_declaration
+    defaults: { _controller: DBundle:GestionDesActivites:RectificationDeclaration }
+
+_demande_de_redressement:
+    path:     demande_de_redressement
+    defaults: { _controller: DBundle:GestionDesActivites:DemandeDeRedessement }
+
+_annexe_tva:
+    path:     annexe_tva
+    defaults: { _controller: DBundle:GestionDesActivites:AnnexeTVA }
+
+_suivi_acompte:
+    path:     suivi_acompte
+    defaults: { _controller: DBundle:GestionDesActivites:SuiviAcompte }
+
+_suivi_dossiers_physiques:
+    path:     suivi_dossiers_physiques
+    defaults: { _controller: DBundle:GestionDesActivites:SuiviDossiersPhysiques }
+
+_gestion_des_communications_nouveau:
+    path:     gestion_des_communications_nouveau
+    defaults: { _controller: DBundle:GestionDesActivites:newGestionDesCommunications }
+
+_gestion_des_communications:
+    path:     gestion_des_communications
+    defaults: { _controller: DBundle:GestionDesActivites:GestionDesCommunications }
+
+_gestion_des_communications_archive:
+    path:     gestion_des_communications_archive
+    defaults: { _controller: DBundle:GestionDesActivites:ArchiveGestionDesCommunications }
+
+taches:
+   path:     tasks/
+   defaults: { _controller: DBundle:Tache:list }
+
+_mes_taches:
+    path:     mes_taches
+    defaults: { _controller: DBundle:GestionDesActivites:MesTaches }
+
+new_relance:
+    path:     /relance/new
+    defaults: { _controller: DBundle:Relance:new }
+
+liste_relance:
+    path:     /relance/liste
+    defaults: { _controller: DBundle:Relance:liste }
+
+liste_communication:
+    path:     /communications/liste
+    defaults: { _controller: DBundle:Communication:liste }
+
+show_relance:
+    path:     /relance/show/{relance}
+    defaults: { _controller: DBundle:Relance:show }
+    requirements:
+        relance: \d+
+
+print_it:
+    path:     /print
+    defaults: { _controller: DBundle:Test:index }
+createpdf:
+    path:     /createpdf
+    defaults: { _controller: DBundle:GestionDesActivites:Pdfcrete }
+
+contri:
+    path:     /pdfContribuableAction/show/{contribuable_nif}
+    defaults: { _controller: DBundle:Default:pdfContribuable }
+userspdf:
+    path:     /userspdf
+    defaults: { _controller: DBundle:User:indexpdf }
+indexExcel:
+    path:     /indexExcel
+    defaults: { _controller: DBundle:User:indexExcel }
+
+assujettissementpdf:
+    path:     assujettissementpdf
+    defaults: { _controller: DBundle:GestionDesActivites:AssujettissementPdf }
+
+declarations_depotpdf:
+    path:     declarations_depotpdf
+    defaults: { _controller: DBundle:GestionDesActivites:DeclarationsDepotPdf }
+
+_t_o_sur_declaration_periodique_a_etablirpdf:
+    path:     /taxation-d-office-a-etablirpdf
+    defaults: { _controller: DBundle:GestionDesActivites:TOSurDeclarationPeriodiqueAEtablirPdf }
+
+_suivi_acomptepdf:
+    path:     suivi_acomptepdf
+    defaults: { _controller: DBundle:GestionDesActivites:SuiviAcomptePdf }
+
+_list_sortantpdf:
+    path:     couriers/sortant/listepdf
+    defaults: { _controller: DBundle:CourierSortant:ListPdf }
+
+_list_entrantpdf:
+    path:     /couriers/entrant/listepdf
+    defaults: { _controller: DBundle:CourierEntrant:ListPdf }
+
+d_enterpriseGen:
+    path:     /enterpriseGen
+    defaults: { _controller: DBundle:Genesis:enterpriseGen }
+
+d_entrepriseGen:
+    path:     /entrepriseGen
+    defaults: { _controller: DBundle:Genesis:entrepriseGen }
+
+d_taxpayerGen:
+    path:     /taxpayerGen
+    defaults: { _controller: DBundle:Genesis:index }
+
+d_paiementGen:
+    path:     /paiementGen
+    defaults: { _controller: DBundle:Genesis:paiementGen }
+
+d_taxpayerList:
+    path:     /taxpayerList
+    defaults: { _controller: SIGTASBundle:Clients:list }
+
+communication_index:
+    path:     /communication/
+    defaults: { _controller: "DBundle:Communication:index" }
+    methods:  GET
+
+communication_show:
+    path:     /communication/{id}/show
+    defaults: { _controller: "DBundle:Communication:show" }
+    methods:  GET
+
+communication_new:
+    path:     /communication/new
+    defaults: { _controller: "DBundle:Communication:new" }
+    methods:  [GET, POST]
+
+communication_edit:
+    path:     /communication/{id}/edit
+    defaults: { _controller: "DBundle:Communication:edit" }
+    methods:  [GET, POST]
+
+communication_delete:
+    path:     /communication/{id}/delete
+    defaults: { _controller: "DBundle:Communication:delete" }
+    methods:  DELETE
+
+d_assessmentGen:
+    path:     /assessmentGen
+    defaults: { _controller: DBundle:Genesis:assessmentGen }

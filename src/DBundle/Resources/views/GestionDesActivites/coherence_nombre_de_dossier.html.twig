@@ -1,0 +1,166 @@
+{% extends "base.html.twig" %}
+{% block title %}Gestion{% endblock %}
+{% block page_title %}<h1 class="mytitle">Gestion du répertoire</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+{% block page_content %}
+{{ parent() }}
+<div class="box box-primary">
+    <div id="search">
+        <form class="form-inline pull-left" method="GET">
+            <div class="form-group">
+                <input name="nif" type="text" class="form-control" id="nifFilter" autocomplete='off' {% if nifFilter %}value="{{ nifFilter }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+            </div>
+            <div class="form-group">
+                <input name="rs" type="text" class="form-control" id="rsFilter" autocomplete='off' {% if rsFilter %}value="{{ rsFilter }}"{% endif %} placeholder="Raison Sociale" style="width:450px;margin-left:0px;">
+            </div>
+            <div class="form-group">
+                <select name="secteur" class="form-control">
+                    <option selected value="" disabled selected>{% if secteur %} {{secteur}} {% else %}Secteur d'activité{% endif %}</option>
+                    {% for sectorAct in sectorActs %}
+                        <option value = {{ sectorAct.id}} > {{sectorAct.sectorActDesc}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <select name="gestionnaire" class="form-control" id="gestionnaire" style="width:250px"> 
+                    <option selected value="" disabled selected >gestionnaire</option>
+                    {% for user in allUsers %}
+                        <option value = {{ user.id }}>
+                            <i>{{ user.corps }} -</i> 
+                            <h6>{{ user.nom }} {{ user.prenom }}</h6>
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {#
+            <div class="checkbox">
+                <label>
+                <input type="checkbox"> Dossier sensible
+                </label>
+            </div>
+            #}
+            <button type="submit" class="btn-link"><span class="fa fa-search" style="font-size:28px" title="Rechercher"></span></button>
+            <a href="{{ path('contribuables') }}" class="btn-link"><span class="fa fa-trash-o" style="font-size:28px;color:black" title="initialiser filtres"></a>
+            {# <a>  </a>
+            <a href="{{path('contribuables_excel')}}" class="btn-link"><span class="fa fa-file-excel" style="font-size:28px;color:green" title="Exporter vers EXCEL"></span></a> #}
+            {# <a href="{{path('createpdf')}}" class="btn btn-primary pull-right" role="button" style="width:120px;margin-left:4px;">Imprimer</a> #}
+        </form>
+    </div>
+    <div class="col-lg-12">
+        <div class="navigation">
+            {{ knp_pagination_render(contribuables) }}
+        </div>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="form-entete" style="width:120px;text-color:white">
+                    {{ knp_pagination_sortable(contribuables, "NIF", 'n.nif') }}
+                </th>
+                {# <th class="form-entete">N.I.F</th> #}
+                <th  class="form-entete" style="width:400px">Raison sociale
+                    {# {{ knp_pagination_sortable(contribuables, "Raison sociale", 'n.rs') }} #}
+                </th>
+                {# <th style="width:100">
+                    Nom Commercial
+                    {{ knp_pagination_sortable(contribuables, "Nom commercial", 'n.nomcommercial') }}
+                </th> #}
+                <th class="form-entete" style="width:150px">Email</th>
+                <th class="form-entete">Téléphone</th>
+                <th class="form-entete">Regime fiscal</th>
+                <th class="form-entete">Secteur d'activité</th>
+                <th class="form-entete">Gestionnaire</th>
+                <th class="form-entete" style="width:70px">Actions</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th class="form-entete"></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            {% for contribuable in contribuables %}
+                <tr>
+                    <td style="width:120px">{{ contribuable.nif|number_format(0,',',' ') }}</td>
+                    <td style="width:520px">{{ contribuable.raisonSociale }}</td>
+                    {# <td style="width:100">{{ contribuable.nomCommercial }}</td> #}
+                    <td style="width:200px">{{ contribuable.email }}</td>
+                    <td>{{ contribuable.telephone }}</td>
+                    <td>{{ contribuable.regimeFiscal }}</td> 
+                    <td>{{ contribuable.secteurActivite }}</td>
+                    <td style="width:300px">{{ contribuable.gestionnaire }}</td> 
+                    <td style="width:70px;text-align:center">
+                        <a href="{{ path('dfu_show', {'contribuable_nif': contribuable.nif}) }}"><i class="fas fa-eye"></i></a>
+                    </td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>
+                            <a href="{{ path('contribuables_edit', {'id': contribuable.id}) }}"><i class="fas fa-edit"></i></a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    </script>
+    <script>
+    	$('#nifFilter').autocomplete({
+	        source: "{{ path('_autocomplete_nif2') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+	            $('#rsFilter').val(ui.item.raisonSoncial);
+	            setTimeout(function(){
+	             $('#nifFilter').val(ui.item.thisNif);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+		$('#rsFilter').autocomplete({
+	        source: "{{ path('_autocomplete_rs2') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+	            
+				$('#nifFilter').val(ui.item.thisNif);
+	            setTimeout(function(){
+	             $('#rsFilter').val(ui.item.raisonSoncial);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+    </script>
+{% endblock %}

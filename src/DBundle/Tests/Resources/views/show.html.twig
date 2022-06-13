@@ -1,0 +1,135 @@
+{% extends "base.html.twig" %}
+{% block title %}Courrier #{{ courrier.docNo }} - {{ courrier.objet }}{% endblock %}
+
+{% block page_title %}Courrier #{{ courrier.docNo }} - {{ courrier.objet}} - {{ courrier.rs }} - </strong> {{ courrier.nif }}{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+	<div class="box box-primary">
+		<div class="padding">
+			<h3>
+				{% if courrier.priority %}
+				<div class="btn-group">
+					
+					<button class="btn {% if courrier.status == 'Nouveau' %}btn-info{% endif %} {% if courrier.status == 'Ouvert' %}btn-primary{% endif %} {% if courrier.status == 'En cours' %}btn-warning{% endif %} {% if courrier.status == 'Traité' %}btn-success{% endif %}{% if courrier.status == 'Ferme' %}btn-danger{% endif %}" type="button">{{ courrier.status }}</button> 
+					
+					<div class="btn-group">
+						<button type="button" class="btn {% if courrier.status == 'Nouveau' %}btn-info{% endif %} {% if courrier.status == 'Ouvert' %}btn-primary{% endif %} {% if courrier.status == 'En cours' %}btn-warning{% endif %} {% if courrier.status == 'Traité' %}btn-success{% endif %}{% if courrier.status == 'Ferme' %}btn-danger{% endif %} dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							{% if courrier.status != 'Traité' %}
+								{% if isChefDeService or isChefSAI %}<li><a href="{{ path('show_entrant', { courrier: courrier.docNo, changestatus: 'Ouvert' }) }}">Ouvert</a></li>{% endif %}
+								{% if isChefDeService or isChefSAI %}<li><a href="{{ path('show_entrant', { courrier: courrier.docNo, changestatus: 'En cours' }) }}">En cours</a></li>{% endif %}
+								<li><a href="{{ path('show_entrant', { courrier: courrier.docNo, changestatus: 'Traité' }) }}">Traité</a></li>
+							{% endif %}
+								{% if isChefDeService or isChefSAI %}<li><a href="{{ path('show_entrant', { courrier: courrier.docNo, changestatus: 'Ferme' }) }}">Fermé</a></li>{% endif %}
+							
+						</ul>
+					</div>
+				</div>
+				
+				<button class="btn {% if courrier.priority == 'NORMAL' %}btn-primary{% endif %} {% if courrier.priority == 'URGENT' %}btn-warning{% endif %} {% if courrier.priority == 'TRES URGENT' %}btn-danger{% endif %}" type="button">{{ courrier.priority }}</button>
+				{#- {{ courrier.rs }} - </strong> {{ courrier.nif }}#}
+				{% endif %}
+				A propos de ce courrier
+			</h3>
+			{#
+
+				<p><strong>Crée le:</strong> {{ courrier.createdAt | date('d/m/Y H:i:s') }}</p>
+				<p><strong>Par:</strong> {{ courrier.auteur.nom }} {{ courrier.auteur.prenom }}</p>
+				##}
+				{% if observations == null %}
+					{{ form(form_new) }}
+				{% endif %}
+
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Dates de Modification</th>
+							<th>Concerné</th>
+							<th>Service</th>
+							<th>Observations</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					{% for observation in observations  %}
+						<tr>
+							<td>
+								{#
+									#}
+										<i>{{ observation.createdAt | date('d/m/Y H:i:s') }}</i>                	
+							</td>
+							<td>
+								{#
+									#}
+									<p>{{ observation.user.nom }} {{ observation.user.prenom }}</p>
+							</td>
+							<td>
+								{#
+									#}
+									{{ observation.service }}
+							</td>
+							<td>
+								{#
+									#}
+									{{ observation.message | raw }}
+							</td>
+							{#
+								#}
+							<td class="{% if observation.status == 'Nouveau' %}bg-aqua{% endif %} {% if observation.status == 'Ouvert' %}bg-blue{% endif %} {% if observation.status == 'En cours' %}bg-yellow{% endif %} {% if observation.status == 'Traité' %}bg-green{% endif %}{% if observation.status == 'Fermé' %}bg-red{% endif %} text-center">
+									{{ observation.status }}
+							</td>
+				{#
+					#}
+					{% endfor %}
+						</tr>
+					</tbody>
+				</table>
+				{#
+				{% if isMembreDirecion %}
+				{{ form(form_direction) }}
+				{% endif %}
+				{% if isChetSai %}
+				{{ form(form_chefSai) }}
+				{% endif %}
+				#}	
+				{% if courrier.priority and isChefSAI  %} {#or courrier.priority and isMembreDirection#}
+						{# Ajouter   and isChefSAI   pour autorisé le reDisptach #}
+							<h3>Dispatch</h3>
+								{{form(form)}}
+				{% endif %}
+
+				{#
+				{% if isChefDeService and courrier.service and not isChefSAI %}
+					{{ form(assigne_form) }}{# dispatch to inspector or secretariat #}
+					{#
+				{% endif %}
+				{% if courrier.service and not isChefSAI %}
+				#}
+				{% if isChefDeService and not isChefSAI and isUserConcerned and courrier.status != 'Traité'%}
+					<h3>Assigner à</h3>
+					{% for message in app.flashes('error') %}
+						<div class="alert alert-danger">
+							{{ message }}
+						</div>
+					{% endfor %}
+					{{form(assigne_form)}}
+				{% endif %}
+				{% if courrier.service and courrier.responsable and not courrier.status == 'Ferme' %}
+					{#<h3>Observation</h3>#}
+					{#
+						#}
+						{{form(formulaire_observation)}}
+				{% endif %}
+		</div>
+</div>
+
+<div>
+	<p>
+		<a href="{{ path('list_entrant') }}" class="btn btn-default">Retour à la liste</a>
+	</p>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block page_title %}Mon profil{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+<div class="box box-primary">
+    <table class="table table-striped table-hover">
+        <tbody>
+            <tr>
+                <th>IM</th>
+                <td>{{ user.im }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prénoms</th>
+                <td>{{ user.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Corps</th>
+                <td>{{ user.corps }}</td>
+            </tr>
+            <tr>
+                <th>Service</th>
+                <td>{{ user.service }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Téléphone</th>
+                <td>{{ user.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Privilèges</th>
+                <td>
+                    
+                    <div id="result{{ user.id }}"></div>
+
+                    <div id="privilege{{ user.id }}">
+
+                        {% if user.hasRole('ROLE_SUPER_ADMIN') %}
+                            Super admin
+                        {% else %}
+                            {% if user.hasRole('ROLE_ADMIN') %}
+                                <p>Admin</p>
+                            {% else %}
+                                <p>Utilisateur</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

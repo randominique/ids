@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rar_periodes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fiscalno</th>
+                <th>Taxcentrecode</th>
+                <th>Nom</th>
+                <th>Taxperiodno</th>
+                <th>Tperyear</th>
+                <th>Tpermonth</th>
+                <th>Nature</th>
+                <th>Type</th>
+                <th>Montant</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rAR_PERIODE in rAR_PERIODEs %}
+            <tr>
+                <td><a href="{{ path('rar_periode_show', { 'id': rAR_PERIODE.id }) }}">{{ rAR_PERIODE.id }}</a></td>
+                <td>{{ rAR_PERIODE.fISCALNO }}</td>
+                <td>{{ rAR_PERIODE.tAXCENTRECODE }}</td>
+                <td>{{ rAR_PERIODE.nOM }}</td>
+                <td>{{ rAR_PERIODE.tAXPERIODNO }}</td>
+                <td>{{ rAR_PERIODE.tPERYEAR }}</td>
+                <td>{{ rAR_PERIODE.tPERMONTH }}</td>
+                <td>{{ rAR_PERIODE.nATURE }}</td>
+                <td>{{ rAR_PERIODE.tYPE }}</td>
+                <td>{{ rAR_PERIODE.mONTANT }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('rar_periode_show', { 'id': rAR_PERIODE.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

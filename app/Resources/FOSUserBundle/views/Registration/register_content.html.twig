@@ -1,0 +1,16 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+    {{ form_row(form.im, {label: 'IM'}) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.prenom, {label: 'Prénom'}) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.corps) }}
+    {{ form_row(form.service) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.telephone, {label: 'Téléphone'}) }}
+    {{ form_row(form.plainPassword) }}
+    <div>
+        <input type="submit" value="Ajouter" class="btn btn-primary"/>
+    </div>
+{{ form_end(form) }}

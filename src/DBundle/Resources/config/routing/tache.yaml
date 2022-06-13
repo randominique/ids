@@ -1,0 +1,27 @@
+new_tache:
+    path:     tache/new
+    defaults: { _controller: DBundle:Tache:new }
+
+list_tache:
+    path:     tache/liste
+    defaults: { _controller: DBundle:Tache:list }
+
+show_tache:
+    path:     tache/show/{courrier}
+    defaults: { _controller: DBundle:Tache:show }
+    requirements:
+        id: \d+
+
+new_tache_cat:
+    path:     tache/cat/new
+    defaults: { _controller: DBundle:Tache:newCat }
+
+list_tache_cat:
+    path:     tache/cat/liste
+    defaults: { _controller: DBundle:Tache:listCat }
+
+edit_tache_cat:
+    path:     tache/cat/edit/{nature}
+    defaults: { _controller: DBundle:Tache:editCat }
+    requirements:
+        id: \d+

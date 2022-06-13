@@ -1,0 +1,136 @@
+{% set currentPath = app.request.attributes.get('_route') %}
+{% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.0/Chart.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('css/jquery.datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/thisStyles.css') }}" />
+{% endblock %}
+
+{% block avanzu_logo %}
+    <a href="{{ path('d_homepage') }}" class="logo" style="font-size:15px;margin-top:0px;padding:0px;">
+        &copy; 2021 IDS software 
+    </a>
+{% endblock %}
+
+{% block entete %}
+
+{% endblock %}
+
+{% block sous_menu %}
+<div id="nav-menu">
+    <ul class="nav nav-tabs">
+        <li role="presentation" {% if currentPath == "contribuables" %}class="active"{% endif %}><a href="{{ path('contribuables') }}" style="background-color:#72a6c9">Gestion répertoire</a></li>
+        <li role="presentation" class='dropdown  {% if currentPath == "_declarations_depot" %}active{% endif %} {% if currentPath == "_declarations_non_depot" %}active{% endif %}'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:#72a6c9">Déclaration  <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ path('_declarations_depot') }}" style="background-color:#5c94b9;">Dépôt</a></li>
+                <li><a href="{{ path('_declarations_non_depot') }}" style="background-color:#5c94b9;">Non dépôt</a></li>
+            </ul>
+        </li>
+        <li role="presentation" {% if currentPath == "_assujettissement" %}class="active"{% endif %}><a href="{{ path('_assujettissement') }}" style="background-color:#72a6c9;">Assujettissement</a></li>
+        <li role="presentation" class='dropdown  {% if currentPath == "_declarations_depot" %}active{% endif %} {% if currentPath == "_declarations_non_depot" %}active{% endif %}'>
+        <li role="presentation" {% if currentPath == "_defaillants_chronique" %}class="active"{% endif %}><a href="{{ path('_defaillants_chronique') }}" style="background-color:#72a6c9">Défaillants chronique</a></li>
+        <li role="presentation" class='dropdown {% if currentPath == "_t_o_sur_declaration_periodique_a_etablir" %}active{% endif %}  {% if currentPath == "_t_o_sur_declaration_realisees" %}active{% endif %}'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:#72a6c9;">Taxation d'office  <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ path('_t_o_sur_declaration_periodique_a_etablir') }}" style="background-color:#5c94b9;">A établir</a></li>
+                <li><a href="{{ path('_t_o_sur_declaration_realisees') }}" style="background-color:#5c94b9;">Réalisées</a></li>
+            </ul>
+        </li>
+        <li role="presentation" {% if currentPath == "_suivi_acompte" %}class="active"{% endif %}><a href="{{ path('_suivi_acompte') }}" style="background-color:#72a6c9">Suivi acompte</a></li>
+        {# <li role="presentation" {% if currentPath == "titre_perception" %}class="active"{% endif %}><a href="{{ path('titre_perception') }}" style="background-color:#72a6c9">Reste à Recouvrer</a></li> #}
+
+        <li role="presentation" class='dropdown {% if currentPath == "titre_perception" %}active{% endif %}  {% if currentPath == "rar_periode" %}active{% endif %} {% if currentPath == "rar_sans_periode" %}active{% endif %}'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:#72a6c9;">Reste A Recouvrer<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ path('titre_perception') }}" style="background-color:#5c94b9;">RAR titre perception</a></li>
+                <li><a href="{{ path('rar_periode') }}" style="background-color:#5c94b9;">RAR période</a></li>
+                <li><a href="{{ path('rar_sans_periode') }}" style="background-color:#5c94b9;">RAR sans période</a></li>
+            </ul>
+        </li>
+
+            {# <li role="presentation" class='dropdown {% if currentPath == "_gestion_des_communications_nouveau" %}active{% endif %}  {% if currentPath == "_gestion_des_communications" %}active{% endif %}'>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('_gestion_des_communications_nouveau') }}">Nouveau</a></li>
+                    <li><a href="{{ path('_gestion_des_communications') }}">Liste</a></li>
+                </ul>
+            </li>
+            
+            <li role="presentation" {% if currentPath == "_demande_de_redressement" %}class="active"{% endif %}><a href="{{ path('_demande_de_redressement') }}">Demande de redressement</a></li>
+            <li role="presentation" {% if currentPath == "annexe-tva_index" %}class="active"{% endif %}><a href="{{ path('annexe-tva_index') }}">Annexe TVA</a></li>
+            <li role="presentation" {% if currentPath == "suividossiers_index" %}class="active"{% endif %}><a href="{{ path('suividossiers_index') }}">Suivi dossiers physiques</a></li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Communications  <span class="caret"></span></a> #}
+        
+        {% if is_granted('ROLE_SYSTEM') %}
+            <li role="presentation" class='dropdown  {% if currentPath == "_dossiers" %}active{% endif %} {% if currentPath == "_dossiers" %}active{% endif %}'>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:#72a6c9;">SIGTAS database<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('affectation_gestionnaire') }}" style="background-color:#5c94b9;">DB répartition des contribuables par gestionnaire</a></li>
+                    <li><a href="{{ path('rar_periode') }}" style="background-color:#5c94b9;">List rar_periode</a></li>
+                    <li><a href="{{ path('rar_sans_periode') }}" style="background-color:#5c94b9;">List rar_sans_periode</a></li>
+                    <li><a href="{{ path('titre_perception') }}" style="background-color:#5c94b9;">List titre_perception</a></li>
+                </ul>
+            </li>
+            <li role="presentation" class='dropdown  {% if currentPath == "_dossiers" %}active{% endif %} {% if currentPath == "_dossiers" %}active{% endif %}'>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:#72a6c9;">SQVF database<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    {# <li><a href="{{ path('addDossiers') }}" style="background-color:#5c94b9;">DB -> DossiersSQVF</a></li>
+                    <li><a href="{{ path('create_exercicesverifies') }}" style="background-color:#5c94b9;">DB -> Exercices vérifiés</a></li>
+                    <li><a href="{{ path('create_verificationencours') }}" style="background-color:#5c94b9;">DB -> Vérifications en cours</a></li> #}
+                    <li><a href="{{ path('updateDossiers') }}" style="background-color:#5c94b9;">DB -> update DossiersSQVF</a></li>
+                    <li><a href="{{ path('update_exercicesverifies') }}" style="background-color:#5c94b9;">DB -> update Exercices vérifiés</a></li>
+                    <li><a href="{{ path('update_verificationencours') }}" style="background-color:#5c94b9;">DB -> update Vérifications en cours</a></li>
+                    <li><a href="{{ path('sqvfDossiersAnneeControle') }}" style="background-color:#5c94b9;">DB -> sqvf_dossiers_annee_controle</a></li>
+                    <li><a href="{{ path('sqvf_dossiers_annee_controle_montant') }}" style="background-color:#5c94b9;">DB -> Dossiers_annee_controle_montant</a></li>
+                    <li><a href="{{ path('sqvfDossiers') }}" style="background-color:#5c94b9;">DB -> sqvfDossiers</a></li>
+                    <li><a href="{{ path('sqvfDossiersAnneeControleMontant') }}" style="background-color:#5c94b9;">DB -> sqvf_dossiers_annee_controle_montant</a></li>
+                    <li><a href="{{ path('sqvfNif') }}" style="background-color:#5c94b9;">DB -> sqvf_nif</a></li>
+                    <li><a href="{{ path('sqvf_users_import') }}" style="background-color:#5c94b9;">DB -> userSQVF</a></li>
+                    <li><a href="{{ path('_documents_fichiers') }}" style="background-color:#5c94b9;">Documents_fichiers</a></li>
+                    <li><a href="{{ path('list_agent') }}" style="background-color:#5c94b9;">Agent vérificateur</a></li>
+                </ul>
+            </li>
+            <li role="presentation" class='dropdown  {% if currentPath == "_dossiers" %}active{% endif %} {% if currentPath == "_dossiers" %}active{% endif %}'>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:#72a6c9;">SQVF forms<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('dossiersList') }}" style="background-color:#5c94b9;">List - DossiersSQVF</a></li>
+                    <li><a href="{{ path('list_exercicesverifies') }}" style="background-color:#5c94b9;">List - Exercices vérifiés</a></li>
+                    <li><a href="{{ path('dossiers_annee_controle') }}" style="background-color:#5c94b9;">Liste Exercices vérifiés</a></li>
+                    <li><a href="{{ path('list_verificationencours') }}" style="background-color:#5c94b9;">List - Vérifications en cours</a></li>
+                    <li><a href="{{ path('sqvfDossiersList') }}" style="background-color:#5c94b9;">List - sqvfDossiers</a></li>
+                    <li><a href="{{ path('sqvf_dossiers_list') }}" style="background-color:#5c94b9;">List - sqvf_dossiers</a></li>
+                    <li><a href="{{ path('sqvfDossiersAnneeControleMontantList') }}" style="background-color:#5c94b9;">List - sqvf_dossiers_annee_controle_montant</a></li>
+                    <li><a href="{{ path('dossiers_annee_controle_montant') }}" style="background-color:#5c94b9;">Liste dossiers_annee_controle_montant</a></li>
+                    <li><a href="{{ path('sqvfNifList') }}" style="background-color:#5c94b9;">Liste des sqvf_nif</a></li>
+                    <li><a href="{{ path('list_agent') }}" style="background-color:#5c94b9;">Agent vérificateur</a></li>
+                    <li><a href="{{ path('list_sqvf_users') }}" style="background-color:#5c94b9;">Liste des utilisateurs</a></li>
+                    <li><a href="{{ path('list_userSQVF') }}" style="background-color:#5c94b9;">Liste des userSQVF</a></li>
+                    <li><a href="{{ path('list_sqvf_nif') }}" style="background-color:#5c94b9;">Liste des contribuables</a></li>
+                    <li><a href="{{ path('sqvfTruncate') }}" style="background-color:#5c94b9;">RàZ tables...</a></li>
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block avanzu_admin_footer %}
+    <footer class="main-footer">
+        {# <div class="pull-right hidden-xs">
+            <b>Version</b> 2.0
+        </div> #}
+        <strong>Copyright &copy; 2021 IDS Software.</strong> All rights reserved.
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://kit.fontawesome.com/7dea6a0c48.js"></script>
+    <script src="{{ asset('js/jquery.datetimepicker.full.js') }}"></script>
+    <script src="{{ asset('js/jquery.autocomplete.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    
+{% endblock %}

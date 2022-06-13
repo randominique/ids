@@ -1,0 +1,82 @@
+{% extends "base.html.twig" %}
+{% block title %}Réception de courrier{% endblock %}
+
+{% block page_title %}<h1 class="mytitle">Réception de courrier</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+	<div class="box box-primary">
+	    <div class="col-sm-6" style="">
+	        <div class="row">
+                <div class="col-sm-6" style="">
+	                <p>{{ form_row(form.nif) }}</p>
+	            </div>
+                <div class="col-sm-6" style="">
+                    <p>{{ form_row(form.raisonSocial) }}</p>                
+	            </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6" style="">
+                    <p>{{ form_row(form.priority) }}</p>
+                </div>
+                <div class="col-sm-6" style="">
+                    <p>{{ form_row(form.object) }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="">
+                    <p>{{ form_row(form.observation_content) }}</p>
+                    {{ form_rest(form) }}
+                </div>
+            </div>
+        </div>
+	    <div class="col-sm-6" style="">
+	        <p id='infobox'></p>
+	    </div>
+	</div>
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        
+        function getContribuable(nif) {
+            $.ajax({
+                url: "{{ path('_get_contribuable') }}" + '?nif='+nif, 
+                type: "GET",             
+                contentType: false,       
+                cache: false,            
+                processData:false,       
+                success: function(data)  
+                {                
+                    $('#infobox').html(data);
+                }
+            });
+        }
+        
+        $('#dbundle_entrant_nif').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_nif') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                $('#dbundle_entrant_raisonSocial').val(suggestion.data);
+                getContribuable(suggestion.value);
+            }
+        });
+
+        $('#dbundle_entrant_raisonSocial').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_rs') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                $('#dbundle_entrant_nif').val(suggestion.data);
+                getContribuable(suggestion.data);
+            }
+        });
+        
+        
+    </script>
+{% endblock %}

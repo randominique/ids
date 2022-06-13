@@ -1,0 +1,49 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Profil utilisateur{% endblock %}
+
+{% block page_title %}<h1 class="mytitle">Profil utilisateur</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+{% trans_default_domain 'FOSUserBundle' %}
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-3">
+            {{form_row(form.im)}}
+        </div>
+        <div class="col-md-3">
+            {{form_row(form.nom)}}
+        </div>
+        <div class="col-md-3">
+            {{form_row(form.prenom)}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            {{form_row(form.username)}}
+        </div>
+        <div class="col-md-3">
+            {{form_row(form.email)}}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.telephone, {label: 'Téléphone'}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            {{form_row(form.corps)}}
+        </div>
+        <div class="col-md-3">
+            {{form_row(form.service)}}
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="{{ 'profile.edit.submit'|trans }}" class="btn btn-primary pull-left" style="width:120px;margin-left:4px;" />
+        <div class="row">
+            <a class="btn btn-primary pull-left" style="width:120px;margin-left:4px;" href="{{ path('users_password') }}">Mot de passe</a>
+        </div>
+    </div>
+        {{ form_end(form) }}
+{% endblock %}
+

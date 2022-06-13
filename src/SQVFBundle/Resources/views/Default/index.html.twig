@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Dossiers_list{% endblock %}
+
+{% block page_title %}
+  <h1 class="mytitle">Dossiers SQVF</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+<div class="box box-primary">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>id</th>	
+        <th>idUser</th>	
+        <th>idCentreFiscal</th>	
+        <th>idTypeNotification</th>	
+        <th>idNotificationRedressement</th>	
+        <th>idNotificationDefinitive</th>	
+        <th>nif</th>	
+        <th>uniqid</th>	
+        <th>typeControle</th>	
+        <th>dateDebutOperation</th>	
+        <th>dateCreation</th>	
+        <th>dateDebutIntervention</th>	
+        <th>dateFinIntervention</th>	
+        <th>etapeCourante</th>	
+        <th>archive</th>	
+        <th>newUniqid</th>	
+        <th>createTime</th>	
+        <th>updateTime</th>	
+      </tr>
+    </thead>
+    <tbody>
+      {% for dossier in dossiers %}																								
+        <tr>
+          <td>{{ dossier.id|number_format(0,',',' ') }}</td>
+          <td>{{ dossier.idUser }}</td>
+          <td>{{ dossier.idCentreFiscal }}</td>
+          <td>{{ dossier.idTypeNotification }}</td>
+          <td>{{ dossier.idNotificationRedressement }}</td>
+          <td>{{ dossier.idNotificationDefinitive }}</td>
+          <td>{{ dossier.nif }}</td>
+          <td>{{ dossier.uniqid }}</td>
+          <td>{{ dossier.typeControle }}</td>
+          {# <td>{{ dossier.dateDebutOperation }}</td>
+          <td>{{ dossier.dateCreation }}</td>
+          <td>{{ dossier.dateDebutIntervention }}</td>
+          <td>{{ dossier.dateFinIntervention }}</td> #}
+          <td>{{ dossier.etapeCourante }}</td>
+          <td>{{ dossier.archive }}</td>
+          <td>{{ dossier.newUniqid }}</td>
+          {# <td>{{ dossier.createTime }}</td>
+          <td>{{ dossier.updateTime }}</td> #}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+# sqvf_documents_fichiers:
+#     resource: "@SQVFBundle/Controller/DocumentsFichiersController.php"
+#     type:     annotation
+
+d:
+    resource: "@DBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# sqvf:
+#     resource: "@SQVFBundle/Resources/config/routing.yml"
+#     prefix:   /
+
+sigtas_rar.sans.periode:
+    resource: "@SIGTASBundle/Controller/RAR_SANS_PERIODEController.php"
+    type:     annotation
+
+sigtas_rar.periode:
+    resource: "@SIGTASBundle/Controller/RAR_PERIODEController.php"
+    type:     annotation
+
+d_annexe_tva:
+    resource: "@DBundle/Controller/AnnexeTvaController.php"
+    type:     annotation
+
+d_suivi_dossiers:
+    resource: "@DBundle/Controller/SuiviDossiersController.php"
+    type:     annotation
+
+sigtas:
+    resource: "@SIGTASBundle/Resources/config/routing.yml"
+    prefix:   /sigtas
+
+nif:
+    resource: "@NIFBundle/Resources/config/routing.yml"
+    prefix:   /nif
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+avanzu_admin:
+    prefix: / 
+    resource: "@AvanzuAdminThemeBundle/Resources/config/routes.yml"
+
+avanzu_admin_home:
+  path: /home
+  defaults: {_controller: DBundle:CourierEntrant:List }
+  options:
+    avanzu_admin_route: accueil

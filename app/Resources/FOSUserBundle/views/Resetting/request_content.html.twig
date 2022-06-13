@@ -1,0 +1,20 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<div class="container-login">
+    <div class="request-form">
+
+        <h2><i class="fas fa-key"></i> Mot de passe oublié?</h2>
+
+        <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+            <p class="help">Veuillez entrer votre nom d'utilisateur ou votre adresse e-mail.</p>
+            <div>
+                <input type="text" id="username" name="username" required="required" class="input" placeholder="Nom d'utilisateur ou e-mail"/>
+            </div>
+            <div>
+                <input type="submit" value="Valider" class="submit" />
+            </div>
+
+            <p class="login-link"><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></p>
+
+        </form>
+    </div>
+</div>

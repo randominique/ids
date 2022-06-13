@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+{% block title %}Communications{% endblock %}
+
+{% block page_title %}
+    <h1 class="mytitle">Liste des Communications</h1>
+{% endblock %}
+
+{% block page_subtitle %}{% endblock %}
+
+{% block body %}
+    {% block page_content %}
+        <div class="box box-primary" style="overflow-x:auto;min-height:1000px;">
+            <div id="search">
+                <form class="form-inline pull-left" method="GET">
+                    <div class="form-group">
+					    <input name="date_du" type="text" class="form-control" id="date_timepicker_start" autocomplete='off' {% if date_du %}value="{{ date_du }}"{% endif %} placeholder="Date du" style="width:120px;margin:0px;">
+                    </div>
+                    <div class="form-group">
+    					<input name="date_au" type="text" class="form-control" id="date_timepicker_end" autocomplete='off' {% if date_au %}value="{{ date_au }}"{% endif %} placeholder="Date au" style="width:120px;margin:0px;">
+                    </div>
+                    <div class="form-group">
+    					<input name="nif" type="text" class="form-control" id="nifFilter" autocomplete='off' {% if nifFilter %}value="{{ nifFilter }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+                    </div>
+                    <div class="form-group">
+    					<input name="rs" type="text" class="form-control" id="rsFilter" autocomplete='off' {% if rsFilter %}value="{{ rsFilter }}"{% endif %} placeholder="Raison Sociale" style="width:400px;margin-left:0px;">
+                    </div>
+                    <a class = "btn btn-primary" style="width:120px;margin:0px;" href="{{ path('communication_new') }}">Nouveau</a>
+                    <button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
+                    <a href="{{ path('communication_index') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a>
+                    <a href="{{path('communication_to_pdf',{'page':communications.getCurrentPageNumber})}}" class="btn btn-primary pull-right" role="button" style="width:120px;margin-left:4px;">Imprimer</a>
+                    <a href="{{path('communication_to_excel',{'page':communications.getCurrentPageNumber})}}" class="btn btn-primary pull-right" role="button" style="width:120px;margin-left:4px;">Exporter</a>
+                </form>
+            </div>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Numéro</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>N.I.F.</th>
+                        <th>Raison sociale</th>
+                        {# <th>Contact</th> #}
+                        <th>Objet</th>
+                        <th>Résolutions</th>
+                        {# <th>Utilisateur</th> #}
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for communication in communications %}
+                    <tr>
+                        {# <td><a href="{{ path('communication_show', { 'id': communication.id }) }}">{{ communication.id }}</a></td> #}
+                        <td style="text-align:center">{{ communication.id }}</td>
+                        {# <td>{% if communication.createdAt %}{{ communication.createdAt|date('d-m-Y H:i:s') }}{% endif %}</td> #}
+                        <td>{% if communication.createdAt %}{{ communication.createdAt|date('d-m-Y') }}{% endif %}</td>
+                        <td>{{ communication.typecommunication }}</td>
+                        <td>{{ communication.nif|number_format(0,',',' ') }}</td>
+                        <td>{{ communication.rs }}</td>
+                        {# <td>{{ communication.contact }}</td> #}
+                        <td>{{ communication.objet }}</td>
+                        <td>{{ communication.resolutions }}</td>
+                        {# <td>{{ communication.utilisateur }}</td> #}
+                        <td>
+                            <a href="{{ path('communication_edit', { 'id': communication.id }) }}" class="fas fa-eye"> Voir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+			{{ knp_pagination_render(communications) }}
+		</div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    	$('#nifFilter').autocomplete({
+	        source: "{{ path('_com_autocomple_nif') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+	            $('#rsFilter').val(ui.item.raisonSoncial);
+	            setTimeout(function(){
+	             $('#nifFilter').val(ui.item.thisNif);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+		$('#rsFilter').autocomplete({
+	        source: "{{ path('_com_autocomple_rs') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+	            
+				$('#nifFilter').val(ui.item.thisNif);
+	            setTimeout(function(){
+	             $('#rsFilter').val(ui.item.raisonSoncial);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+    </script>
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    </script>
+{% endblock %}

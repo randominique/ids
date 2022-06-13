@@ -1,0 +1,32 @@
+
+<div class="box box-primary">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr style="font-weight:bold">
+                
+                    <th><strong>Raison sociale</strong></th>
+                    <th><strong>
+                        Nom Commercial</strong>
+                    </th>
+                    <th>Acompte dû</th>
+                    <th>Acompte déjà payé</th>
+                    <th>Restant</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            {% for acompte in acomptes %}
+                <tr>
+                    <td>{{ acompte.nif }}</td>
+                    <td>{% if acompte.rs %}
+                            {{ acompte.rs }}
+                        {% endif %}
+                    </td>
+                    <td>{{ acompte.penBalance }}</td>
+                    <td>{{ acompte.openingTax }}</td>
+                    <td>{{ acompte.taxBalance }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </div>
+        

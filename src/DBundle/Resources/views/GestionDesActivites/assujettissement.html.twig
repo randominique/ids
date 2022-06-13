@@ -1,0 +1,141 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Assujettissement{% endblock %}
+
+{% block page_title %}<h1 class="mytitle" style="text-align:center;background-color:#0085a6;color:white;font-size:20px;padding:5px;">Assujettissement</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+    {{ parent() }}
+    <div class="box box-primary">
+        <div id="search">
+            <form class="form-inline" method="GET">
+                <div class="form-group">
+                    <input name="nif" type="text" class="form-control" id="nifFilter" autocomplete='off' {% if nifFilter %}value="{{ nifFilter }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+                </div>
+                <div class="form-group">
+                    <input name="rs" type="text" class="form-control" id="rsFilter" autocomplete='off' {% if rsFilter %}value="{{ rsFilter }}"{% endif %} placeholder="Raison Sociale" style="width:450px;margin-left:0px;">
+                </div>
+                <div class="form-group">
+                    <select name="typeImpot" class="form-control" style="width:300px;margin-left:11px;">
+                        <option selected disabled value = "" >Type d'impôts</option>
+                        {% for taxType in taxTypes %}
+                            <option value = {{ taxType.id }}>
+                                {{ taxType.taxTypeDesc }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {# <div class="form-group">
+                {{ taxTypeDesc }}
+                </div> #}
+                {% if taxType is defined %}
+                    {# {{ taxtype }}.' '.$typeImpot #}
+                    {# <a href="{{path('assujettissementpdf',{'typeImpot':taxtype})}}" class="btn btn-primary pull-right" role="button" style="
+                    width:120px;margin-left:4px;">Imprimer</a> #}
+                    <button type="submit" class="btn-link"><span class="fa fa-search" style="font-size:28px" title="Rechercher"></span></button>						
+                    <a href="{{ path('_assujettissement') }}" class="btn-link"><span class="fa fa-trash-o" style="font-size:28px;color:black" title="initialiser filtres"> </span></a>
+                {% else %}
+                    {{assessments.getCurrentPageNumber}}
+                    <button type="submit" class="btn-link"><span class="fa fa-search" style="font-size:28px" title="Rechercher"></span></button>						
+                    <a href="{{ path('_assujettissement') }}" class="btn-link"><span class="fa fa-trash-o" style="font-size:28px;color:black" title="initialiser filtres"> </span></a>
+                    {% if is_granted('ROLE_SYSTEM') %}
+                        <a>  </a>
+                        <a href="{{path('_assujettissement_excel')}}" class="btn-link"><span class="fa fa-file-excel" style="font-size:28px;color:green" title="Exporter vers EXCEL"></span></a>
+                        <a>   </a>
+                        <a href="">Nbre enreg. : {{ dossierCount }}</a>
+                    {% endif %}
+                {% endif %}
+            </form>
+        </div>
+    {# <div class="col-lg-12"> #}
+        <div class="navigation">
+            {{ knp_pagination_render(assessments) }}
+        </div>
+    {# </div> #}
+    <div style="overflow-x:auto;">
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>NIF</th>
+                    <th>Raison Sociale</th>
+                    <th>Type d'impôt</th>
+                    <th>Libellé Type d'impôt</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for assessment in assessments %}
+                <tr>
+                   <td>{{ assessment.nif|number_format(0,',',' ') }}</td>
+                   <td>{{ assessment.rs }}</td>
+                   <td>{{ assessment.taxTypeNo }}</td>
+                   <td>{{ assessment.taxTypeDesc }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format: 'M yy',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    </script>
+    <script>
+    	$('#nifFilter').autocomplete({
+	        source: "{{ path('_autocomplete_nif4') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+            $('#rsFilter').val(ui.item.raisonSoncial);
+            setTimeout(function(){
+              $('#nifFilter').val(ui.item.thisNif);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+		$('#rsFilter').autocomplete({
+	        source: "{{ path('_autocomplete_rs4') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+    				$('#nifFilter').val(ui.item.thisNif);
+            setTimeout(function(){
+              $('#rsFilter').val(ui.item.raisonSoncial);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+    </script>
+{% endblock %}

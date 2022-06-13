@@ -1,0 +1,24 @@
+{% set currentPath = app.request.attributes.get('_route') %}
+{% extends 'AvanzuAdminThemeBundle:layout:base-layoutPdf.html.twig' %}
+{% block stylesheets %}
+   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.0/Chart.min.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('css/jquery.datetimepicker.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+{% endblock %}
+
+{% block avanzu_admin_footer %}
+    <footer class="main-footer">
+      
+        <strong>Copyright &copy; 2021 IDS.</strong> All rights reserved.
+    </footer>
+{% endblock %}
+{% block entete %}
+<div >
+    <img class="imageLeft" src="http://127.0.0.1:8000/images/logo-mfb.png"/>
+    
+    <img class="float-right" style="float: right;"src="http://127.0.0.1:8000/images/logo-dgi-2017.png"/>
+    <center><h3>Gestion des activités de la Direction des Grandes Entreprises</h3></center>
+</div>
+{% endblock %}

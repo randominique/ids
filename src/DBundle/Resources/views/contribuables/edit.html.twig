@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contribuables{% endblock %}
+
+{% block page_title %}<h1 class="mytitle">Affectation des contribuables par gestionnaire</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block body %}
+    <h1>Contribuable edit</h1>
+    {% block page_content %}
+        {{ form_start(edit_form) }}
+        <div class="row">
+            <div class="col-md-2" style="width:150px">
+                {{form_row(edit_form.nif)}}
+            </div>
+            <div class="col-md-2" style="width:500px">
+                {{form_row(edit_form.raisonSociale)}}
+            </div>
+            <div class="col-md-2" style="width:500px">
+                {{form_row(edit_form.adresse)}}
+            </div>
+            <div class="col-md-4" style="width:350px">
+                {{form_row(edit_form.gestionnaire)}}
+            </div>
+            </br>
+            <div>
+                <input type="submit" value="Valider" class="btn btn-primary" style="width:120px"/>
+            </div>
+                {{ form_end(edit_form) }}
+    {% endblock %}    
+{% endblock %}

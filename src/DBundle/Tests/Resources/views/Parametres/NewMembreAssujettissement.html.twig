@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+{% block title %}Ajout taxe{% endblock %}
+
+{% block page_title %}Ajout taxe{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+    <div class="box box-primary">
+
+        {% for message in app.flashes('error') %}
+            <p class="alert alert-danger">
+                {{ message }}
+            </p>
+        {% endfor %}
+
+        {{ form_start(form) }}
+        {{ form_row(form.taxTypeNo, {label: 'Nom du taxe'}) }}
+        <a href="{{ path('show_assujettissement_setting', {'taxe': taxe.id}) }}" class="btn btn-default pull-right">Retour à la liste</a>
+        <button class="btn btn-primary">Ajouter</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

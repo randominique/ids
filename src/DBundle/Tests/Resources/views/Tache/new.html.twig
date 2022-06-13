@@ -1,0 +1,70 @@
+{% extends "base.html.twig" %}
+{% block title %}Ajout tache{% endblock %}
+
+{% block page_title %}Ajout tache{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+	<div class="box box-primary">
+	    <div class="row">
+	        <div class="col-sm-6" >
+                <p>{{ form_start(form) }}</p>
+                {#
+                <p>{{ form_row(form.priority) }}</p>                
+                <p>{{ form_row(form.object) }}</p>                
+                {{ form(assigne_form)}}
+                    {{ form(formulaire_observation)}}#}
+                <p>{{ form_rest(form) }}</p>                
+                <p>{{ form_row(form.observationContent) }}</p>  
+                <p>{{ form_end(form) }}</p>
+	        </div>
+	        <div class="col-sm-6">
+	            <p id='infobox'></p>
+	        </div>
+	    </div>
+	</div>    
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {#{{ parent() }}
+    <script>
+        
+        function getContribuable(nif) {
+            $.ajax({
+                url: "{{ path('_get_contribuable') }}" + '?nif='+nif, 
+                type: "GET",             
+                contentType: false,       
+                cache: false,            
+                processData:false,       
+                success: function(data)  
+                {                
+                    $('#infobox').html(data);
+                }
+            });
+        }
+        
+        $('#dbundle_tache_nif').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_nif') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                $('#dbundle_tache_raisonSocial').val(suggestion.data);
+                getContribuable(suggestion.value);
+            }
+        });
+
+        $('#dbundle_tache_raisonSocial').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_rs') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                $('#dbundle_tache_nif').val(suggestion.data);
+                getContribuable(suggestion.data);
+            }
+        });
+        
+        
+    </script>#}
+{% endblock %}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head> 
+<body>
+	<div class="box box-primary">
+		<div style="text-align:center;">
+			<h3 style="font-size:16px;">Courriers entrants</h3>
+		</div>
+		<table class="table table table-dark">
+			<thead>
+					<tr style="background-color: #f9f9f9;">
+						<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 11px;width:30px">N°</th>	
+						<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 11px;width:60px">N.I.F</th>
+						<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 11px;width:290px">Raison sociale</th>
+						<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 11px;width:80px">Objet</th>
+						<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 11px;width:180px">Commentaires</th>
+						<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 11px;width:50px">reçu le</th>
+						<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 11px;width:60px">Dern. mvt</th>
+						<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 11px;width:35px">Etat</th>
+					</tr>
+			</thead>
+			<tbody>		
+				{% for courrier in courriers %}
+						<tr>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;padding-top:8px;padding-bottom:8px !important;width:30px">{{ courrier.numeroCourrier }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;padding-top:8px;padding-bottom:8px !important;width:60px">{{ courrier.nif|number_format(0,',',' ') }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;padding-top:8px;padding-bottom:8px !important;width:290px">{{ courrier.raisonSocial }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;padding-top:8px;padding-bottom:8px !important;width:80px">{{ courrier.objet }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;padding-top:8px;padding-bottom:8px !important;width:180px">{{ courrier.commentaires }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;padding-top:8px;padding-bottom:8px !important;width:50px">{{ courrier.createdAt | date('d/m/Y')}}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;padding-top:8px;padding-bottom:8px !important;width:60px;text-align:center">
+								{% if courrier.delegationDate %}
+									{{ courrier.delegationDate | date('d/m/Y H:i:s')}}
+								{% else %}
+									-
+								{% endif %}
+							</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;padding-top:8px;padding-bottom:8px !important;width:35px">{{ courrier.status }}</td>
+						</tr>			
+				
+				{%  endfor %}	
+			</tbody>
+		</table>
+			{% if courriers.getTotalItemCount == 0 %}
+				<p class="padding">Vide</p>
+			{% endif %}
+	</div>
+</body>
+</html>

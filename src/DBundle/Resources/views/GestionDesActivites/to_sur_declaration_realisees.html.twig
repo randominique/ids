@@ -1,0 +1,149 @@
+{% extends "::base.html.twig" %}
+{% block title %}Taxations d'office - réalisées{% endblock %}
+{% block page_title %}<h1 class="mytitle"  style="text-align:center;background-color:#0085a6;
+color:white;font-size:20px;padding:5px;">Taxations d'office réalisées</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+{% block page_content %}
+    {{ parent() }}
+    <div class="box box-primary">
+        <div id="search">
+            <form class="form-inline pull-left" method="GET">
+                <div class="form-group">
+                    <input name="nif" type="text" class="form-control" id="" {% if nif %}value="{{ nif }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+                </div>
+                {# <div class="form-group">
+                    <input name="rs" type="text" class="form-control" id="" {% if rs %}value="{{ rs }}"{% endif %} placeholder="Raison sociale" style="width:250px;margin-left:0px;">
+                </div> #}
+                <div class="form-group">
+                    <select name="typeImpot" class="form-control" style="width:300px;margin-left:11px;">
+                        <option selected disabled value = "" >Type d'impôts
+                        </option>
+                        {% for taxType in taxTypes %}
+                            <option value = {{ taxType.id }}>
+                                {{ taxType.taxTypeDesc }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% if taxType is defined %}
+                {{ taxType }}
+                {# {{ taxtype }}.' '.$typeImpot #}
+                    <a href="{{path('TPpdf',{'typeImpot':taxtype})}}" class="btn btn-primary pull-right" role="button" style="
+                    width:120px;margin-left:4px;">Imprimer</a>
+                    <a href="{{path('_t_o_sur_declaration_realisees')}}" class="btn btn-primary pull-right" style="width:120px;margin-left:4px;">Réinitialiser</a>
+                    <button type="submit" class="btn btn-primary pull-right" style="width:120px;margin-left:4px;">Rechercher</button>
+                {% else %}
+                    {# {{taxationoffice.getCurrentPageNumber}} #}
+                    <button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
+                    <a href="_t_o_sur_declaration_realisees" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a>
+                    {# <a href="{{path('_t_o_sur_declaration_realiseespdf',{'page':assessments.getCurrentPageNumber})}}" class="btn btn-primary" role="button" style="width:120px;margin-left:0px;">Imprimer</a> #}
+                {% endif %}
+
+                {# <div class="form-group">
+                    <select class="form-control">
+                        <option selected>Secteur d'activité</option>
+                        {% for sectorAct in sectorActs %}
+                            <option> {{sectorAct.sectorActDesc}}</option>
+                        {% endfor %}
+                    </select>
+                </div> #}
+
+                {# <div class="form-group">
+                    <select name="gestionnaire" class="form-control" id="Gestionnaire"> 
+                        <option selected value="" disabled selected >Gestionnaire</option>
+                        {% for user in usersService %}
+                            <option value = {{ user.id }}>
+                                <i>{{ user.corps }} -</i> 
+                                <h6>{{ user.nom }}{{ user.prenom }}</h6>
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div> #}
+                {# <button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
+                <a href="{{ path('_t_o_sur_declaration_realisees') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a>
+                <a href="" class="btn btn-primary pull-right" role="button" style="width:120px;margin-left:4px;">Imprimer</a> #}
+            </form>
+            <span class="clearfix"></span>
+        </div>
+
+        {# pagination #}
+        {# <table class="table table-striped table-hover"> #}
+        <table id="torealisees" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>NIF</th>
+                    <th>Raison Sociale</th>
+                    <th>Impôts</th>
+                    {# <th>Reception TO</th> #}
+                    <th>Année</th>
+                    <th>Mois</th>
+                    <th style="text-align:right">Montant</th>
+                    {#
+                        <th>Secteur activité</th>
+                        <th>AssessNo</th>
+                        <th>Nom</th>
+                        <th>Taxe type</th>
+                    <th>Taxe periode annee</th>
+                    <th>Taxe periode mois</th>
+                    <th>Date</th>
+                    #}
+                </tr>
+            </thead>
+            <tbody>
+            {# {% for tOffice in pagination %}
+                <tr>
+                    <td>{{ tOffice.nif }}</td>
+                    <td>{{ tOffice.rs }}</td>
+                    <td>{{ tOffice.taxTypeDescF }}</td>
+                    <td>{{ tOffice.tperYear }}</td>
+                    <td>{{ tOffice.tperMonth }}</td>
+                    <td style="text-align:right">{{ tOffice.taxe | number_format(0,',','.') }}</td>
+                </tr>
+            {% endfor %} #}
+            {% for assessment in assessments %}
+                <tr>
+                    <td>{{ assessment.nif|number_format(0,',',' ') }}</td>
+                    <td>{{ assessment.rs }}</td>
+                    {# <td>{{ assessment.taxTypeNo }}</td> #}
+                    <td>{{ assessment.taxTypeDescF }}</td>
+                    <td>{{ assessment.tperYear }}</td>
+                    <td>{{ assessment.tperMonth }}</td>
+                    <td style="text-align:right">{{ assessment.taxe | number_format(0,',','.') }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+            
+        <div class="navigation">
+            {{ knp_pagination_render(assessments) }}
+        </div>
+        
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            $('#torealisees').DataTable( {
+                "oLanguage": {
+                "pagingType": "full_numbers",
+                "sLengthMenu": "groupe _MENU_ ",
+            },
+            "order": [[ 0, "desc" ]],
+            "lengthChange": false,
+            "pageLength": 15,
+                "bInfo" : false,
+            } );
+        } );
+    </script>
+{% endblock %}

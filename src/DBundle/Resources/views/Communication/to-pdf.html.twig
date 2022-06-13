@@ -1,0 +1,33 @@
+{% block page_content %}
+        <div style="text-align:center;">
+		    <h3 style="font-size:16px;">Communications</h3>
+	    </div>
+        <div>            
+            <table>
+                <thead>
+                    <tr style="background-color: #f9f9f9;">
+                        <th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Numéro</th>
+                        <th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Date</th>
+                        <th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Type</th>
+                        <th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">N.I.F.</th>
+                        <th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Raison sociale</th>                        
+                        <th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Objet</th>
+                        <th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Commentaires</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for communication in communications %}
+                    <tr>                        
+                        <td style="border-size:0.2px;border-style:solid;border-color:black;">{{ communication.id }}</td>                        
+                        <td style="border-size:0.2px;border-style:solid;border-color:black;">{% if communication.createdAt %}{{ communication.createdAt|date('d-m-Y') }}{% endif %}</td>
+                        <td style="border-size:0.2px;border-style:solid;border-color:black;">{{ communication.typecommunication }}</td>
+                        <td style="border-size:0.2px;border-style:solid;border-color:black;">{{ communication.nif|number_format(0,',',' ') }}</td>
+                        <td style="border-size:0.2px;border-style:solid;border-color:black;">{{ communication.rs }}</td>                        
+                        <td style="border-size:0.2px;border-style:solid;border-color:black;">{{ communication.objet }}</td>
+                        <td style="border-size:0.2px;border-style:solid;border-color:black;">{{ communication.commentaires }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>            
+        </div>
+    {% endblock %}

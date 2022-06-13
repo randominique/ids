@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contribuables list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nif</th>
+                <th>Taxpayerno</th>
+                <th>Raisonsociale</th>
+                <th>Nomcommercial</th>
+                <th>Adresse</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Regimefiscal</th>
+                <th>Secteuractivite</th>
+                <th>Nomdirigeant</th>
+                <th>Datecreation</th>
+                <th>Datearriveedge</th>
+                <th>Exercicefiscaldebut</th>
+                <th>Exercicefiscalfin</th>
+                <th>Gestionnaire</th>
+                <th>Inactifdate</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contribuable in contribuables %}
+            <tr>
+                <td><a href="{{ path('contribuables_show', { 'id': contribuable.id }) }}">{{ contribuable.id }}</a></td>
+                <td>{{ contribuable.nif }}</td>
+                <td>{{ contribuable.taxpayerNo }}</td>
+                <td>{{ contribuable.raisonSociale }}</td>
+                <td>{{ contribuable.nomCommercial }}</td>
+                <td>{{ contribuable.adresse }}</td>
+                <td>{{ contribuable.email }}</td>
+                <td>{{ contribuable.telephone }}</td>
+                <td>{{ contribuable.regimeFiscal }}</td>
+                <td>{{ contribuable.secteurActivite }}</td>
+                <td>{{ contribuable.nomDirigeant }}</td>
+                <td>{% if contribuable.dateCreation %}{{ contribuable.dateCreation|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if contribuable.dateArriveeDGE %}{{ contribuable.dateArriveeDGE|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ contribuable.exerciceFiscalDebut }}</td>
+                <td>{{ contribuable.exerciceFiscalFin }}</td>
+                <td>{{ contribuable.gestionnaire }}</td>
+                <td>{% if contribuable.inactifDate %}{{ contribuable.inactifDate|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('contribuables_show', { 'id': contribuable.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('contribuables_edit', { 'id': contribuable.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('contribuables_new') }}">Create a new contribuable</a>
+        </li>
+    </ul>
+{% endblock %}

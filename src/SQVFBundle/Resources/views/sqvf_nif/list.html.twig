@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block page_title %}
+  <h1 class="mytitle">Liste des contribuables</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+  <div class="box box-primary">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>id</th>	
+          <th>Numero</th>	
+          <th>raisonSociale</th>	
+          <th>adresse</th>	
+          <th>activite</th>	
+          <th>centreGestionnaire</th>	
+          <th>codeBureau</th>	
+        </tr>
+      </thead>
+      <tbody>
+        {% for nif in nifs %}																								
+          <tr>
+            <td>{{ nif.id|number_format(0,',',' ') }}</td>
+            <td>{{ nif.Numero|number_format(0,',',' ') }}</td>
+            <td>{{ nif.raisonSociale }}</td>
+            <td>{{ nif.adresse }}</td>
+            <td>{{ nif.activite }}</td>
+            <td>{{ nif.centreGestionnaire }}</td>
+            <td>{{ nif.codeBureau }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}

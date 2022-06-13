@@ -1,0 +1,104 @@
+{% extends "base.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block title %}Nouvelle communication{% endblock %}
+
+{% block page_title %}
+    <h1 class="mytitle">Nouvelle communication</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+    <div class="box box-primary">
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-2" >
+                {{form_row(form.typecommunication)}}
+            </div>
+            <div class="col-md-2">
+                {{form_row(form.nif)}}
+            </div>
+            <div class="col-md-3">
+                {{form_row(form.rs)}}
+            </div>
+            <div class="col-md-2" >
+                {{form_row(form.contact)}}
+            </div>
+            <div class="col-md-2" >
+                {{form_row(form.interlocuteur)}}
+            </div>
+        </div>
+            {{ form_widget(form) }}
+            <a class="button btn btn-primary pull-left" style="width:120px;margin:2px;" href="{{ path('communication_index') }}">Annuler</a>
+            <input class="button btn btn-primary pull-left" style="width:120px;margin:2px;" type="submit" value="Enregistrer" />
+            {{ form_end(form) }}
+    </div>    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).on('change', ".seeAnotherField", function(){
+            if ($(this).val() == "AUTRES") {
+                $('.otherField').show();
+                //$('#otherField').attr('required', '');
+                //$('#otherField').attr('data-error', 'Ce champ est requis');
+            } else {
+                $('.otherField').hide();
+                //$('#otherField').removeAttr('required');
+                //$('#otherField').removeAttr('data-error');
+            }
+        });
+        $(".seeAnotherField").trigger("change");
+        
+        function getContribuable(nif) {
+            $.ajax({
+                url: "{{ path('_get_contribuable') }}" + '?nif='+nif, 
+                type: "GET",             
+                contentType: false,       
+                cache: false,            
+                processData:false,       
+                success: function(data)  
+                {                
+                    $('#infobox').html(data);
+                }
+            });
+        }
+        
+        function getContribuable(rs) {
+            $.ajax({
+                url: "{{ path('_get_contribuable') }}" + '?rs='+rs, 
+                type: "GET",             
+                contentType: false,       
+                cache: false,            
+                processData:false,       
+                success: function(data)  
+                {                
+                    $('#infobox').html(data);
+                }
+            });
+        }
+        
+        $('#dbundle_communication_nif').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_nif') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                $('#dbundle_communication_rs').val(suggestion.data);
+                getContribuable(suggestion.value);
+            }
+        });
+
+        $('#dbundle_communication_rs').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_rs') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                $('#dbundle_communication_nif').val(suggestion.data);
+                getContribuable(suggestion.data);
+            }
+        });
+        
+        
+    </script>
+{% endblock %}

@@ -1,0 +1,131 @@
+form{
+    padding: 2px;
+}
+
+#entete{
+    font-size: 20px !important;
+    text-align: center !important;
+    color: rgb(0, 128, 0) !important;
+    margin: 0 !important;
+    margin-bottom: 30px !important;
+    padding: 15px !important;
+}
+
+#logo
+{
+    text-align: center;
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+    /* color: rgb(0, 128, 0) !important; sans impact */
+}
+
+.logo
+{
+    padding: 15px !important;
+    font-size: 15px !important;
+    line-height: 15px !important;
+    /* color: rgb(0, 128, 0) !important;  sans impact */
+}
+
+.imageLeft
+{
+    float: left;
+}
+.imageRight
+{
+    float: right;
+}
+.padding{
+    padding: 5px;
+}
+
+.titlesoft
+{
+    text-align: center;
+    background-color:#00a65a;
+    color:white;
+    font-size:15px !important;
+    margin-top:0px !important;
+    margin-bottom: 0px !important;
+    padding: 0px !important;
+    line-height: 50px !important;
+}
+
+.spacer{
+    margin-right: 15px !important;
+}
+
+
+#infos-contribuable p span{
+    display: inline-block;
+    width: 200px;
+    font-size: 13px !important;
+    font-weight: bold;
+}
+
+.ui-menu .ui-menu-item{
+    padding: 5px 15px;
+}
+
+/* autocomplete suggestion */ 
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+.padding
+{
+    padding: 5px;
+}
+
+.mytitle
+{
+    text-align: center;
+    background-color:#0085a6 !important;
+    color:white;
+    font-size:20px !important;
+    padding:8px;
+}
+
+.subtitle
+{
+    text-align: center;
+    background-color:#0098a6 !important;
+    color:white;
+    font-size:17px !important;
+    padding:5px;
+}
+
+.btn-filtre
+{
+    font-size: small;
+    padding: 3px 5px;
+    line-height: normal;
+}
+ul.dropdown-menu{
+    background-color: #d1d3d6;
+}
+ul.dropdown-menu > li > a {
+    color: #000;
+}
+ul.dropdown-menu > li > a:hover {
+    color: #fff !important;
+}
+
+/* .barre-menu
+{
+    text-align: center;
+    background-color:#18c9f6 !important;
+    color:white;
+    font-size:18px !important;
+    padding:8px;
+}
+ */
+.stat-details
+{
+    text-align: center;
+    font-size:18px !important;
+    width:140px;
+}

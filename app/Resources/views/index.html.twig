@@ -1,0 +1,243 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block page_title %}<h1 class="mytitle"  style="text-align:center;background-color:#0085a6;color:white;font-size:20px;padding:5px;">Tableau de bord</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+    
+    <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('contribuables') }}" style="color:blue;">
+                <div class="info-box mb-0 pb-0">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Contribuables</span>
+                        <span class="info-box-number">{{ clients_nif }}</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+                {#}
+                <div class="info-box">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <span class="info-box-text">Déclaration dépot </span>
+                            </td><td>
+                                <span class="info-box-number">{{ depot }} </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="info-box-text">Taxation d'office établis</span>
+                            </td><td>
+                                <span class="info-box-number">{{ to_etablis }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="info-box-text">Taxation d'office à établir</span></td>
+                            <td><span class="info-box-number">{{ to_a_etablir }}</span></td>
+                            
+                        </tr>
+                    </table>
+                </div>
+                #}
+            </a>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('list_entrant') }}" style="color:black;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="fa fa-envelope-o"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Courriers entrants</span>
+                        <span class="info-box-number">{{ courrierEntrant }}</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </a>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('_list_sortant') }}" style="color:black;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="fa fa-envelope-o"></i></span>
+                    <div class="info-box-content">
+                    <span class="info-box-text">Courriers Sortants</span>
+                    <span class="info-box-number">{{ courrier_sortant }}</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </a>
+        </div>
+
+    </div>    
+    
+    <div class="row">
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    {# <h3 class="box-title" style="text-align:center">Contribuables par secteur d'activité</h3> #}
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <canvas id="pie-chart" width="800" height="850"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('stat_entrant_cat') }}" class="box-title" style="color:blue;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-envelope-o"></i></span>
+                    <div class="info-box-content">
+                        <span><h4>Statistique par catégorie des courriers entrants</h4></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('list_sortant_cat') }}" class="box-title" style="color:blue;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-grey"><i class="fa fa-envelope-o"></i></span>
+                    <div class="info-box-content">
+                    <span><h4>Statistique par catégorie des courriers sortants</h4></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('stat_entrant_periode') }}" class="box-title" style="color:blue;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-cyan"><i class="fa fa-envelope-o"></i></span>
+                    <div class="info-box-content">
+                        <span><h4>Statistique par période des courriers entrants DGE</h4></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('stat_sortant_periode') }}" class="box-title" style="color:blue;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-blue"><i class="fa fa-envelope-o"></i></span>
+                    <div class="info-box-content">
+                    <span><h4>Statistique par période des courriers sortants DGE</h4></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('stat_entrant_cat') }}" class="box-title" style="color:blue;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+                    <div class="info-box-content">
+                        <span><h4>Statistique par période des courriers entrants SAI</h4></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ path('list_sortant_cat') }}" class="box-title" style="color:blue;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-grey"><i class="fa fa-envelope-o"></i></span>
+                    <div class="info-box-content">
+                    <span><h4>Statistique par période des courriers sortants SAI</h4></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {# <div class="col-md-6">
+          <!-- DONUT CHART -->
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">Statistiques</h3>
+            </div>
+            <div class="box-body">
+              <div class="chart">
+                <canvas id="line-chart" style="height: 250px; width: 788px;" height="250" width="788"></canvas>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div> #}
+
+    </div>    
+
+    {# <div class="row">
+        <div class="col-md-6">
+          <!-- DONUT CHART -->
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">Statistiques</h3>
+            </div>
+            <div class="box-body">
+              <div class="chart">
+                <canvas id="line-chart" style="height: 250px; width: 788px;" height="250" width="788"></canvas>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+
+    </div>  #}
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+         new Chart(document.getElementById("line-chart"), {
+             type: 'line',
+             data: {
+                 labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+                 datasets: [{ 
+                     data: [86,114,106,106,107,111,133,221,783,2478],
+                     label: "Contribuables",
+                     borderColor: "#3e95cd",
+                     fill: false
+                 }, { 
+                     data: [282,350,411,502,635,809,947,1402,3700,5267],
+                     label: "Courriers entrants",
+                     borderColor: "#8e5ea2",
+                     fill: false
+                 }, { 
+                     data: [168,170,178,190,203,276,408,547,675,734],
+                     label: "Courriers sortants",
+                     borderColor: "#3cba9f",
+                     fill: false
+                 }
+                 ]
+             },
+             options: {
+                 title: {
+                 display: true,
+                 text: 'Statistiques du mois en cours'
+                 }
+             }
+             });
+    </script>
+    <script type="">
+        new Chart(document.getElementById("pie-chart"), {
+            type: 'pie',
+            data: {
+            labels:  {{Listsector|raw}},
+            datasets: [{
+                label: "Contribuables",
+                backgroundColor: {{listcolor|raw}},
+                data: {{countsector|raw}}
+                }]
+            },
+            options: {
+            title: {
+                display: true,
+                text: 'Répartition des contribuables par secteur d\'activité'
+                }
+            }
+        });
+    </script>
+
+{% endblock %}

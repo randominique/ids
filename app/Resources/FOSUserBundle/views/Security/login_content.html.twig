@@ -1,0 +1,44 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="container-login">
+    <div class="login-form">
+        <h2>
+            <img class="imageLeft" src="{{ asset('images/logo-mfb.png') }}"/>
+            <img class="imageRight" src="{{ asset('images/logo-dgi-2017.png') }}"/>
+            <div class="row">
+                <i class="fas fa-fingerprint"></i> Authentification
+            </div>
+        </h2>
+
+        {% if error %}
+            <p class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+        {% endif %}
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+
+            <div>
+                {# <input autocomplete="off" type="text" style="text-align:center;font-size:14px" class="input" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Nom d'utilisateur"/> #}
+                <input type="text" style="text-align:center;font-size:14px" class="input" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Nom d'utilisateur"/>
+            </div>
+            <div>
+                <input type="password" style="text-align:center;font-size:14px" class="input" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe"/>
+            <div>
+            </div>
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+            <div>   
+            <input type="submit" class="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+        </form>
+        </div>
+        <p class="forgot"><a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié?</a></p>
+    </div>
+<div>
+ 
+</div>
+<div>
+ 
+</div>
+
+<div class="copiright">  Copyright &copy; 2021 IDS Software. All rights reserved.</div>

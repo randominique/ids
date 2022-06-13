@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+{% block title %}New Tax type{% endblock %}
+
+{% block page_title %}New Tax type{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+    <div class="box box-primary">
+
+        {% for message in app.flashes('error') %}
+            <p class="alert alert-danger">
+                {{ message }}
+            </p>
+        {% endfor %}
+
+        {{ form_start(form) }}
+        {{ form_row(form.name, {label: 'Nom du taxe'}) }}
+        <a href="{{ path('assujettissement_setting') }}" class="btn btn-default pull-right">Retour à la liste</a>
+        <button class="btn btn-primary">Ajouter</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+# communication
+communication_index:
+    path:     /communication/index
+    defaults: { _controller: "DBundle:Communication:index" }
+    methods:  GET
+
+communication_show:
+    path:     /communication/{id}/show
+    defaults: { _controller: "DBundle:Communication:show" }
+    methods:  GET
+
+communication_new:
+    path:     /communication/new
+    defaults: { _controller: "DBundle:Communication:new" }
+    methods:  [GET, POST]
+
+communication_edit:
+    path:     /communication/{id}/edit
+    defaults: { _controller: "DBundle:Communication:edit" }
+    methods:  [GET, POST]
+
+communication_delete:
+    path:     /communication/{id}/delete
+    defaults: { _controller: "DBundle:Communication:delete" }
+    methods:  DELETE
+
+communication_to_pdf:
+    path:     /communication/topdf
+    defaults: { _controller: DBundle:Communication:toPdf }
+
+communication_to_excel:
+    path:     /communication/toExcel
+    defaults: { _controller: DBundle:Communication:toExcel }
+
+_com_autocomple_nif:
+    path:     /communication/autocomple/nif
+    defaults: { _controller: DBundle:Communication:autoCompleNif }
+
+_com_autocomple_rs:
+    path:     /communication/autocomple/rs
+    defaults: { _controller: DBundle:Communication:autoCompleRsoc }

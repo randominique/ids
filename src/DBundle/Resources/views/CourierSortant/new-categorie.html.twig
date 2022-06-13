@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block title %}Nouvelle catégorie{% endblock %}
+
+{% block page_title %}Nouvelle catégorie{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+
+{% block page_content %}
+
+    {{ form(form) }}
+
+{% endblock %}

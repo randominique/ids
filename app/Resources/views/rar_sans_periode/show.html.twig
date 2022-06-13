@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rar_sans_periode</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ rAR_SANS_PERIODE.id }}</td>
+            </tr>
+            <tr>
+                <th>Nif</th>
+                <td>{{ rAR_SANS_PERIODE.nIF }}</td>
+            </tr>
+            <tr>
+                <th>Taxcentrecode</th>
+                <td>{{ rAR_SANS_PERIODE.tAXCENTRECODE }}</td>
+            </tr>
+            <tr>
+                <th>Rs</th>
+                <td>{{ rAR_SANS_PERIODE.rS }}</td>
+            </tr>
+            <tr>
+                <th>Taxperiodno</th>
+                <td>{{ rAR_SANS_PERIODE.tAXPERIODNO }}</td>
+            </tr>
+            <tr>
+                <th>Annee</th>
+                <td>{{ rAR_SANS_PERIODE.aNNEE }}</td>
+            </tr>
+            <tr>
+                <th>Mois</th>
+                <td>{{ rAR_SANS_PERIODE.mOIS }}</td>
+            </tr>
+            <tr>
+                <th>Nature</th>
+                <td>{{ rAR_SANS_PERIODE.nATURE }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ rAR_SANS_PERIODE.tYPE }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ rAR_SANS_PERIODE.mONTANT }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('rar_sans_periode_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

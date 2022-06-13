@@ -1,0 +1,110 @@
+
+
+{# {% block title %}{{ contribuable.sigtasRs }}{% endblock %}
+
+{% block page_title %}{{ contribuable.sigtasRs }}{% endblock %}
+{% block page_subtitle %}{% endblock %} #}
+{% block stylesheets %}
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.0/Chart.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('css/jquery.datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+{% endblock %}
+{% block page_content %}
+
+<p>
+        
+                <div><span style="font-weight:bold">Numéro d'Identification Fiscal (NIF):</span> {{ contribuable.nif }}</div>
+                <div><span style="font-weight:bold">Raison sociale:</span> {{ contribuable.sigtasRs }}</div>
+                <div><span style="font-weight:bold">Adresse:</span> {{ contribuable.adresse }}<div>
+               <div><span style="font-weight:bold">Contact Phone:</span> {{ contribuable.sigtasPhone }}</div>
+                <div><span style="font-weight:bold">Contact Phone:</span> {{ contribuable.sigtasPhone }}<div>
+               <div> <span style="font-weight:bold">Secteur d'activite :</span>
+                    {% if contribuable.secteurActivite %}
+                        {{ contribuable.secteurActivite }}
+                    {% else %}
+                        NA
+                    {% endif %}  </div>
+        
+   
+<div class="box box-primary center">
+        <h3 style="text-align: center; ">Historique carte fiscale delivrée</h3>
+    <table  id="tablefiscal"class="table table-striped table-hover">
+        <thead>
+            <tr style="font-weight:bold">
+                <th>Exercice</th>
+                <th>Date de delivrance</th>
+                <th>Carte num</th>
+                <th>Carte type</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cartefiscale in carteFiscales %}
+            <tr>
+                <td>{{ cartefiscale.annee }}</td>
+                <td>{{ cartefiscale.carteDate | date('d/m/Y') }}</td>
+                <td>{{ cartefiscale.carteNum }}</td>
+                <td>{{ cartefiscale.carteTypeNo }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+   
+    <div class="box-header with-border">
+        <h3 style="text-align: center; ">Historique Taxation d'office</h3>
+    </div>
+    <table id="tableto" class="table table-striped table-hover">
+        <thead>
+            <tr style="font-weight:bold">
+                <th>Nature impot</th>
+                <th>Année</th>
+                <th>Mois</th>
+                <th>Montant Principal</th>
+                <th>Pen</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for taxation_office in tos %}
+            <tr >
+                <td>{{taxation_office.taxTypeDescF}}</td>
+                <td>{{taxation_office.tperYear}}</td>
+                <td>{{taxation_office.tperMonth}}</td>
+                <td>{{ taxation_office.pen }}</td>
+                <td>{{ taxation_office.createdDate | date('d/m/Y') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="box-header with-border">
+        <h3 style="text-align: center; ">Historique de paiement</h3>
+    </div>
+    <table id="tablepaiement" class="table table-striped table-hover">
+        <thead>
+            <tr style="font-weight:bold">
+                <th>Montant</th>
+                <th>Date paiement</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for paiement in paiements %}
+            <tr>
+                <td>{{ paiement.montant }}Ar</td>
+                <td>{{ paiement.dateDePaiement | date('d/m/Y') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>    
+    </table>
+    <div class="box-header with-border">
+        <h3>Courrier Entrant {{entrants }}</h3>
+    </div>
+  
+    <div class="box-header with-border">
+        <h3 >Courrier Sortants {{sortants}}</h3>
+    </div>
+    
+</div>
+
+{% endblock %}
+

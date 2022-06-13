@@ -1,0 +1,79 @@
+{% extends "base.html.twig" %}
+{% block title %}Relance{% endblock %}
+
+{% block page_title %}Relance{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+    <div class="box box-primary">
+
+        <table class="table table-striped table-hover">
+            <tbody>
+                <tr>
+                    <th>Type de relance</th>
+                    <td>{{ relance.type }}</td>
+                </tr>
+                <tr>
+                    <th>Date d'envoi</th>
+                    <td>{{ relance.date | date('d/m/Y H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>NIF</th>
+                    <td>{{ relance.nif }}</td>
+                </tr>
+                <tr>
+                    <th>Raison sociale</th>
+                    <td>RS</td>
+                </tr>
+                <tr>
+                    <th>Adresse</th>
+                    <td>{{ relance.adresse }}</td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td>{{ relance.ville }}</td>
+                </tr>
+                <tr>
+                    <th>Impôts concernés</th>
+                    <td>{{ relance.impotsConcernes }}</td>
+                </tr>
+                <tr>
+                    <th>Période  concerné</th>
+                    <td>{{ relance.periodeConcernes }}</td>
+                </tr>
+                <tr>
+                    <th>Faits et objet de la relance</th>
+                    <td>{{ relance.objet }}</td>
+                </tr>
+                <tr>
+                    <th>Droit applicable</th>
+                    <td>{{ relance.droitApplicable }}</td>
+                </tr>
+                <tr>
+                    <th>Gestionnaire</th>
+                    <td>{{ relance.user.nom }} {{ relance.user.prenom }}</td>
+                </tr>
+                <tr>
+                    <th>Date accusé de réception</th>
+                    <td>
+                    {% if relance.dateAccuse %}
+                        {{ relance.dateAccuse | date('d/m/Y H:i:s') }}
+                    {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Nom du réceptionnaire</th>
+                    <td>                   
+                    {% if relance.nomReceptionnaire %}
+                        {{ relance.nomReceptionnaire }}</td>
+                    {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="box-footer with-border">
+            <a href="{{ path('liste_relance') }}" class="btn btn-default"><i class="fas fa-arrow-left"></i> Rétour à la liste</a>
+        </div>
+    </div>
+{% endblock %}

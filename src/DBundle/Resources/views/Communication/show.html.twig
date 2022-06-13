@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Communications{% endblock %}
+
+{% block page_title %}<h1 class="mytitle">Visualisation</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block body %}
+    {% block page_content %}
+                <a class="button btn btn-primary" style="width:120px;margin:0px;" href="{{ path('communication_index') }}">Retour</a>
+                {# <a class="button btn btn-primary" style="width:120px;margin:0px;" href="{{ path('communication_edit', { 'id': communication.id }) }}">Modifier</a> #}
+    <div class="row">
+        <div class="col-md-3">  <p><span><h4>Type:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px;width:180px"> {{ communication.typecommunication }}</h4></div>
+        <div class="col-md-3">  <p><span><h4>Date:</h4></span><h4  style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px;width:180px"> {% if communication.createdAt %}{{ communication.createdAt|date('d-m-Y') }}{% endif %}</h4></div>
+        <div class="col-md-3">  <p><span><h4>Interlocuteur:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px"> {{ communication.createdByUser }}</h4></div>
+    </div>
+    {# <div class="row">
+        <div class="col-md-3">  <p><span><h4></h4></span>
+    </div> #}
+    <div class="row">
+        <div class="col-md-3">  <p><span><h4>Numéro d'Identification Fiscale:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px;width:180px"> {{ communication.nif }}</h4></p></div>
+        <div class="col-md-3">  <p><span><h4>Raison sociale:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:50px"> {{ communication.rs }}</h4></p></div>
+        <div class="col-md-3">  <p><span><h4>Contact:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px"> {{ communication.contact  }}</h4></p></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">  <p><span><h4>Objet de la communication:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px"> {{ communication.objet }}</h4></p></div>
+        <div class="col-md-6">  <p><span><h4>Résolutions:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px"> {{ communication.resolutions }}</h4></p></div>
+
+    {% endblock %}
+
+{% endblock %}

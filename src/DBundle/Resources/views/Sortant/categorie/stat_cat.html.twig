@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+{% block title %}Statistique des courriers sortants{% endblock %}
+
+{% block page_title %}
+<h1 class="mytitle">Statistique par catégorie des courriers sortants</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+	<div class="box box-primary">
+			<div class="navigation">
+		    {{ knp_pagination_render(categories) }}
+			</div>
+     	<table class="table table-striped table-hover">
+				<thead>
+						<tr>
+							<th class="barre-menu">Catégorie</th>
+							<th class="barre-menu">Janvier</th>
+							<th class="barre-menu">Février</th>
+							<th class="barre-menu">Mars</th>
+							<th class="barre-menu">Avril</th>
+							<th class="barre-menu">Mai</th>
+							<th class="barre-menu">Juin</th>
+							<th class="barre-menu">Juillet</th>
+							<th class="barre-menu">Août</th>
+							<th class="barre-menu">Septembre</th>
+							<th class="barre-menu">Octobre</th>
+							<th class="barre-menu">Novembre</th>
+							<th class="barre-menu">Décembre</th>
+						</tr>
+				</thead>
+				<tbody>
+					{% for categorie in categories %}
+						<tr>
+							<td>{{ categorie.nom }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier01|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier02|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier03|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier04|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier05|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier06|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier07|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier08|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier09|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier10|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier11|number_format(0,',',' ') }}</td>
+							<td class="stat-details">{{ categorie.nbcourrier12|number_format(0,',',' ') }}</td>
+						</tr>
+					{%  endfor %}
+	    	</tbody>
+	    </table>
+
+	    {% if categories.getTotalItemCount == 0 %}
+	    	<p class="padding">Vide</p>
+	    {% endif %}
+
+	</div>
+
+{% endblock %}

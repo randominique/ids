@@ -1,0 +1,177 @@
+{% extends "base.html.twig" %}
+
+{% block title %}contribuables{% endblock %}
+
+{% block page_title %}
+  <h1 class="mytitle">Suivi Qualitatif des Vérifications Fiscales</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+<div class="box box-primary">
+    <div class="info-box-content">
+        <span class="info-box-text">Contribuables</span>
+        <span class="info-box-number">{{ nbreContrib }}</span>
+    </div>
+
+  <div id="search">
+    <form class="form-inline pull-left" method="GET">
+      <div class="form-group">
+          <input name="nif" type="text" class="form-control" id="nifFilter" autocomplete='off' {% if nifFilter %}value="{{ nifFilter }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+      </div>
+      <div class="form-group">
+          <input name="rs" type="text" class="form-control" id="rsFilter" autocomplete='off' {% if rsFilter %}value="{{ rsFilter }}"{% endif %} placeholder="Raison Sociale" style="width:450px;margin-left:0px;">
+      </div>
+      {# <div class="form-group">
+          <select name="secteur" class="form-control">
+              <option selected value="" disabled selected>{% if secteur %} {{secteur}} {% else %}Secteur d'activité{% endif %}</option>
+              {% for sectorAct in sectorActs %}
+                  <option value = {{ sectorAct.id}} > {{sectorAct.sectorActDesc}}</option>
+              {% endfor %}
+          </select>
+      </div> #}
+      {# <div class="form-group">
+        <select name="gestionnaire" class="form-control" id="gestionnaire"> 
+            <option selected value="" disabled selected >gestionnaire</option>
+            {% for user in usersService %}
+                <option value = {{ user.id }}>
+                    <i>{{ user.corps }} -</i> 
+                    <h6>{{ user.nom }}{{ user.prenom }}</h6>
+                </option>
+            {% endfor %}
+        </select>
+      </div> #}
+      <button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
+      <a href="{{ path('_dossiers') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a>
+      {# <a href="{{path('createpdf')}}" class="btn btn-primary pull-right" role="button" style="width:120px;margin-left:4px;">Imprimer</a> #}
+    </form>
+  </div>
+  {# <div class="navigation">
+    {{ knp_pagination_render(contribuables) }}
+  </div> #}
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="form-entete">id</th>	
+        <th class="form-entete" style="width:120px">NIF</th>	
+        <th class="form-entete">Raison sociale</th>	
+        <th class="form-entete">Adresse</th>
+        <th class="form-entete">Type Notification</th>
+        <th class="form-entete">Notification redressement</th>
+        <th class="form-entete">Notification définitive</th>
+        <th class="form-entete">Type contrôle</th>
+        <th class="form-entete">Etape courante</th>
+        {# <th>idUser</th>	
+        <th>idCentreFiscal</th>
+        <th>idNotificationRedressement</th>	
+        <th>idNotificationDefinitive</th>	
+        <th>uniqid</th>	
+        <th>typeControle</th>	
+        {# <th>dateDebutOperation</th>	
+        <th>dateCreation</th>	
+        <th>dateDebutIntervention</th>	
+        <th>dateFinIntervention</th>
+        <th>etapeCourante</th>	
+        <th>archive</th>	
+        <th>newUniqid</th>	
+        {# <th>createTime</th>	
+        <th>updateTime</th>	 #}
+        <th class="form-entete">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contribuable in contribuables %}																								
+        <tr>
+          <td>{{ contribuable.id|number_format(0,',',' ') }}</td>
+          <td>{{ contribuable.nif|number_format(0,',',' ') }}</td>
+          <td>{{ contribuable.rs }}</td>
+          <td>{{ contribuable.adresse }}</td>
+          {# <td>{{ contribuable.idUser }}</td>
+          <td>{{ contribuable.idCentreFiscal }}</td> #}
+          <td>{{ contribuable.typeNotification }}</td>
+          <td>{{ contribuable.typeNotificationRedressement }}</td>
+          <td>{{ contribuable.typeNotificationDefinitive }}</td>
+          <td>{{ contribuable.typeControle }}</td>
+          <td>{{ contribuable.etapeCourante }}</td>
+          {# <td>{{ contribuable.uniqid }}</td>
+          <td>{{ contribuable.dateDebutOperation }}</td>
+          <td>{{ contribuable.dateCreation }}</td>
+          <td>{{ contribuable.dateDebutIntervention }}</td>
+          <td>{{ contribuable.dateFinIntervention }}</td>
+          <td>{{ contribuable.archive }}</td>
+          <td>{{ contribuable.newUniqid }}</td>
+          {# <td>{{ contribuable.createTime }}</td>
+          <td>{{ contribuable.updateTime }}</td> #}
+          <td>
+            <a class="" href="{{ path('dossiers_show', { 'contribuable': contribuable.id }) }}"><i class="fas fa-eye"></i></a>												
+          </td>
+        </tr>
+        {# {% set i=i+1 %}
+        {% set newArray = newArray|merge([contribuable]) %} #}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    </script>
+    <script>
+    	$('#nifFilter').autocomplete({
+	        source: "{{ path('_autocomplete_nif2') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+            $('#rsFilter').val(ui.item.raisonSoncial);
+            setTimeout(function(){
+              $('#nifFilter').val(ui.item.thisNif);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+		$('#rsFilter').autocomplete({
+	        source: "{{ path('_autocomplete_rs2') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+	            
+				$('#nifFilter').val(ui.item.thisNif);
+	            setTimeout(function(){
+	             $('#rsFilter').val(ui.item.raisonSoncial);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+    </script>
+{% endblock %}

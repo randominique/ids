@@ -1,0 +1,134 @@
+{% extends "base.html.twig" %}
+{% block title %}Déclarations - non dépôt{% endblock %}
+
+{% block page_title %}<h3 class="mytitle">Déclarations - Non Dépôt</h3>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+{{ parent() }}
+<div class="box box-primary">
+    <div id="search">
+        <form class="form-inline pull-left" method="GET">
+            <div class="form-group">
+                <input name="nif" type="text" class="form-control" id="nifFilter" autocomplete='off' {% if nifFilter %}value="{{ nifFilter }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+            </div>
+            <div class="form-group">
+                <input name="rs" type="text" class="form-control" id="rsFilter" autocomplete='off' {% if rsFilter %}value="{{ rsFilter }}"{% endif %} placeholder="Raison Sociale" style="width:250px;margin-left:0px;">
+            </div>
+            {# <div class="form-group">
+                <input name="date_du" type="text" class="form-control" id="date_timepicker_start" autocomplete='off' {% if date_du %}value="{{ date_du }}"{% endif %} placeholder="Date du" style="width:120px;margin:0px;">
+            </div>
+            <div class="form-group">
+                <input name="date_au" type="text" class="form-control" id="date_timepicker_end" autocomplete='off' {% if date_au %}value="{{ date_au }}"{% endif %} placeholder="Date au" style="width:120px;margin:0px;">
+            </div> #}
+            <div class="form-group">
+                <select name="typeImpot" class="form-control" style="width:300px;margin-left:11px;">
+                <option selected disabled value = "" >Type d'impôts</option>
+                {% for taxType in taxTypes %}
+                    <option value = {{ taxType.id }}>
+                        {{ taxType.taxTypeDesc }}
+                    </option>
+                {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-link"><span class="fa fa-search" style="font-size:28px" title="Rechercher"></span></button>						
+            <a href="{{ path('_declarations_non_depot') }}" class="btn-link"><span class="fa fa-trash-o" style="font-size:28px;color:black" title="initialiser filtres"> </span></a>
+            {# <a>  </a>
+            <a href="{{path('_declarations_non_depot_excel')}}" class="btn-link"><span class="fa fa-file-excel" style="font-size:28px;color:green" title="Exporter vers EXCEL"></span></a> #}
+        </form>
+    </div>
+    <div class="col-lg-12">
+        <div class="navigation">
+            {{ knp_pagination_render(documents) }}
+        </div>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="form-entete">NIF</th>
+                <th class="form-entete">Raison Sociale</th>
+                <th class="form-entete">Impôts</th>
+                <th class="form-entete">Echéance</th>
+                {# <th>Date de dépôt</th>
+                <th>Date de Paiement</th> #}
+                {# <th>Actions</th> #}
+            </tr>
+        </thead>
+        <tbody>
+        {% for document in documents %}
+            <tr>
+                <td>{{ document.nif|number_format(0,',',' ') }}</td>
+                <td>{{ document.rs }}</td>
+                <td>{{ document.taxTypeDesc }}</td>
+                <td>{{ document.docTpDueDate | date('d/m/Y') }}</td>
+                {# <th>{{ document.PaymentDate | date('d/m/Y') }}</th>
+                <td>{{ document.receivedDate | date('d/m/Y') }}</td> #}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    </script>
+    <script>
+    	$('#nifFilter').autocomplete({
+	        source: "{{ path('_autocomplete_nif2') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+            $('#rsFilter').val(ui.item.raisonSoncial);
+            setTimeout(function(){
+              $('#nifFilter').val(ui.item.thisNif);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+		$('#rsFilter').autocomplete({
+	        source: "{{ path('_autocomplete_rs2') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+	            
+				$('#nifFilter').val(ui.item.thisNif);
+	            setTimeout(function(){
+	             $('#rsFilter').val(ui.item.raisonSoncial);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+    </script>
+{% endblock %}

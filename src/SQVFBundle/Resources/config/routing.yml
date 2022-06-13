@@ -1,0 +1,103 @@
+sqvf_homepage:
+    path:     /
+    defaults: { _controller: SQVFBundle:Default:index }
+
+list:
+    path:     /list
+    defaults: { _controller: SQVFBundle:Dossiers:list }
+
+edit:
+    path:     /edit
+    defaults: { _controller: SQVFBundle:Dossiers:edit }
+
+show:
+    path:     /show
+    defaults: { _controller: SQVFBundle:Dossiers:show }
+
+remove:
+    path:     /remove
+    defaults: { _controller: SQVFBundle:Dossiers:remove }
+
+create:
+    path:     /create
+    defaults: { _controller: SQVFBundle:Dossiers:create }
+
+list_agent:
+    path:     /AgentVerificateur/list
+    defaults: { _controller: SQVFBundle:AgentVerificateur:list }
+
+show:
+    path:     /show
+    defaults: { _controller: SQVFBundle:AgentVerificateur:show }
+
+edit:
+    path:     /edit
+    defaults: { _controller: SQVFBundle:AgentVerificateur:edit }
+
+delete:
+    path:     /delete
+    defaults: { _controller: SQVFBundle:AgentVerificateur:delete }
+
+list_sqvf_users:
+    path:     /sqvf_users/list
+    defaults: { _controller: SQVFBundle:Users:list }
+
+show:
+    path:     /show
+    defaults: { _controller: SQVFBundle:Users:show }
+
+edit:
+    path:     /edit
+    defaults: { _controller: SQVFBundle:Users:edit }
+
+delete:
+    path:     /delete
+    defaults: { _controller: SQVFBundle:Users:delete }
+
+list:
+    path:     /list
+    defaults: { _controller: SQVFBundle:Nif:list }
+
+show:
+    path:     /show
+    defaults: { _controller: SQVFBundle:Nif:show }
+
+edit:
+    path:     /edit
+    defaults: { _controller: SQVFBundle:Nif:edit }
+
+delete:
+    path:     /delete
+    defaults: { _controller: SQVFBundle:Nif:delete }
+
+sqvf_dossiers_annee_controle:
+    path:     /sqvf_dossiers_annee_controle/list
+    defaults: { _controller: SQVFBundle:sqvf_dossiers_annee_controle:list }
+
+show:
+    path:     /show
+    defaults: { _controller: SQVFBundle:sqvf_dossiers_annee_controle:show }
+
+edit:
+    path:     /edit
+    defaults: { _controller: SQVFBundle:sqvf_dossiers_annee_controle:edit }
+
+delete:
+    path:     /delete
+    defaults: { _controller: SQVFBundle:sqvf_dossiers_annee_controle:delete }
+
+list:
+    path:     /list
+    defaults: { _controller: SQVFBundle:sqvf_dossiers_annee_controle_montant:list }
+
+show:
+    path:     /show
+    defaults: { _controller: SQVFBundle:sqvf_dossiers_annee_controle_montant:show }
+
+edit:
+    path:     /edit
+    defaults: { _controller: SQVFBundle:sqvf_dossiers_annee_controle_montant:edit }
+
+delete:
+    path:     /delete
+    defaults: { _controller: SQVFBundle:sqvf_dossiers_annee_controle_montant:delete }

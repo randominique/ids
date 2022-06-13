@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documents_Fichiers{% endblock %}
+
+{% block page_title %}
+  <h1 class="mytitle">Documents_Fichiers SQVF</h1>
+{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+<div class="box box-primary">
+    {# <h1>Documentsfichiers list</h1> #}
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Iddocument</th>
+                <th>Extension</th>
+                <th>Filename</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for documentsFichier in documentsFichiers %}
+            <tr>
+                <td><a href="{{ path('documentsfichiers_show', { 'id': documentsFichier.id }) }}">{{ documentsFichier.id }}</a></td>
+                <td>{{ documentsFichier.idDocument }}</td>
+                <td>{{ documentsFichier.extension }}</td>
+                <td>{{ documentsFichier.filename }}</td>
+                <td>{{ documentsFichier.active }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('documentsfichiers_show', { 'id': documentsFichier.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('documentsfichiers_edit', { 'id': documentsFichier.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# <ul>
+        <li>
+            <a href="{{ path('documentsfichiers_new') }}">Create a new documentsFichier</a>
+        </li>
+    </ul> #}
+
+</div>
+{% endblock %}

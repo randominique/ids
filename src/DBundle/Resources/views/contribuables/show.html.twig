@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contribuable</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ contribuable.id }}</td>
+            </tr>
+            <tr>
+                <th>Nif</th>
+                <td>{{ contribuable.nif }}</td>
+            </tr>
+            <tr>
+                <th>Taxpayerno</th>
+                <td>{{ contribuable.taxpayerNo }}</td>
+            </tr>
+            <tr>
+                <th>Raisonsociale</th>
+                <td>{{ contribuable.raisonSociale }}</td>
+            </tr>
+            <tr>
+                <th>Nomcommercial</th>
+                <td>{{ contribuable.nomCommercial }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ contribuable.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ contribuable.email }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ contribuable.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Regimefiscal</th>
+                <td>{{ contribuable.regimeFiscal }}</td>
+            </tr>
+            <tr>
+                <th>Secteuractivite</th>
+                <td>{{ contribuable.secteurActivite }}</td>
+            </tr>
+            <tr>
+                <th>Nomdirigeant</th>
+                <td>{{ contribuable.nomDirigeant }}</td>
+            </tr>
+            <tr>
+                <th>Datecreation</th>
+                <td>{% if contribuable.dateCreation %}{{ contribuable.dateCreation|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datearriveedge</th>
+                <td>{% if contribuable.dateArriveeDGE %}{{ contribuable.dateArriveeDGE|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Exercicefiscaldebut</th>
+                <td>{{ contribuable.exerciceFiscalDebut }}</td>
+            </tr>
+            <tr>
+                <th>Exercicefiscalfin</th>
+                <td>{{ contribuable.exerciceFiscalFin }}</td>
+            </tr>
+            <tr>
+                <th>Gestionnaire</th>
+                <td>{{ contribuable.gestionnaire }}</td>
+            </tr>
+            <tr>
+                <th>Inactifdate</th>
+                <td>{% if contribuable.inactifDate %}{{ contribuable.inactifDate|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('contribuables_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('contribuables_edit', { 'id': contribuable.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

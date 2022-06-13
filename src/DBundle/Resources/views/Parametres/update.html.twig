@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block title %}Modifier le service{% endblock %}
+
+{% block page_title %}Modifier le service{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+    <div class="box box-primary">
+        
+        {% for message in app.flashes('error') %}
+            <p class="alert alert-danger">
+                {{ message }}
+            </p>
+        {% endfor %}
+
+        {{ form_start(form) }}
+        {{ form_row(form.nom, {label: 'Nom du service'}) }}
+        {{ form_row(form.chef, {label: 'Chef de service'}) }}
+        <a href="{{ path('d_parametres_service') }}" class="btn btn-default pull-right">Retour à la liste</a>
+        <button class="btn btn-primary">Mettre à jour</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

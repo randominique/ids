@@ -1,0 +1,33 @@
+parameters:
+    database_host: localhost
+    database_port: null
+    database_name: dge
+    database_user: root
+    database_password: null
+
+    database_host_nifonline: localhost
+    database_port_nifonline: null
+    database_name_nifonline: nif
+    database_user_nifonline: root
+    database_password_nifonline: null
+
+    database_host_sigtas: localhost
+    database_port_sigtas: null
+    database_name_sigtas: sigtas
+    database_user_sigtas: root
+    database_password_sigtas: null
+
+    database_host_sqvf: localhost
+    database_port_sqvf: null
+    database_name_sqvf: sqvf
+    database_user_sqvf: root
+    database_password_sqvf: null
+
+    mailer_transport: gmail
+    mailer_host: smtp.gmail.com
+    mailer_user: randrianaivo.dominique@gmail.com
+    mailer_password: miykznsngbnmvqnb
+    secret: 10ffc7a5a5d0cc528a4aef4e8bcb7f42292b24a8
+    d_bundle.show_user_listener.class: DBundle\EventListener\ShowUserListener
+    d_bundle.menu_listener.class: DBundle\EventListener\MenuItemListListener
+    d_bundle.task_listener.class: DBundle\EventListener\NavbarTaskListener

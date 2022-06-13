@@ -1,0 +1,113 @@
+{% extends "base.html.twig" %}
+{% block title %}Ajout tache{% endblock %}
+
+{% block page_title %}<h1 class="mytitle">Nouvelle tâche</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+	<div class="box box-primary">
+        <p>{{ form_start(form) }}</p>
+        <div class="row">
+            <div class="col-md-2">
+                {{form_row(form.nif)}}
+            </div>
+            <div class="col-md-4">
+                {{form_row(form.rs)}}
+            </div>
+            <div class="col-md-3" >
+                {{form_row(form.priority)}}
+            </div>
+            <div class="col-md-3" >
+                {# {{form_row(form.gestionnaire)}} #}
+				<div class="form-group">
+					<label for="gestionnaire">Gestionnaire</label>
+					<select name="gestionnaire" class="form-control" id="Gestionnaire"> 
+						<option selected>Gestionnaire</option>
+						{% for user in usersService %}
+							<option value = {{ user.id }}>
+								<i>{{ user.corps }} -</i><h6>{{ user.nom }} {{ user.prenom }}</h6>
+							</option>
+						{% endfor %}
+					</select>
+				</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2" >
+                {{form_row(form.object)}}
+            </div>
+            <div class="col-md-4" style="height:100px">
+                {{form_row(form.tacheDescription)}}
+            </div>
+            <div class="col-md-3" >
+                {{form_row(form.observationContent)}}
+            </div>
+            <div class="col-md-3" >
+                {{form_row(form.deliveredDate)}}
+            </div>
+        </div>
+        {# <p>{{ form_widget(form) }}</p> #}
+        <p>{{ form_end(form) }}</p>
+        <div class="col-sm-6">
+            <p id='infobox'></p>
+        </div>
+	</div>    
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function getContribuable(nif) {
+            $.ajax({
+                url: "{{ path('_get_contribuable') }}" + '?nif='+nif, 
+                type: "GET",             
+                contentType: false,       
+                cache: false,            
+                processData:false,       
+                success: function(data)  
+                {                
+                    $('#infobox').html(data);
+                }
+            });
+        }
+        function getContribuable(rs) {
+            $.ajax({
+                url: "{{ path('_get_contribuable') }}" + '?rs='+rs, 
+                type: "GET",             
+                contentType: false,       
+                cache: false,            
+                processData:false,       
+                success: function(data)  
+                {                
+                    $('#infobox').html(data);
+                }
+            });
+        }
+        $('#dbundle_tache_nif').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_nif') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                $('#dbundle_tache_rs').val(suggestion.data);
+                getContribuable(suggestion.value);
+            }
+        });
+        $('#dbundle_tache_rs').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_rs') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                $('#dbundle_tache_nif').val(suggestion.data);
+                getContribuable(suggestion.data);
+            }
+        });
+    </script>
+    <script>
+        jQuery(document).ready(function(){
+            $('.js-datepicker').datetimepicker({
+                format: "Y/m/d H:i"
+            });
+        });
+    </script>
+{% endblock %}

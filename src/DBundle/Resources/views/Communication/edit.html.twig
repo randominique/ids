@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Communications{% endblock %}
+
+{% block page_title %}<h1 class="mytitle">Mise à jour</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block body %}
+    {% block page_content %}
+        {# <h3>Modification</h3> #}
+
+            {# <input href="{{ path('communication_index') }}" class="button btn btn-primary" style="width:120px;margin:0px;" type="submit" value="Enregistrer" /> #}
+        {# {{ form_start(edit_form) }} #}
+    {# <div class="row">
+        <div class="col-md-3" >
+            <div>{{form_row(form.type)}}</div>
+        </div>
+        <div class="col-md-3">
+            {{form_row(form.nif)}}
+        </div>
+        <div class="col-md-3">
+            {{form_row(form.rs)}}
+        </div>
+        <div class="col-md-3" >
+            <div>{{form_row(form.contact)}}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {{form_row(form.objet)}}
+        </div>
+        <div class="col-md-6">
+            {{form_row(form.observation)}}
+        </div> #}
+        {# <div class="col-md-4">
+            {{form_row(form.utilisateur)}}
+        </div>
+    </div>
+
+            {{ form_widget(edit_form) }}
+        {# {{ form_end(edit_form) }} #}
+
+
+                {# {{ form_start(delete_form) }} #}
+                    {# <input type="submit" value="Delete"> #}
+                {# {{ form_end(delete_form) }} #}
+
+    {# <div class="row">
+        <div class="col-md-3">  <p><span><h4>Type:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px;width:180px"> {{ communication.typecommunication }}</h4></div>
+        <div class="col-md-3">  <p><span><h4>Date:</h4></span><h4  style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px;width:180px"> {% if communication.createdAt %}{{ communication.createdAt|date('d-m-Y') }}{% endif %}</h4></div>
+        <div class="col-md-3">  <p><span><h4>Interlocuteur:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px"> {{ communication.createdByUser }}</h4></div>
+    </div> #}
+    {# <div class="row">
+        <div class="col-md-3">  <p><span><h4></h4></span>
+    </div> #}
+    {# <div class="row">
+        <div class="col-md-3">  <p><span><h4>Numéro d'Identification Fiscale:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px;width:180px"> {{ communication.nif }}</h4></p></div>
+        <div class="col-md-3">  <p><span><h4>Raison sociale:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:50px"> {{ communication.rs }}</h4></p></div>
+        <div class="col-md-3">  <p><span><h4>Contact:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px;height:30px"> {{ communication.contact  }}</h4></p></div>
+    </div> #}
+    {# <div class="row" style="enabled:true">
+        <div class="col-md-6">  <p><span><h4>Objet de la communication:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px"> {{ communication.objet }}</h4></p></div>
+        <div class="col-md-6">  <p><span><h4>Résolutions:</h4></span><h4 style="color:#f0f0f0;background-color:#75a3db;padding:5px"> {{ communication.resolutions }}</h4></p></div> #}
+    {# {{ form_end(edit_form) }} #}
+    <div class="box box-primary">
+        {{ form_start(edit_form) }}
+        <div class="row">
+            <div class="col-md-2" >
+                {{form_row(edit_form.typecommunication)}}
+            </div>
+            <div class="col-md-2">
+                {{form_row(edit_form.nif)}}
+            </div>
+            <div class="col-md-3">
+                {{form_row(edit_form.rs)}}
+            </div>
+            <div class="col-md-2" >
+                {{form_row(edit_form.contact)}}
+            </div>
+            <div class="col-md-2" >
+                {{form_row(edit_form.interlocuteur)}}
+            </div>
+        </div>
+            {{ form_widget(edit_form) }}
+            <a class="button btn btn-primary pull-left" style="width:120px;margin:2px;" href="{{ path('communication_index') }}">Annuler</a>
+            {# <a class="button btn btn-primary" style="width:120px;margin:0px;" href="{{ path('communication_index') }}">Retour</a> #}
+            <input class="button btn btn-primary pull-left" style="width:120px;margin:2px;" type="submit" value="Enregistrer" href="{{ path('communication_index') }}"/>
+            {# {{ form_end(edit_form) }} #}
+    </div>    
+
+
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block title %}Parametre SAI{% endblock %}
+
+{% block page_title %}Parametre SAI{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+    <div class="box box-primary">
+
+        <div class="padding">
+            {% for message in app.flashes('succes') %}
+                <p class="alert alert-success">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        </div>
+
+        {{ form_start(form) }}
+        {{ form_row(form.service, {label: 'Service reference'}) }}
+        <button class="btn btn-primary">Sauvegarder</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

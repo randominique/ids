@@ -1,0 +1,78 @@
+{% extends "::base.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block title %}Nouveau courrier entrant{% endblock %}
+
+{% block page_title %}Courrier entrant{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Nouveau</h3>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="">
+            <p>{{ form(form) }}</p>
+        </div>
+        <div class="col-sm-6" style="">
+            <p id='infobox'></p>
+        </div>
+    </div>
+        
+</div>    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).on('change', ".seeAnotherField", function(){
+            if ($(this).val() == "AUTRES") {
+                $('.otherField').show();
+                //$('#otherField').attr('required', '');
+                //$('#otherField').attr('data-error', 'Ce champ est requis');
+            } else {
+                $('.otherField').hide();
+                //$('#otherField').removeAttr('required');
+                //$('#otherField').removeAttr('data-error');
+            }
+        });
+        $(".seeAnotherField").trigger("change");
+        
+        function getContribuable(nif) {
+            $.ajax({
+                url: "{{ path('_get_contribuable') }}" + '?nif='+nif, 
+                type: "GET",             
+                contentType: false,       
+                cache: false,            
+                processData:false,       
+                success: function(data)  
+                {                
+                    $('#infobox').html(data);
+                }
+            });
+        }
+        
+        $('#dbundle_courierentrant_nif').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_nif') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                $('#dbundle_courierentrant_rs').val(suggestion.data);
+                getContribuable(suggestion.value);
+            }
+        });
+
+        $('#dbundle_courierentrant_rs').devbridgeAutocomplete({
+            serviceUrl: "{{ path('_autocomplete_rs') }}",
+            minChars : 2,
+            onSelect: function (suggestion) {
+                console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                $('#dbundle_courierentrant_nif').val(suggestion.data);
+                getContribuable(suggestion.data);
+            }
+        });
+        
+        
+    </script>
+{% endblock %}

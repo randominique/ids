@@ -1,0 +1,54 @@
+new_entrant:
+    path:     entrant/new
+    defaults: { _controller: DBundle:Entrant:new }
+
+list_entrant:
+    path:     entrant/liste
+    defaults: { _controller: DBundle:Entrant:list }
+
+show_entrant:
+    path:     entrant/show/{courrier}
+    defaults: { _controller: DBundle:Entrant:show }
+   # requirements:
+    #    id: \d+
+
+new_entrant_cat:
+    path:     entrant/cat/new
+    defaults: { _controller: DBundle:Entrant:newCat }
+
+list_entrant_cat:
+    path:     entrant/cat/liste
+    defaults: { _controller: DBundle:Entrant:listCat }
+
+edit_entrant_cat:
+    path:     entrant/cat/edit/{nature}
+    defaults: { _controller: DBundle:Entrant:editCat }
+    requirements:
+        id: \d+
+
+_entrant_dispatching_to_service:
+    path:     /couriers/entrant/dispatching/courrier/{courrier}/to/service/{service}
+    defaults: { _controller: DBundle:Entrant:dispatchToService }
+
+_entrant_informatice_to_service:
+    path:     /couriers/entrant/informative/courrier/{courrier}/to/service/{service}
+    defaults: { _controller: DBundle:Entrant:forInfoToService }
+
+_entrant_dispatching_to_gestionnaire:
+    path:     /couriers/entrant/dispatching/courrier/{courrier}/to/gestionnaire/{gestionnaire}
+    defaults: { _controller: DBundle:Entrant:dispatchToGestionnaire }
+
+_entrant_get:
+    path:     /couriers/entrant/courrier/get/{courrier}
+    defaults: { _controller: DBundle:Entrant:getCourrier }
+
+_entrant_close:
+    path:     /couriers/entrant/close/{courrier}
+    defaults: { _controller: DBundle:Entrant:cloturerTicket }
+
+_entrant_marquer_comme_traiter:
+    path:     /couriers/entrant/marquer/comme/traiter/{courrier}
+    defaults: { _controller: DBundle:Entrant:marquerCommeTraiter }
+list_entrantpdf:
+    path:     entrant/listepdf
+    defaults: { _controller: DBundle:Entrant:listPdf }

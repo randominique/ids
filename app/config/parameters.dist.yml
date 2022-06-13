@@ -1,0 +1,36 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host: 10.2.249.209
+    database_port: 3306
+    database_name: dge
+    database_user: root
+    database_password: roottoor
+
+    database_host_nifonline: 10.2.249.202
+    database_port_nifonline: 1521
+    database_name_nifonline: NIFDB
+    database_user_nifonline: u_nif
+    database_password_nifonline: NiF2
+
+    database_host_sigtas: 10.2.249.200
+    database_port_sigtas: 1521
+    database_name_sigtas: sigtas
+    database_user_sigtas: consult
+    database_password_sigtas: consult
+
+    database_host_sqvf: 10.2.249.181
+    database_port_sqvf: 3306
+    database_name_sqvf: sqvf_db
+    database_user_sqvf: sqvf
+    database_password_sqvf: sqvf2019
+
+    mailer_transport: gmail
+    mailer_host: smtp.gmail.com
+    mailer_user: randrianaivo.dominique@gmail.com
+    mailer_password: miykznsngbnmvqnb
+    secret: 10ffc7a5a5d0cc528a4aef4e8bcb7f42292b24a8
+    d_bundle.show_user_listener.class: DBundle\EventListener\ShowUserListener
+    d_bundle.menu_listener.class: DBundle\EventListener\MenuItemListListener
+    d_bundle.task_listener.class: DBundle\EventListener\NavbarTaskListener

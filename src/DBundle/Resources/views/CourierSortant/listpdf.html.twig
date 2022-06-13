@@ -1,0 +1,39 @@
+{% block page_content %}
+	<div style="text-align:center;">
+		<h3 style="font-size:16px;">Courriers sortants</h3>
+	</div>
+	<div class="box box-primary">		
+     	<table style="">
+	        <thead>
+	            <tr style="background-color: #f9f9f9;">
+	                <th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Réf.</th>	
+					<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">NIF</th>
+					<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Raison sociale</th>
+					<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Titre</th>
+					<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Objet</th>
+					<th style="border-size:0.2px;border-style:solid;border-color:black;padding:8px;font-weight:bold;font-size: 12px;">Date de reception</th>					
+	            </tr>
+	        </thead>
+	        <tbody>
+			{% for courrier in courriers %}
+						<tr style="padding:5px;">
+							<td style="border-size:0.2px;border-style:solid;border-color:black;">{{ courrier.numeroCourrier }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;">{{ courrier.nif|number_format(0,',',' ') }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;">{{ courrier.raisonSocial }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;">{{ courrier.titre }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;">{{ courrier.objetCourrier }}</td>
+							<td style="border-size:0.2px;border-style:solid;border-color:black;">{{ courrier.createdAt | date('d/m/Y')}}</td>
+						
+						</tr>
+	        	{%  endfor %}
+	    	</tbody>
+	    </table>
+
+	    {% if courriers.getTotalItemCount == 0 %}
+	    	<p class="padding">Vide</p>
+	    {% endif %}
+		{# <div class="navigation">
+			{{ knp_pagination_render(courriers) }}
+		</div> #}
+	</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Assujettissement{% endblock %}
+
+{% block page_title %}<h1 class="mytitle" style="text-align:center;background-color:#0085a6;color:white;font-size:20px;padding:5px;">Assujettissement</h1>{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block page_content %}
+
+    {{ parent() }}
+    <div class="box box-primary">
+         
+        <div id="search">
+
+            <form class="form-inline" method="GET">
+                <div class="form-group">
+                    <input name="nif" type="text" class="form-control" id="" {% if nif %}value="{{ nif }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+                </div>
+                {# <div class="form-group">
+                    <input name="rs" type="text" class="form-control" id="" {% if rs %}value="{{ rs }}"{% endif %} placeholder="Raison sociale" style="width:250px;margin-left:0px;">
+                </div> #}
+                <div class="form-group">
+                    <select name="typeImpot" class="form-control" style="width:300px;margin-left:11px;">
+                    <option selected disabled value = "" >Type d'impôts</option>
+                    {% for taxType in taxTypes %}
+                        <option value = {{ taxType.id }}>
+                            {{ taxType.taxTypeDesc }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </div>
+
+                {% if taxType is defined %}
+                {{ taxType }}
+                {# {{ taxtype }}.' '.$typeImpot #}
+                    {# <a href="{{path('assujettissementpdf',{'typeImpot':taxtype})}}" class="btn btn-primary pull-right" role="button" style="
+                    width:120px;margin-left:4px;">Imprimer</a> #}
+                    {# <a href="{{path('_assujettissement')}}" class="btn btn-primary pull-right" style="width:120px;margin-left:4px;">Réinitialiser</a> #}
+                    <button type="submit" class="btn btn-primary pull-right" style="width:120px;margin-left:4px;">Rechercher</button>
+                {% else %}
+                    {{assessments.getCurrentPageNumber}}
+                    <button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
+                    {# <a href="" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a> #}
+                    {# <a href="{{path('assujettissementpdf',{'page':assessments.getCurrentPageNumber})}}" class="btn btn-primary" role="button" style="width:120px;margin-left:0px;">Imprimer</a> #}
+                {% endif %}
+            </form>
+        </div>
+    <div style="overflow-x:auto;">
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>NIF</th>
+                    <th>Raison Sociale</th>
+                    <th>Type d'impôt</th>
+                    <th>Libellé Type d'impôt</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for assessment in assessments %}
+                <tr>
+                   <td>{{ assessment.nif }}</td>
+                   <td>{{ assessment.rs }}</td>
+                   <td>{{ assessment.taxTypeNo }}</td>
+                   <td>{{ assessment.taxTypeDesc }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="navigation">
+        {{ knp_pagination_render(assessments) }}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format: 'M yy',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    
+    </script>
+
+{% endblock %}

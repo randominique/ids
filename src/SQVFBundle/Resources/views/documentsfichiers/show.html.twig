@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Documentsfichier</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ documentsFichier.id }}</td>
+            </tr>
+            <tr>
+                <th>Iddocument</th>
+                <td>{{ documentsFichier.idDocument }}</td>
+            </tr>
+            <tr>
+                <th>Extension</th>
+                <td>{{ documentsFichier.extension }}</td>
+            </tr>
+            <tr>
+                <th>Filename</th>
+                <td>{{ documentsFichier.filename }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ documentsFichier.active }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('documentsfichiers_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('documentsfichiers_edit', { 'id': documentsFichier.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,107 @@
+.mt-4{
+    margin-top: 15px;
+}
+.border-2{
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 3px;
+}
+.val-item{
+    background-color: aliceblue;
+    padding: 5px;
+}
+#sortant-detail-one:nth-child(1), #sortant-detail-one .col-lg-6 > .row,#sortant-detail-one .col-lg-9{
+    margin: 0px;
+}
+ul.ui-autocomplete.ui-widget-content{
+    height: 600px;
+    overflow: scroll;
+}
+.open-button {
+    background: #eee;
+    padding: 10px;
+    cursor: pointer;
+}
+.dropdown-list-assign {
+  display: none;
+  /* position: fixed; */
+  position: absolute;
+  background-color: #222d32;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 5px;
+  border-radius: 4px;
+  z-index: 1;
+  /* left: 58vw;
+  top: 20vh; */
+  padding: 10px;
+  width: 425px;
+}
+.dropdown-list-assign li {
+  list-style: none;
+}
+#nav-menu{
+  background-color: #72a6c9;
+  display: flex;
+}
+#nav-menu div{
+  padding: 8px;
+  border-right: 2px solid;
+}
+#nav-menu div:hover{
+  background-color: blue;
+}
+#nav-menu a{
+  color: #FFF;
+  font-size: 1.7rem;
+  padding: 10px;
+}
+#nav-head{
+  background-color: #bd5c36;
+  display: flex;
+}
+li.tasks-menu#entrant span.label{
+  right: -2px;
+}
+li.tasks-menu#tache span.label{
+  right: -2px;
+}
+.btn-ok:hover{
+  background-color: blue;
+  color: #fff;
+}
+.obsobs{
+  position: fixed;
+    background-color: #abb2b8;
+    margin: 10px;
+    left: 30vw;
+    top: 30vh;
+    padding: 10px;
+    width: 425px;
+}
+.btn-nonT:hover{
+  cursor: pointer;
+}
+
+.btn-ok1:hover{
+  background-color: blue;
+  color: #fff;
+}
+.obsobs1{
+  position: fixed;
+    background-color: #abb2b8;
+    margin: 10px;
+    left: 30vw;
+    top: 30vh;
+    padding: 10px;
+    width: 425px;
+}
+.btn-ass:hover{
+  cursor: pointer;
+}
+.form-entete{
+  background-color: #7b97aa;
+  color:white;
+  text-align:left;
+  font-size:14px
+}

@@ -1,0 +1,168 @@
+{% extends "base.html.twig" %}
+{% block title %}Missions{% endblock %}
+
+{% block page_title %}
+<h1 class="mytitle" style="text-align:center;background-color:#0085a6;color:white;font-size:20px;padding:5px;">Liste des missions</h1>
+{% endblock %}
+
+{% block page_subtitle %}{% endblock %}
+
+{% block body %}
+  {% block page_content %}
+		<div class="box box-primary" style="overflow-x:auto;min-height:1000px;">
+				<div id="search">
+						<form class="form-inline pull-left" method="GET">
+								<div class="form-group">
+									<input name="date_du" type="text" class="form-control" id="date_timepicker_start" autocomplete='off' {% if date_du %}value="{{ date_du }}"{% endif %} placeholder="Date du" style="width:120px;margin:0px;">
+								</div>
+								<div class="form-group">
+									<input name="date_au" type="text" class="form-control" id="date_timepicker_end" autocomplete='off' {% if date_au %}value="{{ date_au }}"{% endif %} placeholder="Date au" style="width:120px;margin:0px;">
+								</div>
+								<div class="form-group">
+									<input name="nif" type="text" class="form-control" id="nifFilter" autocomplete='off' {% if nifFilter %}value="{{ nifFilter }}"{% endif %} placeholder="NIF" style="width:110px;margin-left:0px;">
+								</div>
+								<div class="form-group">
+									<input name="rs" type="text" class="form-control" id="rsFilter" autocomplete='off' {% if rsFilter %}value="{{ rsFilter }}"{% endif %} placeholder="Raison Sociale" style="width:400px;margin-left:0px;">
+								</div>
+								{# {% if isChefSAI or isChefDeDirection or isChefDeService %} #}
+								{% if isChefDeDirection or isChefDeService %}
+								{# {% if isChefSAI or isChefDeService %} #}
+									<a class = "btn btn-primary" style="width:120px;margin:0px;" href="{{ path('new_mission') }}">Nouveau</a>
+								{% endif %}
+								<button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
+								<a href="{{ path('list_mission') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a>
+								{# <a href="{{path('list_mission_to_pdf',{'page':communications.getCurrentPageNumber})}}" class="btn btn-primary pull-right" role="button" style="width:120px;margin-left:4px;">Imprimer</a> #}
+								{# <a href="{{path('list_mission_to_excel',{'page':communications.getCurrentPageNumber})}}" class="btn btn-primary pull-right" role="button" style="width:120px;margin-left:4px;">Exporter</a> #}
+						</form>
+				</div>
+
+			<table class="table table-striped table-hover">
+				<thead>
+						<tr>
+								<th style="text-align:leftt">Référence</th>
+								<th>Objet</th>
+								<th>NIF</th>
+								<th>Raison sociale</th>
+								{# <th>Receptioné par</th> #}
+								<th>Description</th>
+								<th>Assigné à</th>
+								<th>Créé le</th>
+								<th>Modifié le</th>
+								<th>Priorité</th>
+								<th>Status</th>
+								<th>Détails</th>
+						</tr>
+				</thead>
+				<tbody>
+					{% for courrier in missions %}
+						<tr>
+							<td style="text-align:center">{{ courrier.id }}</td>
+							<td>{{ courrier.object.name }}</td>
+							<td>{{ courrier.nif|number_format(0,',',' ') }}</td>
+							<td>
+							{% if courrier.rs %}
+											{{ courrier.rs }}
+							{% endif %}
+							</td>
+							{# <td>
+								{{ courrier.auteur.nom }} {{ courrier.auteur.prenom }}
+							</td> #}
+							<td>{{ courrier.missionDescription }}</td>
+							<td>
+								{% if courrier.gestionnaire %}
+									{# {{ courrier.gestionnaire.nom }} #}
+									{{ courrier.gestionnaire }}
+								{% endif %}
+							</td>
+							<td>{{ courrier.createdAt | date('d/m/Y H:i:s') }}</td>
+							<td>{{ courrier.updatedAt | date('d/m/Y H:i:s') }}</td>
+							<td>
+								<span class="badge {% if courrier.priority == 'Normal' %}bg-blue{% endif %}
+									{% if courrier.priority == 'Urgent' %}bg-yellow{% endif %}
+									{% if courrier.priority == 'Très Urgent' %}bg-red{% endif %} text-center">
+									{{ courrier.priority }}
+								</span>
+							</td>
+							<td class="{% if courrier.status == 'Nouveau' %}bg-aqua{% endif %}
+								{% if courrier.status == 'Ouvert' %}bg-blue{% endif %}
+								{% if courrier.status == 'En cours' %}bg-yellow{% endif %}
+								{% if courrier.status == 'Traité' %}bg-green{% endif %}
+								{% if courrier.status == 'Clôturé' %}bg-red{% endif %} text-center">
+								{{ courrier.status }}
+							</td>
+							<td><a href="{{ path('show_mission', { 'courrier': courrier.id }) }}"><i class="fas fa-eye"></i></a></td>
+						</tr>
+					{%  endfor %}
+				</tbody>
+			</table>
+							{#{% if courriers.getTotalItemCount == 0 %}
+									<p class="padding">Vide</p>
+								{% endif %}
+								<div class="navigation">
+									{{ knp_pagination_render(courriers) }}
+								</div> #}
+		</div>
+	{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery.datetimepicker.setLocale('fr');
+        jQuery('#date_timepicker_start').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+            },
+            timepicker:false
+            });
+            jQuery('#date_timepicker_end').datetimepicker({
+            format:'Y/m/d',
+            onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+            },
+            timepicker:false
+        });
+    </script>
+    <script>
+    	$('#nifFilter').autocomplete({
+	        source: "{{ path('_autocomplete_nif2') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+	            $('#rsFilter').val(ui.item.raisonSoncial);
+	            setTimeout(function(){
+	             $('#nifFilter').val(ui.item.thisNif);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+		$('#rsFilter').autocomplete({
+	        source: "{{ path('_autocomplete_rs2') }}",
+	        minLength: 1,
+	        select: function(event, ui) 
+	        {   
+	            
+				$('#nifFilter').val(ui.item.thisNif);
+	            setTimeout(function(){
+	             $('#rsFilter').val(ui.item.raisonSoncial);
+	         	}, 100);
+	        }
+		    }).data("ui-autocomplete")._renderItem = function(ul, item) 
+		    {
+		        return $( "<li class='ui-autocomplete-row'></li>" )
+		            .data("item.autocomplete", item)
+		            .append(item.useIt)
+		            .appendTo(ul);
+	    	};
+    </script>
+{% endblock %}
