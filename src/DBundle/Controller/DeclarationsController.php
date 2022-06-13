@@ -11,10 +11,61 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DeclarationsController extends Controller
 {
-    public function listAction()
+    public function listAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        $nif_em = $this->getDoctrine()->getManager('nifonline');
+        $sigtas_em = $this->getDoctrine()->getManager('sigtas');
+
+        $nifFilter = $request->query->get('nif');
+        $rsFilter = $request->query->get('rs');
+        $date_du = $request->query->get('date_du');
+        $date_au = $request->query->get('date_au');
+
+        $defaultYear = new \Datetime('now');
+        $yearCourr = $defaultYear->format('Y');
+        $doctypeno = 1;
+        $docstateno = 2;
+
+        $declareQuery = $em->getRepository(Declarations::class)->createQueryBuilder('e')
+            ->Where('e.docTypeNo = :doctypeno')
+            ->setParameter('doctypeno', $doctypeno)
+            ->andWhere('e.docStateNo = :docstateno')
+            ->setParameter('docstateno', $docstateno)
+            ->orderBy('e.nif', 'ASC');
+        
+        if ($date_du && $date_au) {
+            $declareQuery
+                ->andWhere('e.createdAt BETWEEN :date_du AND :date_au')
+                ->setParameter('date_du', $date_du)
+                ->setParameter('date_au', $date_au);
+        }
+        if ($nifFilter) {
+            $declareQuery
+                ->andWhere('e.nif LIKE :nif')
+                ->setParameter('nif', '%' . $nifFilter . '%');
+        }
+        if ($rsFilter) {
+            $declareQuery
+                ->andWhere('e.raisonSocial LIKE :rs')
+                ->setParameter('rs', '%' . $rsFilter . '%');
+        }
+
+        $declareQuery->getQuery();
+
+        $paginator  = $this->get('knp_paginator');
+        $declares = $paginator->paginate(
+            $declareQuery,
+            $request->query->getInt('page', 1),
+            20
+        );
+
         return $this->render('DBundle:Declarations:list.html.twig', array(
-            // ...
+            'declares' => $declares,
+            'date_du'   => $request->query->get('date_du'),
+            'date_au'   => $request->query->get('date_au'),
+            'nifFilter' => $request->query->get('nif'),
+            'rsFilter' => $request->query->get('rs'),
         ));
     }
 

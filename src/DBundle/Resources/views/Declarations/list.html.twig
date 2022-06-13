@@ -51,305 +51,42 @@
 
 			<thead>
 				<tr>
-					{# <th style="background-color:grey;color:white;text-align:center;font-size:14px">N°</th>	 #}
-					<th style ="min-width: 120px;background-color:grey;color:white;text-align:center;font-size:14px">N.I.F</th>
-					<th style="background-color:grey;color:white;text-align:center;font-size:14px">Raison sociale</th>
-					{# <th style="background-color:grey;color:white;text-align:center;font-size:14px">Objet</th>
-					<th style="background-color:grey;color:white;text-align:center;font-size:14px">Commentaires</th>
-					<th style="background-color:grey;color:white;text-align:center;font-size:14px">reçu le</th>
-					<th style="min-width:100px;background-color:grey;color:white;text-align:center;font-size:14px">Dern. mvt</th>
-					{% if isChefSAI or isChefDeDirection or isSuperAdmin %} 
-						<th style ="min-width: 140px;background-color:grey;color:white;text-align:left;font-size:14px">Dispatching</th>
-					{% endif %}
-					<th style ="min-width: 150px;background-color:grey;color:white;text-align:left;font-size:14px">Dispatché à</th>
-					<th style ="min-width: 140px;background-color:grey;color:white;text-align:left;font-size:14px">Assigné à</th>
-					<th style="background-color:grey;color:white;text-align:center;font-size:14px">Status</th>
-					<th style="background-color:grey;color:white;text-align:center;font-size:14px">Details</th> #}
+					<th class="form-entete">N.I.F</th>
+					<th class="form-entete">Raison sociale</th>
+					<th class="form-entete">Doc_Type_No</th>
+					<th class="form-entete">Created_date</th>
+					<th class="form-entete">Received_date</th>
+					<th class="form-entete">Doc_Tp_Start_date</th>
+					<th class="form-entete">Doc_Tp_End_date</th>
+					<th class="form-entete">Doc_Tp_Due_date</th>
+					<th class="form-entete">Doc_Tp_Month</th>
+					<th class="form-entete">Doc_Tp_Year</th>
+					<th class="form-entete">Doc_State_No</th>
 				</tr>
 			</thead>
 
 			<tbody>
-				{# {% set i=0 %}
-				{% set newArray = [] %} #}
+				{% set i=0 %}
+				{% set newArray = [] %}
 					{% for declare in declares %}						
-						{% if courrier not in newArray %}
+						{% if declare not in newArray %}
 							<tr>
-								{# <td>{{ courrier.numeroCourrier }}</td> #}
-								<td>{{ courrier.nif|number_format(0,',',' ') }}</td>
-								<td>{{ courrier.raisonSocial }}</td>
-								{# <td>{{ courrier.objet }}</td>
-								<td>{{ courrier.commentaires }}</td>
-								<td style="text-align:center">{{ courrier.createdAt | date('d/m/Y')}}</td>
-								<td style="text-align:center">
-									{% if courrier.delegationDate %}
-										{{ courrier.delegationDate | date('d/m/Y H:i:s')}}
-									{% else %}
-										-
-									{% endif %}
-								</td>
-								{% if courrier.status != 'Clôturé' %}
-									{% if isChefSAI or isChefDeDirection or isSuperAdmin or isSystemUser %}
-										<td>
-											<div class= "btn-group">
-													<button class="btn bg-aqua" type="button">Dispatch</button>
-													<button type="button" class="btn bg-aqua dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-														<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu" style="padding: 5px;">
-													<form method="POST" action="{{ path('show_entrant', { courrier: courrier.courrierId })}}">												
-														<label style="color: #000; width: max-content;">
-															<input type="checkbox" class="" name="dispatch[Direction]" value="Direction"> Direction</label><br>
-														<label style="color: #000; width: max-content;">
-															<input type="checkbox" class="" name="dispatch[Service Gestion]" value="Service Gestion"> Service Gestion</label>
-														<label style="color: #000; width: max-content;">
-															<input type="checkbox" class="" name="dispatch[Service Recouvrement]" value="Service Recouvrement"> Service Recouvrement</label>
-														<label style="color: #000; width: max-content;">
-															<input type="checkbox" class="" name="dispatch[Service Contrôle]" value="Service Contrôle"> Service Contrôle</label>
-														<label style="color: #000; width: max-content;">
-															<input type="checkbox" class="" name="dispatch[Service Accueil et Information]" value="Service Accueil et Information"> Service Accueil et Information</label>																										
-														<input type="submit" value="Dispatcher" class="btn btn-primary pull-left" style="width:120px;margin-left:4px;">
-													</form>
-													</ul>
-											</div>
-										</td>
-										{% if courrier.status == 'Nouveau' %} #}
-											{# <td></td>
-											<td></td> #}
-											{# <td></td>
-											<td></td>
-										{% endif %}
-									{% endif %}
-								{% endif %}
-								{% if courrier.status == 'Clôturé' or courrier.status == 'Assigné' or courrier.status == 'Traité' or courrier.status == 'Non Traité' %}
-									{% if courrier.status == 'Clôturé' %}
-										{% if isChefSAI or isChefDeDirection or isSuperAdmin or isSystemUser %}
-											<td>-</td>
-										{% endif %}
-										{% if courrier.services %}
-											<td>{% if courrier.services %}
-												{% for courrierService in courrier.services %}
-													<span class="badge bg-yellow">{{ courrierService.nom }}</span>
-												{% endfor %}
-											{% endif %}</td>
-										{% else %}
-										-
-										{% endif %}
-										
-										<td>
-											{% if courrier.gestionnaires %}
-												{% for gestionnaire in courrier.gestionnaires %}													
-													<span class="badge bg-green">{{ gestionnaire.nom }}</span>
-												{% endfor %}
-											{% else %}
-											-
-											{% endif %}
-										</td> #}
-										{# <td>
-											{% if courrier.attribution %}
-												<span class="badge bg-light">{{ courrier.attribution }}</span>
-											{% else %}
-											-
-											{% endif %}
-										</td>
-										<td>
-											{% if courrier.priority %}											
-												<span class="badge {% if courrier.priority == 'Normal' %}bg-blue{% endif %} {% if courrier.priority == 'Urgent' %}bg-yellow{% endif %} {% if courrier.priority == 'Très Urgent' %}bg-red{% endif %} text-center">{{ courrier.priority }}</span>
-											{% else %}
-											-
-											{% endif %}
-										</td> #}
-									{# {% endif %}
-									{% if courrier.status == 'Traité' or courrier.status == 'Non Traité' %}
-										{% if isChefDeService or isInspecteur or isSystemUser %} #}
-											{# {% if nomBynumCourier[i] is defined %}
-												<td>{{ nomBynumCourier[i] }}</td>
-											{% else %}
-												<td></td>
-											{% endif %} #}
-											{# <td>
-												{% if courrier.services %}
-													{% for courrierService in courrier.services %}
-														<span class="badge bg-yellow">{{ courrierService.nom }}</span>
-													{% endfor %}
-												{% else %}
-												-
-												{% endif %}
-											</td>
-											<td> #}
-												{# {% if attributionList[i] is defined %}
-													{{ attributionList[i] }}
-												{% else %}
-												-
-												{% endif %} #}
-												{# {% if courrier.gestionnaires %}
-													{% for gestionnaire in courrier.gestionnaires %}													
-														<span class="badge bg-green">{{ gestionnaire.nom }}</span>
-													{% endfor %}
-												{% else %}
-													-
-												{% endif %}
-											</td>								
-										{% else %}
-										-
-										{% endif %}
-										
-									{% endif %}
-								{% endif %}
-								{% if courrier.status == 'Transmis' %}									
-									{% if isChefDeService or isSystemUser or isInspecteur %}									
-										<td>
-											{% if courrier.services %}
-												{% for courrierService in courrier.services %}
-													<span class="badge bg-yellow">{{ courrierService.nom }}</span>
-												{% endfor %}
-											{% endif %}
-										</td> 	
-										<td>
-											<form action="{{ path('show_entrant', {courrier: courrier.courrierId }) }}" method="POST">
-												<div>
-													{% if courrier.gestionnaires %}
-														{% for gestionnaire in courrier.gestionnaires %}
-															<span class="badge bg-green">{{ gestionnaire.nom }}</span>
-														{% endfor %}
-													{% endif %}
-													<div class="dropdown-content">
-														<span data-id="{{ courrier.numeroCourrier }}" style="height:37px;width:120px;background-color:blue;padding:7px" class="open-button show-dropdown btn btn-info">Assignation</span>
-														<ul class="dropdown-list-assign" id="dropdown-list-{{ courrier.numeroCourrier }}">
-														{% for user in usersService %}
-															<label style="color: #fff; width: max-content;">
-																<input type="checkbox" id="checkGestion-{{user.id}}" data-s="Attribution-s{{user.id}}-{{courrier.numeroCourrier}}" class="checkGestion" name="gestionnaire[{{ user.id }}]" value="{{ user.id }}"> {{ user.nom }} {{ user.prenom }}
-															</label>													
-															<select name="attibutionMulti[{{ user.id }}]" class="form-control select-attr Attribution-s{{user.id}}-{{courrier.numeroCourrier}}" id="Attribution-s{{user.id}}-{{courrier.numeroCourrier}}">
-																{% for attribution in attributions %}
-																	<option value="{{ attribution.attributionDesc }}">{{ attribution.attributionDesc }}</option>
-																{% endfor %}
-															</select>
-															<textarea id="observation-{{user.id}}" name="observation[{{ user.id }}]" 
-																class="select-attr Attribution-s{{user.id}}-{{courrier.numeroCourrier}}" 
-																rows="2" cols="auto" style="display: inline-block;color: black;background-color: antiquewhite;width:420px">Observations ...
-															</textarea>													
-															<br>
-														{% endfor %}
-														</ul>
-													</div>
-												</div>
-											</td> #}
-											{# <td> #}
-												{# <div>											
-													<select name="attribution" class="form-control" id="Attribution">
-														<option selected>Attribution</option>
-														{% for attribution in attributions %}
-															<option>{{ attribution.attributionDesc }}</option>
-														{% endfor %}
-													</select>
-												</div> #}
-												{# - ! - #}
-												{# {% if attributionList[i] is defined %}
-													{{ attributionList[i] }}
-												{% else %}
-												-
-												{% endif %}
-											</td> #}
-											{# <td>
-												<div>											
-													<select name="priority" class="form-control" id="Attribution">
-														<option selected>Normal</option>
-														<option>Urgent</option>
-														<option>Très Urgent</option>
-													</select>
-												</div>
-											</td> #}
-										{# {% else %}
-											{% if not isChefDeService and not isSystemUser %}
-											<td>{% if courrier.services %}
-														{% for courrierService in courrier.services %}
-															<span class="badge bg-yellow">{{ courrierService.nom }}</span>
-														{% endfor %}
-													{% endif %}</td> </td> #}
-											{# <td></td>
-											<td></td> #}
-											{# <td></td>
-											{% endif %}	
-										{% endif %}
-									{% endif %}
-									{% if courrier.status == 'Assigne' %}
-										<td>{% if courrier.services %}
-												{% for courrierService in courrier.services %}
-													<span class="badge bg-yellow">{{ courrierService.nom }}</span>
-												{% endfor %}
-											{% endif %}</td> 	
-										<td>
-											{% if courrier.gestionnaires %}
-												{% for gestionnaire in courrier.gestionnaires %}
-													<span class="badge bg-green">{{ gestionnaire.nom }}</span>
-												{% endfor %}
-											{% else %}
-											-
-											{% endif %}
-										</td> #}
-										{# <td> {{courrier.attribution}}</td> #}
-										{# <td> - </td>
-										<td>
-											<span class="badge {% if courrier.priority == 'Normal' %}bg-blue{% endif %}
-												{% if courrier.priority == 'Urgent' %}bg-yellow{% endif %}
-												{% if courrier.priority == 'Très Urgent' %}bg-red{% endif %}
-												text-center">{{ courrier.priority }}
-											</span>
-										</td>
-									{% endif %}									
-										<td>
-											<div class="btn-group" style="display: flex;">
-												<button class="btn  {% if courrier.status == 'Nouveau' %}btn-info{% endif %} 
-																	{% if courrier.status == 'Transmis' %}btn-primary{% endif %}
-																	{% if courrier.status == 'Assigné' %}btn-warning{% endif %}
-																	{% if courrier.status == 'Traité' %}btn-success{% endif %}
-																	{% if courrier.status == 'Non Traité' %}btn-info{% endif %}
-																	{% if courrier.status == 'Clôturé' %}btn-danger{% endif %}"
-																	style="width:90px" type="button">{{ courrier.status }}
-												</button> 
-												<div class="btn-group" >
-													<button type="button" class="btn btn-primary {% if courrier.status == 'Nouveau' %}btn-info{% endif %}
-														{% if courrier.status == 'Transmis' %}btn-primary{% endif %}
-														{% if courrier.status == 'Assigné' %}btn-warning{% endif %}
-														{% if courrier.status == 'Traité' %}btn-success{% endif %}
-														{% if courrier.status == 'Non Traité' %}btn-info{% endif %}
-														{% if courrier.status == 'Clôturé' %}btn-danger{% endif %}
-														dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-														<span class="caret"></span>
-													</button>
-													{% if courrier.status != 'Clôturé' %}
-														<ul class="dropdown-menu"> #}
-															{# {% if courrier.status != 'Traité' %}																	
-																{% if not isChefSAI %}
-																	<li><a style="width:120px" href="{{ path('show_entrant', { courrier: courrier.courrierId, changestatus: 'Traité' }) }}">Traité</a></li>
-																{% endif %}
-															{% endif %} #}
-															{# {% if isChefDeService or isChefSAI or isChefDeDirection or isSuperAdmin or isInspecteur %}
-																{% if courrier.status == 'Traité' or courrier.status == 'Assigné' %}
-																	
-																{% else %} #}
-																	{# <li><a href="{{ path('show_entrant', { courrier: courrier.courrierId, changestatus: 'Traité' }) }}">Traité</a></li> #}
-																	{# <li><button type="submit" class="btn btn-primary">Assigner</button></li>
-																{% endif %}
-																{% if isChefDeService or isChefSAI or isChefDeDirection or isSuperAdmin %}
-																	<li><a href="{{ path('show_entrant', { courrier: courrier.courrierId, changestatus: 'Clôturé' }) }}">Clôturer</a></li>
-																{% endif %}
-															{% endif %}
-														</ul>
-													{% endif %}
-												</div>
-											</div>
-										</td>
-										<td>
-											<a class="" href="{{ path('show_entrant', { 'courrier': courrier.courrierId }) }}"><i class="fas fa-eye"></i></a>												
-										</td> #}
-									{# </form> #}
+								<td>{{ declare.nif|number_format(0,',',' ') }}</td>
+								<td>{{ declare.rs }}</td>
+								<td>{{ declare.docTypeNo }}</td>
+								<td style="text-align:center">{{ declare.createdDate | date('d/m/Y')}}</td>
+								<td style="text-align:center">{{ declare.receivedDate | date('d/m/Y')}}</td>
+								<td style="text-align:center">{{ declare.docTpStartDate | date('d/m/Y')}}</td>
+								<td style="text-align:center">{{ declare.docTpEndDate | date('d/m/Y')}}</td>
+								<td style="text-align:center">{{ declare.docTpDueDate | date('d/m/Y')}}</td>
+								<td>{{ declare.docTpMonth }}</td>
+								<td>{{ declare.docTpYear }}</td>
+								<td>{{ declare.docStateNo }}</td>
 							</tr>
-							{# {% set i=i+1 %}
-							{% set newArray = newArray|merge([courrier]) %} #}
+							{% set i=i+1 %}
+							{% set newArray = newArray|merge([declare]) %}
 						{% endif %}
 					{% endfor %}
-				{# {% endif %} #}
 			</tbody>
 		</table>
 	</div>
