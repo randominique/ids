@@ -773,11 +773,11 @@ class sqvfController extends Controller
                 ->setParameter('nifParam', '%' . $nifFilter . '%');
         }
 
-        // if ($rsFilter) {
-        //     $dossiers
-        //         ->andWhere('nd.rs LIKE :rsParam')
-        //         ->setParameter('rsParam', '%' . $rsFilter . '%');
-        // }
+        if ($rsFilter) {
+            $dossiers
+                ->andWhere('nd.rs LIKE :rsParam')
+                ->setParameter('rsParam', '%' . $rsFilter . '%');
+        }
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(

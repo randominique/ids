@@ -1793,7 +1793,7 @@ class DefaultController extends Controller
         foreach ($contribuables as $key => $contribuable) {
             $row = new \stdClass();
             $row->value = $contribuable->getNif();
-            //get raison social
+            //get raison sociale
             $row->data = $contribuable->getRs();
             //build json or data structure to transform to json
             $jsonData->suggestions[] = $row;
@@ -1806,7 +1806,6 @@ class DefaultController extends Controller
 
     public function autoCompleteRsAction(Request $request)
     {
-        // die('ok');
         $query = $request->query->get('query');
         $nif_em = $this->getDoctrine()->getManager('nifonline');
         $contribuables = $nif_em->getRepository(NIFOnlineClients::class)
@@ -1822,7 +1821,7 @@ class DefaultController extends Controller
         foreach ($contribuables as $key => $contribuable) {
             $row = new \stdClass();
             $row->value = $contribuable->getRs();
-            //get raison social
+            //get raison sociale
             $row->data = $contribuable->getNif();
             //build json or data structure to transform to json
             $jsonData->suggestions[] = $row;

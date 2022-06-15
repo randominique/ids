@@ -115,6 +115,16 @@
 
 {% block javascripts %}
     {{ parent() }}
+		<script>  
+			$(document).ready(function () {  
+				$("input[type=text]").keyup(function () {  
+					$(this).val($(this).val().toUpperCase());  
+				});  
+			});  
+			function GetData() {  
+				alert($("#rsFilter").val());  
+			}  
+		</script>
     <script>
         jQuery.datetimepicker.setLocale('fr');
         jQuery('#date_timepicker_start').datetimepicker({

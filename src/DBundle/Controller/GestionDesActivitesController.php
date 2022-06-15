@@ -1041,15 +1041,11 @@ class GestionDesActivitesController extends Controller
         {            
             $date_du = new \DateTime($request->query->get('date_du'));
             $date_au = new \DateTime($request->query->get('date_au'));
-            // dump($date_du, $date_au);
-            // die();
         }
         else
         {
             $date_du = new \DateTime('now - 1 month'); 
             $date_au = new \Datetime();
-            // dump($date_du, $date_au);
-            // die('else');
         }
         $d = $date_du->format('d');
         $m = $date_du->format('m');
@@ -1062,6 +1058,11 @@ class GestionDesActivitesController extends Controller
         $dmYau = $d_au.'-'.$m_au.'-'.$y_au;
         // dump($date_du, $d, $m, $y, $dmY, $date_au, $d_au, $m_au, $y_au, $dmYau);
         // die();
+        // dump($date_du, $date_au);
+        // die();
+        // dump($date_du, $date_au);
+        // die('else');
+
         $qr = $sigtas_em->getRepository(Document::class)
             ->createQueryBuilder('d')
             ->where('d.receivedDate IS NOT null')
@@ -1069,11 +1070,13 @@ class GestionDesActivitesController extends Controller
             ->setparameter('doctypeno', $doctypeno)
             ->andWhere('d.docStateNo = :docstateno')
             ->setparameter('docstateno', $docstateno)
-            ->andWhere('d.docTpDueDate BETWEEN :date_du AND :date_au')
-            ->setParameter('date_du', $dmY)
-            ->setParameter('date_au', $dmYau)
-            ->orderBy('d.docTpDueDate' , 'DESC');
+            // ->andWhere('d.docTpDueDate BETWEEN :date_du AND :date_au')
+            // ->setParameter('date_du', $dmY)
+            // ->setParameter('date_au', $dmYau)
             // ->addOrderBy('d.taxPayerNo','ASC');
+            ->orderBy('d.taxPayerNo' , 'ASC')
+            ->addOrderBy('d.taxTypeNo' , 'ASC')
+            ->addorderBy('d.docTpDueDate' , 'ASC');
 
         if($nifFilter|$rsFilter)
         {
@@ -1087,16 +1090,14 @@ class GestionDesActivitesController extends Controller
                 ->setParameter('taxPayerNo', $qn->getTaxPayerNo());
             }
         }
-        if ($date_du && $date_au) {
-            $date_du = new \DateTime($request->query->get('date_du'));
-            $date_au = new \DateTime($request->query->get('date_au'));
-            // dump($date_du, $date_au);
-            // die();
-            $qr
-                ->andWhere('d.receivedDate BETWEEN :date_du AND :date_au')
-                ->setParameter('date_du', $date_du)
-                ->setParameter('date_au', $date_au);
-        }
+        // if ($date_du && $date_au) {
+        //     $date_du = new \DateTime($request->query->get('date_du'));
+        //     $date_au = new \DateTime($request->query->get('date_au'));
+        //     $qr
+        //         ->andWhere('d.receivedDate BETWEEN :date_du AND :date_au')
+        //         ->setParameter('date_du', $date_du)
+        //         ->setParameter('date_au', $date_au);
+        // }
         if($typeImpot) {
             $qr
             ->andWhere('d.taxTypeNo = :taxType')
@@ -1321,7 +1322,8 @@ class GestionDesActivitesController extends Controller
             ->setparameter('docstateno', $docstateno)
             ->andWhere('d.docTpYear = :yearCourr')
             ->setParameter('yearCourr', $yearCourr)
-            ->orderBy('d.docNo' , 'DESC');
+            ->orderBy('d.taxPayerNo' , 'ASC')
+            ->addOrderBy('d.taxTypeNo' , 'ASC');
         if($nifFilter|$rsFilter)
         {
             $qn = $sigtas_em->getRepository(TaxPayer::class)->findOneBy([

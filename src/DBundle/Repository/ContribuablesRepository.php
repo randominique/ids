@@ -24,4 +24,15 @@ class ContribuablesRepository extends \Doctrine\ORM\EntityRepository
       return $query->getResult();
   }
 
+  public function getByRsoc($thisRs = null)
+  {
+      $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+      $queryBuilder->select('c')
+                  ->from(Contribuables::class, 'c')
+                  ->andWhere('c.raisonSociale LIKE :thisRs')
+                      ->setParameter('thisRs', '%'.$thisRs.'%');
+      $query = $queryBuilder->getQuery();
+      return $query->getResult();
+  }
+
 }

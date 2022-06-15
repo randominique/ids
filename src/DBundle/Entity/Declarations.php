@@ -38,6 +38,13 @@ class Declarations
     /**
      * @var int
      *
+     * @ORM\Column(name="TAX_TYPE", type="string")
+     */
+    private $taxType;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="TAX_PERIOD_NO", type="integer")
      */
     private $taxPeriodNo;
@@ -470,6 +477,30 @@ class Declarations
     public function getTaxTypeNo()
     {
         return $this->taxTypeNo;
+    }
+
+    /**
+     * Set taxType
+     *
+     * @param string $taxType
+     *
+     * @return Declarations
+     */
+    public function setTaxType($taxType)
+    {
+        $this->taxType = $taxType;
+
+        return $this;
+    }
+
+    /**
+     * Get taxType
+     *
+     * @return string
+     */
+    public function getTaxType()
+    {
+        return $this->taxType;
     }
 
     /**

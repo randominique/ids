@@ -32,10 +32,14 @@
                 {% endfor %}
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button>
-            <a href="{{ path('_declarations_depot') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a>
-            <a href="{{ path('declarations_depot_excel') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Exporter</a>
             {# <a href="{{path('declarations_depotpdf')}}" class="btn btn-primary right" role="button" style="width:120px;margin:0px;">Imprimer</a>   #}
+            {# <button type="submit" class="btn btn-primary" style="width:120px;margin:0px;">Rechercher</button> #}
+            <button type="submit" class="btn-link"><span class="fa fa-search" style="font-size:28px" title="Rechercher"></span></button>						
+            {# <a href="{{ path('_declarations_depot') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Réinitialiser</a> #}
+            <a href="{{ path('_declarations_depot') }}" class="btn-link"><span class="fa fa-trash-o" style="font-size:28px;color:black" title="initialiser filtres"> </span></a>
+            <a>  </a>
+            {# <a href="{{ path('declarations_depot_excel') }}" class="button btn btn-primary" style="width:120px;margin:0px;">Exporter</a> #}
+            <a href="{{ path('declarations_depot_excel' )}}" class="btn-link"><span class="fa fa-file-excel" style="font-size:28px;color:green" title="Exporter vers EXCEL"></span></a>
         </form>
     </div>
     <div class="col-lg-12">
@@ -74,6 +78,16 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>  
+        $(document).ready(function () {  
+            $("input[type=text]").keyup(function () {  
+                $(this).val($(this).val().toUpperCase());  
+            });  
+        });  
+        function GetData() {  
+            alert($("#rsFilter").val());  
+        }  
+    </script>
     <script>
         jQuery.datetimepicker.setLocale('fr');
         jQuery('#date_timepicker_start').datetimepicker({

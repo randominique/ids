@@ -169,7 +169,7 @@ _autocomplete_nif4:
 
 _autocomplete_rs4:
     path:     /autocomplete/rs4
-    defaults: { _controller: DBundle:Tache:autoCompleteRsoc4 }
+    defaults: { _controller: DBundle:Default:autoCompleteRsoc4 }
 
 _autocomplete_nif5:
     path:     /autocomplete/nif5
@@ -793,3 +793,7 @@ declarations_update:
 declarations_create:
     path:     /declarations_create
     defaults: { _controller: DBundle:Declarations:create }
+
+declarations_excel:
+    path:     /declarations_excel
+    defaults: { _controller: DBundle:Declarations:excel }

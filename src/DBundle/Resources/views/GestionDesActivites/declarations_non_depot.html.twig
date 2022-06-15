@@ -49,8 +49,8 @@
                 <th class="form-entete">Raison Sociale</th>
                 <th class="form-entete">Impôts</th>
                 <th class="form-entete">Echéance</th>
-                {# <th>Date de dépôt</th>
-                <th>Date de Paiement</th> #}
+                {# <th class="form-entete">Date de dépôt</th> #}
+                {# <th>Date de Paiement</th> #}
                 {# <th>Actions</th> #}
             </tr>
         </thead>
@@ -61,8 +61,8 @@
                 <td>{{ document.rs }}</td>
                 <td>{{ document.taxTypeDesc }}</td>
                 <td>{{ document.docTpDueDate | date('d/m/Y') }}</td>
-                {# <th>{{ document.PaymentDate | date('d/m/Y') }}</th>
-                <td>{{ document.receivedDate | date('d/m/Y') }}</td> #}
+                {# <td>{{ document.receivedDate | date('d/m/Y') }}</td> #}
+                {# <th>{{ document.PaymentDate | date('d/m/Y') }}</th> #}
             </tr>
         {% endfor %}
         </tbody>
@@ -73,6 +73,16 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>  
+        $(document).ready(function () {  
+            $("input[type=text]").keyup(function () {  
+                $(this).val($(this).val().toUpperCase());  
+            });  
+        });  
+        function GetData() {  
+            alert($("#rsFilter").val());  
+        }  
+    </script>
     <script>
         jQuery.datetimepicker.setLocale('fr');
         jQuery('#date_timepicker_start').datetimepicker({
